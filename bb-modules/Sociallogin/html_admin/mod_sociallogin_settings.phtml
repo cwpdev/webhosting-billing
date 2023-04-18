@@ -1,0 +1,141 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Social login settings' %}{% endblock %}
+{% set active_menu = 'system' %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'Social login' %}</li>
+
+{% endblock %}
+
+
+{% block content %}
+
+<!--<div class="card">
+    <div class="card-body mt-0">
+
+        {% set params = admin.extension_config_get({"ext":"mod_forum"}) %}
+
+        <form method="post" action="{{ 'api/admin/extension/config_save'|link }}" class="api-form" data-api-msg="{% trans 'Configuration updated' %}">
+
+            <button type="submit" value="" class="btn btn-primary  submitForm" ><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+            <input type="hidden" name="ext" value="mod_forum" />
+
+        </form>
+    </div>
+</div>-->
+{% set params = admin.extension_config_get({"ext":"mod_sociallogin"}) %}
+{% set google_redirect = admin.extension_get_google_redirect() %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+                    <ul class="nav panel-tabs main-nav-line">                        
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-google">Google login</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-facebook">Facebook</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-pane active" id="tab-google">
+                    <h5>Google Accounts Sign in - Configuration</h5>
+                    <p>Sign In With Google is a secure authentication system that reduces the burden of login for your users, by enabling them to sign in with their Google account—the same account they already use with Gmail, Play, Photos and other Google services.</p>
+                    <form method="post" action="{{ 'api/admin/extension/config_save'|link }}" class="api-form" data-api-msg="{% trans 'Configuration updated' %}">
+                        <div id="_google_login_radio_container_">
+                            <label class="rdiobox">
+                                <input type="radio" name="sing_in_google_enable" value="0" {{(params.sing_in_google_enable == 1 ? '' : 'checked="checked"')}}/><span>{% trans 'Disabled' %}</span>
+                            </label>
+                            <label class="rdiobox">
+                                <input type="radio" name="sing_in_google_enable" value="1" {{(params.sing_in_google_enable == 1 ? 'checked="checked"' : '')}}/><span>{% trans 'Enabled' %}</span>
+                            </label>
+                        </div>
+                        <div id="_google_login_settings_container_" {{(params.sing_in_google_enable == 1 ? '' : 'style="display: none"')}}>
+                            <p>If you have doubts about how to obtain the configuration data, you can follow this guide.</p>
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label class="form-label">{% trans 'Client ID' %}:</label>
+                                    <input type="text" class="form-control" name="google_client_id" value="{{params.google_client_id}}">
+                                </div>
+                                <div class="controls">
+                                    <label class="form-label">{% trans 'Client Secret' %}:</label>
+                                    <input type="text" class="form-control" name="google_client_secret" value="{{params.google_client_secret}}">
+                                </div>
+                                <div class="controls">
+                                    <label class="form-label">{% trans 'Redirection URL' %}:</label>
+                                    <div class="copy-container-btn">
+                                        <input type="text" class="form-control" id="_google_client_redirect_" name="google_client_redirect" readonly="readonly" value="{{google_redirect}}">
+                                        <span id="_btn_copy_redirect_url_" class="btn btn-primary"><i class="fa fa-copy"></i><span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" value="" class="btn btn-primary  btn-form-submit" ><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                            <input type="hidden" name="ext" value="mod_sociallogin" />    
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<style>
+    #_google_login_radio_container_,
+    #_google_login_radio_container_ label{
+        display: flex;
+    }
+    #_google_login_radio_container_ label{
+        margin-right:10px;
+        cursor: pointer;
+    }
+    #_google_login_radio_container_ label span{
+        margin-top: 2px;
+        margin-left: 2px;
+    }
+    #_google_login_settings_container_{
+        border-top: 1px solid #cecece;
+    }
+    #_google_login_settings_container_ .control-group{
+        width: 40rem;
+    }
+    .copy-container-btn{
+        display: flex;
+    }
+    .copy-container-btn .btn-primary{
+        background-color: white !important;
+        border-color: #a9abbd !important;
+        color: #a9abbd !important;
+    }
+    .copy-container-btn .btn-primary i{
+        margin-top: 4px; !important;
+    }
+    .copy-container-btn .btn-primary:hover{
+        background-color: #e1e1ef !important;
+    }
+</style>
+<script type="text/javascript">
+     $(document).ready(function(){
+        $('input[type=radio][name=sing_in_google_enable]').change(function() {
+            if(this.value == 1){
+                $('#_google_login_settings_container_').slideDown();
+            }else{
+                $('#_google_login_settings_container_').slideUp();
+            }
+        });
+        $('#_btn_copy_redirect_url_').click(function(){
+            let field = document.getElementById('_google_client_redirect_');
+            field.select();
+            document.execCommand('copy');
+            bb.msg('Redirect URL copied.', 'success');
+        });
+    });
+</script>
+{% endblock %}

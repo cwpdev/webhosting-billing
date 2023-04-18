@@ -1,0 +1,46 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}Staff members login history{% endblock %}
+{% set active_menu = 'activity' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+
+        <table id="tableStaff" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td style="width: 2%"><input type="checkbox" class="batch-delete-master-checkbox"/></td>
+                    <td >{% trans 'Admin' %}</td>
+                    <td>{% trans 'IP' %}</td>
+                    <td>{% trans 'Country' %}</td>
+                    <td>{% trans 'Date' %}</td>
+                    <td style="width: 5%">&nbsp;</td>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% set history = admin.staff_login_history_get_list({"per_page":100000, "page":request.page}|merge(request)) %}
+            {% for i, event in history.list %}
+            <tr>
+                <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ event.id }}"/></td>
+                <td style="width:5%"><a href="{{ 'staff/manage'|alink }}/{{ event.staff.id }}"><img src="{{ event.staff.email|gravatar }}?size=20" alt="{{ event.staff.email }}" /></a> {{ event.staff.name }}</td>
+                <td>{{ event.ip }}</td>
+                <td>{{ event.ip|ipcountryname|default('Unknown') }}</td>
+                <td>{{ event.created_at|date('Y-m-d H:i') }}</td>
+                <td class="actions">
+                    <a class="btn btn-sm bg-danger-transparent text-danger  bb-rm-tr api-link" data-api-confirm="Are you sure?" data-api-redirect="{{'staff/logins'|alink }}" href="{{ 'api/admin/staff/login_history_delete'|link({'id' : event.id}) }}"><i class="fe fe-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% include "partial_batch_delete.phtml" with {'action' : 'admin/staff/batch_delete_logs'} %}
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#tableStaff").DataTable();
+    });
+</script>
+{% endblock %}

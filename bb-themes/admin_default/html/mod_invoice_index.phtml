@@ -1,0 +1,332 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Invoices' %}{% endblock %}
+{% set active_menu = 'invoice' %}
+{% block breadcrumbs %}
+
+<li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+<li class="breadcrumb-item active">{% trans 'Invoices' %}</li>
+
+{% endblock %}
+{% block top_content %}
+
+{% set statuses = admin.invoice_get_statuses %}
+<div class="row">
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-alert-circle project bg-danger-transparent mx-auto text-danger "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Unpaid invoices' %}</h6>
+                <h3 class="font-weight-semibold">{{ statuses.unpaid  }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-users project bg-info-transparent mx-auto text-info "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Refunded invoices' %}</h6>
+                <h3 class="font-weight-semibold">{{ statuses.refunded }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-check-circle project bg-success-transparent mx-auto text-success "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Paid invoices' %}</h6>
+                <h3 class="font-weight-semibold">{{ statuses.paid }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-trending-up project bg-warning-transparent mx-auto text-warning "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Total' %}</h6>
+                <h3 class="font-weight-semibold">{{ statuses.paid + statuses.unpaid + statuses.refunded }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<div class="stats">
+    <ul>
+        <li><a href="{{ 'invoice'|alink({'status' : 'unpaid'}) }}" class="count blue" title="">{{ statuses.unpaid }}</a><span>{% trans 'Unpaid invoices' %}</span></li>
+        <li><a href="{{ 'invoice'|alink({'status' : 'refunded'}) }}" class="count red" title="">{{ statuses.refunded }}</a><span>{% trans 'Refunded invoices' %}</span></li>
+        <li><a href="{{ 'invoice'|alink({'status' : 'paid'}) }}" class="count green" title="">{{ statuses.paid }}</a><span>{% trans 'Paid invoices' %}</span></li>
+        <li class="last"><a href="{{ 'invoice'|alink }}" class="count grey" title="">{{ statuses.paid + statuses.unpaid + statuses.refunded}}</a><span>{% trans 'Total' %}</span></li>
+    </ul>
+    <div class="fix"></div>
+</div>-->
+
+<div class="card card-collapsed">
+    <div class="card-header  d-flex custom-card-header border-bottom-0 ">
+        <h5 >{% trans 'Filter Invoices' %}</h5>
+        <div class="card-options">
+            <a href="javascript:void(0);" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+        </div>
+    </div>
+    <div class="card-body">
+
+
+        <form method="get" action="" class="">
+            <input type="hidden" name="_url" value="{{ request._url }}" />
+
+            <div class="rowElem noborder">
+                <label>{% trans 'ID' %}</label>
+                <div class="formRight">
+                    <input type="text" class="form-control" name="id" value="{{ request.id }}">
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Nr' %}</label>
+                <div class="formRight">
+                    <input type="text" class="form-control" name="nr" value="{{ request.nr }}">
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Client' %}</label>
+
+                <div class="formRight">
+
+                    <input type="text" class="client_selector form-control"
+                           placeholder="{% trans 'Start typing clients name, email or ID' %}"
+                           {% if request.client_id %}
+                           {% set client = admin.client_get({"id":request.client_id}) %}
+                           value="{{ client.first_name }} {{ client.last_name }}"
+                           {% endif %}
+                    />
+                    <input type="hidden" name="client_id" value="{{ request.client_id }}" class="client_id"/>
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Currency' %}</label>
+                <div class="formRight">
+                    {{ mf.selectbox('currency', guest.currency_get_pairs, request.currency, 0, 'All currencies') }}
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Status' %}</label>
+                <div class="formRight">
+                    <div class="row pt-3">
+                        <div class="col-md-3">
+                            <label class="rdiobox">
+                                <input type="radio" name="status" value="0"{% if not request.status %} checked="checked"{% endif %}/> <span>{% trans 'All statuses' %}</span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="rdiobox">
+                                <input type="radio" name="status" value="paid"{% if request.status == 'paid' %} checked="checked"{% endif %}/> <span>{% trans 'Paid' %}</span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="rdiobox">
+                                <input type="radio" name="status" value="unpaid"{% if request.status == 'unpaid' %} checked="checked"{% endif %} /> <span>{% trans 'Unpaid' %}</span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="rdiobox">
+                                <input type="radio" name="status" value="refunded"{% if request.status == 'refunded' %} checked="checked"{% endif %} /> <span>{% trans 'Refunded' %}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            {#
+            <div class="rowElem">
+                <label>{% trans 'Approved' %}</label>
+                <div class="formRight">
+                    <div class="row pt-3">
+                        <div class="col-md-3">
+                            <label class="rdiobox">
+                                <input type="radio" name="approved" value=""{% if not request.approved %} checked="checked"{% endif %}/> <span>All</span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="rdiobox">
+                                <input type="radio" name="approved" value="0"{% if request.approved == "1"%} checked="checked"{% endif %} /> <span>Pending approval</span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="rdiobox">
+                                <input type="radio" name="approved" value="1"{% if request.approved == "0" %} checked="checked"{% endif %}/> <span>Approved</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="fix"></div>
+            </div>
+            #}
+            <div class="rowElem">
+                <label>{% trans 'Issue date' %}</label>
+                <div class="formRight moreFields">
+                    <ul>
+                        <li style="width: 100px"><input type="text" class="form-control" name="date_from" value="{% if request.date_from %}{{ request.date_from|date('Y-m-d') }}{%endif%}" placeholder="{{ now|date('Y-m-d') }}" class="datepicker"/></li>
+                        <li class="sep">-</li>
+                        <li style="width: 100px"><input type="text" class="form-control" name="date_to" value="{% if request.date_to %}{{ request.date_to|date('Y-m-d') }}{%endif%}" placeholder="{{ now|date('Y-m-d') }}" class="datepicker"/></li>
+                    </ul>
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <input type="hidden" name="show_filter" value="1" />
+            <button type="submit" value="" class="btn btn-primary submitForm" ><i class="fe fe-search"></i> {% trans 'Filter' %}</button>
+
+        </form>
+        <div class="fix"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Invoices' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-new">{% trans 'New Invoice' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-index">
+                        <table class="table table-bordered table-striped" id="tableInvoice">
+                            <thead>
+                                <tr>
+                                    <td style="width: 2%"><input type="checkbox" class="batch-delete-master-checkbox"/></td>
+                                    <td >{% trans 'Invoice' %}</td>
+                                    <td>{% trans 'Amount' %}</td>
+                                    <td>{% trans 'Issued at' %}</td>
+                                    <td>{% trans 'Paid at' %}</td>
+                                    <td>{% trans 'Status' %}</td>
+                                    <td width="13%">&nbsp;</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set invoices = admin.invoice_get_list({"per_page":100000, "page":request.page}|merge(request)) %}
+                                {% for invoice in invoices.list %}
+                                <tr>
+                                    <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ invoice.id }}"/></td>
+                                    <td><img src="{{ invoice.buyer.email|gravatar }}?size=20" alt="{{ invoice.buyer.email }}"  style="width:20px!important;height: 20px!important;" title="{{invoice.buyer.first_name}} {{invoice.buyer.last_name}}" class="avatar-md rounded-circle me-3 my-auto shadow" />
+                                    <a href="{{ 'client'|alink }}/manage/{{ invoice.client.id }}">{{invoice.client.first_name|truncate(1, null, '.')}} {{invoice.client.last_name|truncate(20)}}</a>
+                                    {{ invoice.serie_nr }}</td>
+                                    <td>{{ mf.currency_format( invoice.total, invoice.currency) }}</td>
+                                    <td>{{ invoice.created_at|date('Y-m-d') }}</td>
+                                    <td>{% if invoice.paid_at %}{{ invoice.paid_at|date('Y-m-d') }}{% else %}-{% endif %}</td>
+                                    <td>
+                                        {% if invoice.status == 'unpaid' %}
+                                            <span class="badge badge-danger bg-danger-transparent text-danger">
+                                                {{ mf.status_name(invoice.status) }}
+                                            </span>
+                                        {% else %}
+                                            <span class="badge badge-success  bg-success-transparent text-success">
+                                                {{ mf.status_name(invoice.status) }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="actions">
+                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/invoice/manage'|alink }}/{{invoice.id}}"><i class="fe fe-edit"></i></a>
+                                        <a class="btn btn-sm  bg-danger-transparent text-danger  bb-rm-tr api-link" href="{{ 'api/admin/invoice/delete'|link({'id' : invoice.id}) }}" data-api-confirm="Are you sure?" data-api-reload="1"><i class="fe fe-trash"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        {% include "partial_batch_delete.phtml" with {'action' : 'admin/invoice/batch_delete'} %}
+
+                    </div>
+
+                    <div class="tab-pane" id="tab-new">
+                        <form method="post" action="{{ 'api/admin/invoice/prepare'|link }}" class="api-form" data-api-jsonp="onAfterInvoicePrepared">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Client' %}</label>
+                                    <div class="formRight">
+                                        <input type="text" class="client_selector form-control" placeholder="{% trans 'Start typing clients name, email or ID' %}"/>
+                                        <input type="hidden" name="client_id" value="{{ request.client_id }}" class="client_id"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-send"></i> {% trans 'Prepare' %}</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+ </div>
+
+{% endblock %}
+
+
+{% block head %}
+<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+{% endblock %}
+
+{% block js%}
+<script type="text/javascript">
+$(function() {
+    $("#tableInvoice").DataTable();
+	$('.client_selector').autocomplete({
+        source: function( request, response ) {
+            $.ajax({
+                url: bb.restUrl('admin/client/get_pairs'),
+                dataType: "json",
+                data: {
+                    per_page: 10,
+                    search: request.term
+                },
+                success: function( data ) {
+                    response( $.map( data.result, function( name, id) {
+                        return {
+                            label: name.full_name,
+                            value: id
+                        }
+                    }));
+                }
+            });
+        },
+        minLength: 1,
+        select: function( event, ui ) {
+            $(".client_selector").val(ui.item.label);
+            $(".client_id").val(ui.item.value);
+            return false;
+        }
+    });
+
+});
+
+    function onAfterInvoicePrepared(id) {
+        bb.redirect("{{'invoice/manage/'|alink}}/"+id);
+    }
+</script>
+{% endblock %}

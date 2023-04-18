@@ -1,0 +1,1033 @@
+{% import "macro_functions.phtml" as mf %}
+{% extends "layout_default.phtml" %}
+{% set active_menu = 'client' %}
+{% block meta_title %}{{ client.first_name }} {{ client.last_name }}{% endblock %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'client'|alink }}">{% trans 'Clients' %}</a></li>
+    <li class="breadcrumb-item active">{{ client.first_name }} {{ client.last_name }}</li>
+
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="text-wrap">
+        <div class="example">
+            <div class="panel panel-primary tabs-style-2">
+                <div class=" tab-menu-heading">
+                    <div class="tabs-menu1">
+                        <!-- Tabs -->
+                        <ul class="nav panel-tabs main-nav-line">
+                            <li><a href="#tabprofile" class="nav-link active" data-bs-toggle="tab">{% trans 'Profile' %}</a></li>
+                            <li><a href="#tabedit" class="nav-link" data-bs-toggle="tab">{% trans 'Edit' %}</a></li>
+                            <li><a href="#taborders" class="nav-link" data-bs-toggle="tab">{% trans 'Orders' %}</a></li>
+                            <li><a href="#tabservices" class="nav-link" data-bs-toggle="tab">{% trans 'Products - Services' %}</a></li>
+                            <li><a href="#tabdomains" class="nav-link" data-bs-toggle="tab">{% trans 'Domains' %}</a></li>
+                            <li><a href="#tabinvoices" class="nav-link" data-bs-toggle="tab">{% trans 'Invoices' %}</a></li>
+                            <li><a href="#tabtickets" class="nav-link" data-bs-toggle="tab">{% trans 'Tickets' %}</a></li>
+                            <li><a href="#tabpayments" class="nav-link" data-bs-toggle="tab">{% trans 'Payments' %}</a></li>
+                            <li><a href="#tablogins" class="nav-link" data-bs-toggle="tab">{% trans 'Logins' %}</a></li>
+                            <li><a href="#tabemails" class="nav-link" data-bs-toggle="tab">{% trans 'Emails' %}</a></li>
+                            <li><a href="#tabtransations" class="nav-link" data-bs-toggle="tab">{% trans 'Transactions' %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body tabs-menu-body main-content-body-right border">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabprofile">
+                            <div style="position: relative;">
+                                <img src="{{ client.email|gravatar }}?size=100" alt="{{ client.first_name }} {{ client.last_name }}" style="right: 0; margin: 15px 15px 0 15px; position: absolute; border: 2px solid white; box-shadow: 0px 0px 10px 0px; width:40px;"/>
+                            </div>
+
+                            <table class="tableStatic wide">
+                                <tbody>
+                                <tr class="noborder">
+                                    <td style="width: 15%">ID:</td>
+                                    <td>{{ client.id }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Name:</td>
+                                    <td><strong class="text-danger">{{ client.first_name }} {{ client.last_name }}</strong></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Company:</td>
+                                    <td><strong class="green">{{ client.company|default('-') }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>{{ client.email }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Status:</td>
+                                    <td>{{ mf.status_name(client.status) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Group:</td>
+                                    <td>{{ client.group|default('-') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Currency:</td>
+                                    <td>{{ client.currency|default('-') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>IP:</td>
+                                    <td>{{ client.ip|default('-') }} {{ client.ip|ipcountryname|default('Unknown') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>API Key:</td>
+                                    <td>{{ client.api_token|default('-') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Address:</td>
+                                    <td>
+                                        <span class="flag flag-{{ client.country }}" title="{{ guest.system_countries[client.country] }}"></span>
+                                        {{ guest.system_countries[client.country] }} {{ client.state }} {{ client.address_1 }} {{ client.address_2 }} {{ client.city }} {{ client.postcode }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Registered at:</td>
+                                    <td>{{ client.created_at|date('M d, Y') }}</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="2">
+                                        <a href="{{ 'client/login'|alink }}/{{client.id}}" class="btn btn-primary btn-sm mb-1" target="_blank"><i class="fe fe-user"></i><!--<img src="images/icons/dark/adminUser.png" alt="" class="icon">--><span>  Login to client area</span></a>
+                                        <a href="{{ 'api/admin/client/delete'|link({'id' : client.id}) }}" data-api-confirm="Are you sure?" data-api-redirect="{{ 'client'|alink }}" class="btn btn-danger btn-sm mb-1 api-link" ><i class="fe fe-trash" data-bs-toggle="tooltip" title="" data-bs-original-title="fe fe-trash" aria-label="fe fe-trash"></i><!--<img src="images/icons/dark/trash.png" alt="" class="icon">--><span>  Delete</span></a>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="tabedit">
+                            <div class="text-wrap">
+
+                                <div aria-multiselectable="true" class="accordion" id="accordion" role="tablist">
+                                    <div class="card mb-0">
+                                        <div class="card-header" id="headingOne" role="tab">
+                                            <a aria-controls="collapseOne" aria-expanded="true" data-bs-toggle="collapse" href="#collapseOne">{% trans 'Client profile details' %}</a>
+                                        </div>
+                                        <div aria-labelledby="headingOne" class="collapse show" data-bs-parent="#accordion" id="collapseOne" role="tabpanel">
+                                            <div class="card-body">
+                                                <form method="post" action="{{ 'api/admin/client/update'|link }}" class="api-form save" data-api-msg="{% trans 'Client Profile updated' %}">
+                                                        <div class="rowElem noborder">
+                                                            <input type="hidden" name="id" id="id" value="{{ client.id }}">
+                                                          <label>{% trans 'Status' %}:</label>
+                                                            <div class="formRight">
+                                                            <div class="row">
+                                                                <div class="col-lg-3">
+                                                                    <label class="rdiobox"><input type="radio" name="status"  value="active"{% if client.status == 'active' %} checked="checked"{% endif %}"> <span>{% trans 'Active' %}</span></label>
+                                                                </div>
+                                                                <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                                                                    <label class="rdiobox"><input type="radio" name="status" value="suspended"{% if client.status == 'suspended' %} checked="checked"{% endif %}"> <span>{% trans 'Suspended' %}</span></label>
+                                                                </div>
+                                                                <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                                                                    <label class="rdiobox"><input type="radio" name="status"  value="canceled"{% if client.status == 'canceled' %} checked="checked"{% endif %}"> <span>{% trans 'Canceled' %}</span></label>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rowElem">
+
+                                                                <label >{% trans 'Type' %}:</label>
+
+
+                                                            <div class="formRight">
+                                                                <div class="row">
+                                                                    <div class="col-lg-3">
+                                                                        <label class="rdiobox"><input type="radio" name="type" value="individual"{% if client.type == 'individual' %} checked="checked"{% endif %}"> <span>{% trans 'Individual' %}</span></label>
+                                                                    </div>
+                                                                    <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                                                                        <label class="rdiobox"><input type="radio" name="type" value="company"{% if client.type == 'company' %} checked="checked"{% endif %}"> <span>{% trans 'Company' %}</span></label>
+                                                                    </div>
+                                                                    <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                                                                        <label class="rdiobox"><input type="radio"  name="type" value=""{% if not client.type %} checked="checked"{% endif %}"> <span>{% trans 'Other/Unknown' %}</span></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="rowElem">
+
+                                                            <label >{% trans 'Mail approved' %}:</label>
+                                                            <div class="formRight">
+                                                                <div class="row">
+                                                                    <div class="col-lg-3">
+                                                                        <label class="rdiobox"><input type="radio" name="email_approved" value="1"{% if client.email_approved == 1 %} checked="checked"{% endif %}"> <span>{% trans 'Yes' %}</span></label>
+                                                                    </div>
+                                                                    <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                                                                        <label class="rdiobox"><input type="radio"  name="email_approved" value="0"{% if client.email_approved != 1 %} checked="checked"{% endif %}"> <span>{% trans 'No' %}</span></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="rowElem">
+
+                                                                <label >{% trans 'Group' %}:</label>
+
+                                                            <div class="formRight">
+                                                                {{ mf.selectbox('group_id', admin.client_group_get_pairs, client.group_id, 0, 'Select group') }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="rowElem">
+
+                                                                <label >{% trans 'Email' %}:</label>
+
+                                                            <div class="formRight">
+                                                                <input type="text" class="form-control"  name="email" value="{{client.email}}" required="required"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rowElem">
+
+                                                                <label >{% trans 'Name' %}:</label>
+
+                                                            <div class="formRight moreFields">
+                                                                <div class="row">
+                                                                    <div class="col-md-6"><input type="text" class="form-control"  name="first_name" value="{{client.first_name}}" required="required"/></div>
+                                                                    <div class="col-md-6"><input type="text" class="form-control"  name="last_name" value="{{client.last_name}}" /></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rowElem">
+
+                                                                <label >{% trans 'Date of birth' %}:</label>
+
+                                                            <div class="formRight">
+                                                                <input type="date" class="form-control col-md-4"  name="birthday" value="{{client.birthday}}" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="rowElem" id="company-details">
+
+                                                                <label >{% trans 'Company details' %}:</label>
+
+                                                            <div class="formRight moreFields">
+                                                                <div class="row">
+                                                                    <div class="col-md-4"><input class="form-control" type="text" name="company" value="{{client.company}}" title="Company name" placeholder="Company name"/></div>
+                                                                    <div class="col-md-4"><input class="form-control" type="text" name="company_vat" value="{{client.company_vat}}" title="Company VAT number" placeholder="Company VAT number"/></div>
+                                                                    <div class="col-md-4"><input class="form-control" type="text" name="company_number" value="{{client.company_number}}"  title="Company number" placeholder="Company number"/></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="fix"></div>
+                                                        </div>
+                                                    <div class="rowElem">
+                                                        <button type="submit" value="" class="btn btn-primary btn-sm mb-1 submitForm" ><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                                                    <br>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mt-1 mb-0">
+                                        <div class="card-header" id="headingTwo" role="tab">
+                                            <a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-bs-toggle="collapse" href="#collapseTwo">{% trans 'Address and contact details' %}</a>
+                                        </div>
+                                        <div aria-labelledby="headingTwo" class="collapse" data-bs-parent="#accordion" id="collapseTwo" role="tabpanel">
+                                            <div class="card-body">
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Address Line 1' %}:</label>
+
+                                                    <div class="formRight">
+                                                        <input class="form-control"  type="text" name="address_1" value="{{client.address_1}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Address Line 2' %}:</label>
+
+                                                    <div class="formRight">
+                                                        <input class="form-control"  type="text" name="address_2" value="{{client.address_2}}" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Country' %}:</label>
+
+                                                    <div class="formRight">
+                                                        {{ mf.selectbox('country', guest.system_countries, client.country, 0, 'Select country') }}
+                                                    </div>
+                                                </div>
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'State' %}:</label>
+
+                                                    <div class="formRight">
+                                                        {# mf.selectbox('state', guest.system_states, client.state, 0, 'Select state') #}
+                                                        <input class="form-control"  type="text" name="state" value="{{ client.state }}" />
+                                                    </div>
+                                                </div>
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'City' %}:</label>
+
+                                                    <div class="formRight">
+                                                        <input class="form-control"  type="text" name="city" value="{{client.city}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Postcode' %}:</label>
+
+                                                    <div class="formRight">
+                                                        <input class="form-control" type="text" name="postcode" value="{{client.postcode}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Phone' %}:</label>
+
+                                                    <div class="formRight">
+                                                        <div class="row">
+                                                            <div class="col-md-1"><input class="form-control"  type="text" name="phone_cc" value="{{client.phone_cc}}" /></div>
+                                                            <div class="col-md-4"><input class="form-control"  type="text" name="phone" value="{{client.phone}}" /></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Passport number' %}:</label>
+
+                                                    <div class="formRight">
+                                                        <input type="text" class="form-control" name="document_nr" value="{{client.document_nr}}" />
+                                                    </div>
+                                                    <div class="fix"></div>
+                                                </div>
+                                                <div class="rowElem">
+                                                    <button type="submit" value="" class="btn btn-primary btn-sm mb-1  submitForm" ><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mt-1">
+                                        <div class="card-header" id="headingThree" role="tab">
+                                            <a aria-controls="collapseThree" aria-expanded="false" class="collapsed" data-bs-toggle="collapse" href="#collapseThree">{% trans 'Additional settings' %}</a>
+                                        </div>
+                                        <div aria-labelledby="headingThree" class="collapse" data-bs-parent="#accordion" id="collapseThree" role="tabpanel">
+                                            <div class="card-body">
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Alternative ID' %}:</label>
+
+                                                    <div class="formRight">
+                                                        <input type="text" class="form-control" name="aid" value="{{client.aid}}" placeholder="{% trans 'Used to identify client on foreign system. Usually used by importers' %}"/>
+                                                    </div>
+                                                    <div class="fix"></div>
+                                                </div>
+
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Currency' %}:</label>
+
+                                                    <div class="formRight">
+                                                        {{ mf.selectbox('currency', guest.currency_get_pairs, client.currency, 0, 'Select currency') }}
+                                                    </div>
+                                                    <div class="fix"></div>
+                                                </div>
+
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Exempt from tax' %}:</label>
+
+                                                    <div class="formRight">
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-2">
+                                                                <label class="rdiobox">
+                                                                    <input type="radio" name="tax_exempt" value="1"{% if client.tax_exempt %} checked="checked"{% endif %}/><span>Yes</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="rdiobox">
+                                                                    <input type="radio" name="tax_exempt" value="0"{% if not client.tax_exempt %} checked="checked"{% endif %} /><span>No</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="fix"></div>
+                                                </div>
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Signed up time' %}:</label>
+
+                                                    <div class="formRight">
+                                                        <input type="text" class="form-control" name="created_at" value="{{client.created_at|date('Y-m-d')}}" />
+                                                    </div>
+                                                    <div class="fix"></div>
+                                                </div>
+                                                <div class="rowElem">
+
+                                                        <label >{% trans 'Notes' %}:</label>
+
+                                                    <div class="formRight">
+                                                        <textarea name="notes" class="form-control" cols="5" rows="5">{{client.notes}}</textarea>
+                                                    </div>
+                                                    <div class="fix"></div>
+                                                </div>
+                                                <div class="rowElem">
+                                                <button type="submit" value="" class="btn btn-primary btn-sm mb-1  submitForm"><i class="fe fe-save"></i> {% trans 'Update profile' %}</button>
+                                                <input type="hidden" name="id" value="{{ client.id }}"/>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </div><!-- collapse -->
+                                    </div>
+                                    <div class="card mt-1">
+                                        <div class="card-header" id="changpass" role="tab">
+                                            <a aria-controls="collapsechangpass" aria-expanded="false" class="collapsed" data-bs-toggle="collapse" href="#collapsechangpass">{% trans 'Change password' %}</a>
+                                        </div>
+                                        <div aria-labelledby="changpass" class="collapse" data-bs-parent="#accordion" id="collapsechangpass" role="tabpanel">
+                                            <div class="card-body">
+                                                <form method="post" action="{{ 'api/admin/client/change_password'|link }}" class="api-form" data-api-msg="{% trans 'Password changed' %}">
+
+                                                        <div class="rowElem noborder">
+
+                                                                <label >{% trans 'Password' %}</label>
+
+                                                            <div class="formRight">
+                                                                <input type="password" class="form-control col-md-4" name="password" value="" required="required"/>
+                                                            </div>
+                                                            <div class="fix"></div>
+                                                        </div>
+
+                                                        <div class="rowElem">
+
+                                                                <label >{% trans 'Password confirm' %}</label>
+
+                                                            <div class="formRight">
+                                                                <input type="password" class="form-control col-md-4" name="password_confirm" value="" required="required"/>
+                                                            </div>
+                                                            <div class="fix"></div>
+                                                        </div>
+                                                    <div class="rowElem">
+                                                    <button type="submit" value="" class="btn btn-primary btn-sm mb-1  submitForm" ><i class="fe fe-save"></i> {% trans 'Change password' %}</button>
+                                                        <input type="hidden" name="id" value="{{ client.id }}"/>
+                                                        <br>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div><!-- collapse -->
+                                    </div>
+                                    <div class="card mt-0">
+                                        <div class="card-header" id="headingCustom" role="tab">
+                                            <a aria-controls="collapseCustom" aria-expanded="false" class="collapsed" data-bs-toggle="collapse" href="#collapseCustom">{% trans 'Custom fields' %}</a>
+                                        </div>
+                                        <div aria-labelledby="headingCustom" class="collapse" data-bs-parent="#accordion" id="collapseCustom" role="tabpanel">
+                                            <div class="card-body">
+                                                <form method="post" action="{{ 'api/admin/client/update'|link }}" class="api-form save" data-api-msg="{% trans 'Client Profile custom fields updated' %}">
+
+                                                        {% for i in 1..10 %}
+                                                        {% set fn = 'custom_'~i %}
+                                                        <div class="rowElem{% if loop.first%} noborder{% endif %}">
+                                                            <label>{% trans 'Custom field' %} {{i}}</label>
+                                                            <div class="formRight">
+                                                                <textarea class="form-control" name="custom_{{i}}" cols="5" rows="5">{{client[fn]}}</textarea>
+                                                            </div>
+                                                            <div class="fix"></div>
+                                                        </div>
+                                                        {% endfor %}
+                                                        <div class="col-md-12">
+                                                            <button type="submit" value="" class="btn btn-primary btn-sm mb-1  submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                                                            <input type="hidden" name="id" value="{{ client.id }}"/>
+                                                            <br>
+                                                        </div>
+
+
+                                                </form>
+                                            </div>
+                                        </div><!-- collapse -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="taborders">
+                            <div class="help">
+                                <h5>{% trans 'Client orders' %}</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <div class="col-md-12 mt-5 text-end">
+                                    <a href="{{ 'order'|alink({'client_id' : client.id})}}#tab-new" class="btn btn-primary btn-sm mb-1"><i class="fe fe-plus"></i>  <span>New order</span></a>
+                                </div>
+                                <table class="table table-bordered text-nowrap border-bottom tableStyle" id="tableClienteOrders">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Title</th>
+                                            <th>Amount</th>
+                                            <th>Period</th>
+                                            <th>Expire</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set orders = admin.order_get_list({"per_page":"30000", "client_id":client.id}) %}
+                                    {% for order in orders.list %}
+                                    <tr>
+                                        <td>{{order.id}}</td>
+                                        <td>{{order.title|truncate(30) }}</td>
+                                        <td>{{ mf.currency_format( order.total, order.currency) }}</td>
+                                        <td>{{ mf.period_name( order.period) }}</td>
+                                        <td>{{ order.expires_at|date('Y-m-d') }}</td>
+                                        <td>
+                                            <span class="badge {% if order.status == 'active' %} bg-success-transparent text-success {% elseif order.status == 'suspended' %} bg-warning-transparent text-warning {% elseif order.status == 'canceled' %} bg-danger-transparent text-danger  {% else %} bg-info-transparent text-info {% endif %}">{{ mf.status_name(order.status) }}</span>
+                                       </td>
+                                        <td class="actions">
+                                            <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/order/manage'|alink }}/{{order.id}}"><i class="fe fe-edit"></i></a>
+                                            <a class="btn btn-sm  bg-warning-transparent text-warning" href="#" onclick="return changeClient({{order.id}})"><i class="fe fe-refresh-cw" title="Transfer to another client"></i></a>
+                                            {% if order.service_type == 'hosting' and order.status != 'canceled' %}
+                                            <a href="{{ 'api/admin/servicehosting/resend_welcome'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" class="btn btn-sm bg-success-transparent text-success  mr10 api-link" data-api-msg="Welcome email sent."><i class="fe fe-mail" title="Send welcome email"></i></a>
+                                            {% endif %}
+                                            {% if order.status == 'canceled' or order.status == 'pending_setup' %}
+                                            <a href="{{ 'api/admin/order/delete'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" data-api-redirect="{{ 'client/manage/'|alink }}" class="btn btn-sm  bg-danger-transparent text-danger mr10 api-link"><i class="fe fe-trash" title="Delete"></i></a>
+                                            {% endif %}
+
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="6">{% trans 'The list is empty' %}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tabservices">
+                            <div class="help">
+                                <h5>{% trans 'Products and Services' %}</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap border-bottom tableStyle" id="tableClienteServices">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Amount</th>
+                                        <th>Period</th>
+                                        <th>Expire</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set orders = admin.order_get_list({"per_page":"30000", "client_id":client.id}) %}
+                                        {% for order in orders.list %}
+                                            {% if order.product_id >1 %}
+                                                <tr>
+                                                    <td>{{order.id}}</td>
+                                                    <td>{{order.title|truncate(30) }}</td>
+                                                    <td>{{ mf.currency_format( order.total, order.currency) }}</td>
+                                                    <td>{{ mf.period_name( order.period) }}</td>
+                                                    <td>{{ order.expires_at|date('Y-m-d') }}</td>
+                                                    <td>
+                                                        <span class="badge {% if order.status == 'active' %} bg-success-transparent text-success {% elseif order.status == 'suspended' %} bg-warning-transparent text-warning {% elseif order.status == 'canceled' %} bg-danger-transparent text-danger  {% else %} bg-info-transparent text-info {% endif %}">{{ mf.status_name(order.status) }}</span>
+                                                    </td>
+                                                    <td class="actions">
+                                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/order/manage'|alink }}/{{order.id}}"><i class="fe fe-edit"></i></a>
+                                                        <a class="btn btn-sm  bg-warning-transparent text-warning" href="#" onclick="return changeClient({{order.id}})"><i class="fe fe-refresh-cw" title="Transfer to another client"></i></a>
+                                                        {% if order.service_type == 'hosting' and order.status != 'canceled' %}
+                                                        <a href="{{ 'api/admin/servicehosting/resend_welcome'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" class="btn btn-sm bg-success-transparent text-success  mr10 api-link" data-api-msg="Welcome email sent."><i class="fe fe-mail" title="Send welcome email"></i></a>
+                                                        {% endif %}
+                                                        {% if order.status == 'canceled' or order.status == 'pending_setup' %}
+                                                        <a href="{{ 'api/admin/order/delete'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" data-api-redirect="{{ 'order'|alink }}" class="btn btn-sm  bg-danger-transparent text-danger mr10 api-link"><i class="fe fe-trash" title="Delete"></i></a>
+                                                        {% endif %}
+
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tabdomains">
+                            <div class="help">
+                                <h5>{% trans 'Domains' %}</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap border-bottom tableStyle" id="tableClienteDomains">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Amount</th>
+                                        <th>Period</th>
+                                        <th>Expire</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set ordersDomain = admin.order_get_list({"per_page":"300000", "client_id":client.id}) %}
+                                    {% for order in ordersDomain.list %}
+                                        {% if order.product_id == 1 %}
+                                        <tr>
+                                            <td>{{order.id}}</td>
+                                            <td>{{order.title|truncate(30) }}</td>
+                                            <td>{{ mf.currency_format( order.total, order.currency) }}</td>
+                                            <td>{{ mf.period_name( order.period) }}</td>
+                                            <td>{{ order.expires_at|date('Y-m-d') }}</td>
+                                            <td>
+                                                <span class="badge {% if order.status == 'active' %} bg-success-transparent text-success {% elseif order.status == 'suspended' %} bg-warning-transparent text-warning {% elseif order.status == 'canceled' %} bg-danger-transparent text-danger  {% else %} bg-info-transparent text-info {% endif %}">{{ mf.status_name(order.status) }}</span>
+                                            </td>
+                                            <td class="actions">
+                                                <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/order/manage'|alink }}/{{order.id}}"><i class="fe fe-edit"></i></a>
+                                                <a class="btn btn-sm  bg-warning-transparent text-warning" href="#" onclick="return changeClient({{order.id}})"><i class="fe fe-refresh-cw" title="Transfer to another client"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tabinvoices">
+                            <div class="help">
+                                <h5>{% trans 'Client invoices' %}</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <div class="col-md-12 mt-5 text-end">
+                                    <a href="{{ 'api/admin/invoice/prepare'|link({'client_id' : client.id}) }}" class="btn btn-primary btn-sm mb-1 api-link" data-api-jsonp="onAfterInvoicePrepared" ><i class="fe fe-plus"></i><span>  New invoice</span></a>
+
+                                </div>
+                                <table class="table table-bordered text-nowrap border-bottom tableStyle" id="tableInvoices">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Amount</th>
+                                        <th>Issued at</th>
+                                        <th>Paid at</th>
+                                        <th>Status</th>
+                                        <th>Actons</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set invoices = admin.invoice_get_list({"per_page":"100", "client_id":client.id}) %}
+                                    {% for invoice in invoices.list %}
+                                        <tr>
+                                            <td>{{invoice.serie_nr}}</td>
+                                            <td>{{ mf.currency_format( invoice.total, invoice.currency) }}</td>
+                                            <td>{{ invoice.created_at|date('Y-m-d') }}</td>
+                                            <td>{% if invoice.paid_at %}{{ invoice.paid_at|date('Y-m-d') }}{% else %}-{% endif %}</td>
+                                            <td>
+                                                {% if invoice.status =='paid' %}
+                                                <span class="badge  bg-success-transparent text-success ">{{ mf.status_name(invoice.status) }}</span>
+                                                {% else %}
+                                                <span class="badge  bg-danger-transparent text-danger ">{{ mf.status_name(invoice.status) }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="actions"><a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/invoice/manage'|alink }}/{{invoice.id}}"><i class="fe fe-edit"></i></a></td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">{% trans 'The list is empty' %}</td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tabtickets">
+                            <div class="help">
+                                <h5>{% trans 'Client support tickets' %}</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <div class="col-md-12  mt-5 text-end">
+                                    <a href="{{ 'support'|alink({'client_id' : client.id})}}#tab-new" class="btn btn-primary btn-sm mb-1" ><i class="fe fe-plus"></i>  <span>New support ticket</span></a>
+                                </div>
+                                <table class="table table-bordered text-nowrap border-bottom tableStyle" id="ticketDatatable">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Subject</th>
+                                            <th>Help desk</th>
+                                            <th>Create</th>
+                                            <th>Last update</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set tickets = admin.support_ticket_get_list({"per_page":"10000", "client_id":client.id}) %}
+                                        {% for ticket in tickets.list %}
+                                        <tr>
+                                            <td>{{ ticket.id }}</td>
+                                            <td>{{ ticket.subject|truncate(50) }}</td>
+                                            <td>{{ ticket.helpdesk.name }}</td>
+                                            <td>{{ ticket.created_at|date('Y-m-d H:i:s')}}</td>
+                                            <td>{{ ticket.updated_at|date('Y-m-d H:i:s')}}</td>
+                                            <td>{{ mf.status_name(ticket.status) }}</td>
+                                            <td class="actions"><a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/support/ticket'|alink }}/{{ticket.id}}"><i class="fe fe-edit"></i></a></td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="5">{% trans 'The list is empty' %}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="tabpayments">
+                            <div class="help">
+                                <h5>{% trans 'Client payments history' %}</h5>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap border-bottom tableStyle" id="tablepayments">
+                                    <thead>
+                                        <tr>
+                                            <th>{% trans 'Amount' %}</th>
+                                            <th>{% trans 'Description' %}</th>
+                                            <th>{% trans 'Date' %}</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set payments = admin.client_balance_get_list({"per_page":20, "client_id":client.id}) %}
+                                        {% for i, tx in payments.list %}
+                                        <tr>
+                                            <td>{{mf.currency_format(tx.amount, tx.currency)}}</td>
+                                            <td>{{tx.description}}</td>
+                                            <td>{{tx.created_at|date("Y-m-d H:i")}}</td>
+                                            <td></td>
+                                            <td>
+                                                <a class="btn btn-sm  bg-danger-transparent text-danger bb-rm-tr api-link" data-api-confirm="Are you sure?" href="{{ 'api/admin/client/balance_delete'|link({'id' : tx.id}) }}"><i class="fe fe-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="4">{% trans 'The list is empty' %}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="currency" colspan="4">{% trans 'Balance' %}: {{ mf.currency_format(client.balance, client.currency) }}</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <div class="help">
+                                    <h5>{% trans 'Add funds for client' %}</h5>
+                                </div>
+
+                                <form method="post" action="{{ 'api/admin/client/balance_add_funds'|link }}" class="api-form save" data-api-msg="{% trans 'Funds added' %}">
+
+                                        <div class="rowElem noborder">
+                                            <div class="col-md-4">
+                                                <label >{% trans 'Amount' %}:</label>
+                                            </div>
+                                            <div class="formRight noborder">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="amount" class="form-control col-md-12" value="" required="required"/>
+                                                    </div>
+                                                    <div class="col-md-3 text-right" style="padding-top: 5px">
+                                                        {{ client.currency }}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="fix"></div>
+                                        </div>
+
+                                        <div class="rowElem">
+                                            <div class="col-md-4">
+                                                <label >{% trans 'Description' %}:</label>
+                                            </div>
+                                            <div class="formRight noborder">
+                                                <input type="text" class="form-control" name="description" value=""  required="required"/>
+                                            </div>
+                                            <div class="fix"></div>
+                                        </div>
+
+                                    <button type="submit" value="" class="btn btn-primary btn-sm mb-1  submitForm" ><i class="fe fe-save"></i> {% trans 'Add funds' %}</button>
+                                        <input type="hidden" name="id" value="{{ client.id }}"/>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tablogins">
+                            <div class="help">
+                                <h5>{% trans 'Logins history' %}</h5>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap border-bottom tableStyle" id="tablelogin">
+                                    <thead>
+                                        <tr>
+                                            <th>{% trans 'IP' %}</th>
+                                            <th>{% trans 'Country' %}</th>
+                                            <th>{% trans 'Date' %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set logins = admin.client_login_history_get_list({"per_page":10, "page":request.page, "client_id":client.id}) %}
+                                    {% for i, login in logins.list %}
+                                    <tr>
+                                        <td>{{login.ip}}</td>
+                                        <td>{{login.ip|ipcountryname|default('Unknown')}}</td>
+                                        <td>{{login.created_at|date('l, d F Y')}}</td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="3">{% trans 'The list is empty' %}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tabemails">
+                            <div class="help">
+                                <h5>{% trans 'Emails sent to client' %}</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap border-bottom tableStyle" id="tableEmail">
+                                    <thead>
+                                        <tr>
+                                            <th>{% trans 'Email subject' %}</th>
+                                            <th>{% trans 'To' %}</th>
+                                            <th>{% trans 'Date sent' %}</th>
+                                            <th>{% trans 'Actions' %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set emails = admin.email_email_get_list({"per_page":"20", "client_id":client.id}) %}
+                                        {% for i, email in emails.list %}
+                                        <tr>
+                                            <td>{{email.subject}}</td>
+                                            <td>{{ email.recipients }}</td>
+                                            <td>{{email.created_at|date('l, d F Y')}}</td>
+                                            <td class="actions"><a class="btn btn-sm  bg-info-transparent text-info" href="{{ 'email'|alink }}/{{email.id}}"><i class="fe fe-edit"></i></a></td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="4">{% trans 'The list is empty' %}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {% include "partial_pagination.phtml" with {'list': emails} %}
+                        </div>
+                        <div class="tab-pane" id="tabtransations">
+                            <div class="help">
+                                <h5>{% trans 'Transactions received' %}</h5>
+                            </div>
+
+                            {% set transactions = admin.invoice_transaction_get_list({"client_id":client.id,"per_page":100 }).list %}
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap border-bottom tableStyle" id="tableTrans">
+                                    <thead>
+                                    <tr>
+                                        <th>{% trans 'ID' %}</th>
+                                        <th>{% trans 'Type' %}</th>
+                                        <th>{% trans 'Gateway' %}</th>
+                                        <th>{% trans 'Amount' %}</th>
+                                        <th>{% trans 'Status' %}</th>
+                                        <th>{% trans 'Date' %}</th>
+                                        <th>{% trans 'Actions' %}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i, tx in transactions %}
+                                        <tr>
+                                            <td>{{tx.txn_id}}</td>
+                                            <td>{{tx.type}}</td>
+                                            <td>{{tx.gateway}}</td>
+                                            <td>{{ mf.currency_format( tx.amount, tx.currency) }}</td>
+                                            <td>{{ mf.status_name(tx.status) }}</td>
+                                            <td>{{tx.created_at|bb_datetime}}</td>
+                                            <td style="width: 5%">
+                                                <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/invoice/transaction'|alink }}/{{tx.id}}"><i class="fe fe-edit"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="7">{% trans 'The list is empty' %}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#
+<div class="widgets">
+    <div class="left">
+        <div class="widget">
+            <div class="head">
+                <h5 class="iDayCalendar">{{ client.first_name }} {{ client.last_name }}</h5>
+                <div class="num"><span>Balance:</span><a href="#" class="blueNum">{{ mf.currency_format(client.balance, client.currency) }}</a></div>
+            </div>
+            <table class="tableStatic wide">
+                <tbody>
+                    <tr class="noborder">
+                        <td>Company:</td>
+                        <td><strong class="text-danger">{{ client.company }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Registered at:</td>
+                        <td>{{ client.created_at|date('M d, Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td><a href="#" title="">{{ client.email }}</a></td>
+                    </tr>
+                    <tr>
+                        <td>Status:</td>
+                        <td><a href="#" class="green">{{ mf.status_name(client.status) }}</a></td>
+                    </tr>
+                    <tr>
+                        <td>IP:</td>
+                        <td><span class="expire">{{ client.ip }} {{ client.ip|ipcountryname|default('Unknown') }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>Address:</td>
+                        <td>{{ client.address_1 }} {{ client.address_2 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="widget">
+            <div class="head"><h5 class="iMoney">2 Latest orders</h5><div class="num"><span>Total:</span><a href="{{ 'order'|alink({'client_id' : client.id}) }}" class="greenNum">{{ orders.total }}</a></div></div>
+            {% set orders = admin.order_get_list({"per_page":"2", "client_id":client.id}) %}
+            {% for order in orders.list %}
+            <div class="supTicket{% if loop.first %} nobg{% endif %}">
+                <div class="issueType">
+                    <span class="issueInfo"><a href="{{ 'order/manage'|alink }}/{{ order.id }}" title="">{{ order.title|truncate(45) }}</a></span>
+                    <span class="issueNum"><a href="{{ 'order/manage'|alink }}/{{ order.id }}" title="">[ {{ order.id }} ]</a></span>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="issueSummary">
+                    <a href="{{ 'order/manage'|alink }}/{{ order.id }}" title="" class="floatleft"><img src="{{ order.client.email|gravatar }}?size=35" alt="" class="avatar-md rounded-circle me-3 my-auto shadow"></a>
+                    <div class="ticketInfo">
+                        <ul>
+                            <li>Current order status:</li>
+                            <li class="even"><strong class="green">[ {{ order.status }} ]</strong></li>
+                            <li>User email:</li>
+                            <li class="even"><a href="{{ 'client/manage'|alink }}/{{ order.client_id }}" title="">{{ order.client.email }}</a></li>
+                        </ul>
+                        <div class="fix"></div>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+            </div>
+            {% else %}
+            <div class="supTicket{% if loop.first %} nobg{% endif %}">
+                The list is empty
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="fix"></div>
+</div>
+#}
+<div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalCenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLongTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block js%}
+<script type="text/javascript">
+
+
+function onAfterInvoicePrepared(id) {
+    bb.redirect("{{'invoice/manage/'|alink}}/"+id);
+}
+$(document).ready(function(){
+    $('.tableStyle').dataTable( {
+        "searching": true
+    } );
+
+
+});
+function changeClient(idOrden){
+    $.ajax({
+        type: "POST",
+        url: "{{ 'api/admin/client/get_something'|link }}",
+        data: 'acc=getClients&idOrden='+idOrden,
+        dataType: 'json',
+        success: function(data) {
+            var datos = data.result;
+            var html ='<option value="">Choose</option>';
+            Object.keys(datos).forEach(function(key) {
+                var result =datos[key];
+                console.log(result.first_name);
+                html+='<option value="'+result.id+'">'+result.first_name+' '+result.last_name+'</option>';
+            })
+            $("#ModalCenter #ModalLongTitle").html('Change Owner');
+            $("#ModalCenter .modal-body").html('<input type="hidden" name="idOrden" id="idOrden" value="'+idOrden+'"><div class="row"><div class="col-md-4">New Owner</div><div class="col-md-8"><select class="form-control" id="owner">'+html+'</select> </div></div>');
+            $("#ModalCenter .modal-footer").html('<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary" onclick="return transferOwn()">Transfer Ownership</button>');
+            //$("#ModalCenter #owner").select2();
+            $("#ModalCenter").modal('show');
+            return false;
+        }
+    });
+
+    return false;
+}
+function sendData(idOrden){
+    alert(idOrden);
+    return false;
+}
+function transferOwn(){
+    var idOrden = $("#ModalCenter #idOrden").val();
+    var owner   = $("#ModalCenter #owner").val();
+
+    $.ajax({
+        type: "POST",
+        url: "{{ 'api/admin/client/get_something'|link }}",
+        data: 'acc=newOwner&idOrden='+idOrden+'&owner='+owner,
+        dataType: 'json',
+        success: function(data) {
+            $("#ModalCenter").modal('show');
+            location.reload();
+            return false;
+        }
+    });
+}
+</script>
+{% endblock %}

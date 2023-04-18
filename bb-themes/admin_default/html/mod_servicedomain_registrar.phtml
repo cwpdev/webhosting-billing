@@ -1,0 +1,63 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Registrar' %} {{ registrar.title }}{% endblock %}
+{% set active_menu = 'system' %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'servicedomain'|alink }}">{% trans 'Domain management' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'servicedomain'|alink }}#tab-registrars">{% trans 'Registrars' %}</a></li>
+    <li class="breadcrumb-item active">{{ registrar.title }}</li>
+
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="card">
+    <div class="card-body">
+        <h5>{% trans 'Registrar configuration' %} - {{ registrar.title }}</h5>
+            <p>{{ registrar.label }}</p>
+        <form method="post" action="{{ 'api/admin/servicedomain/registrar_update'|link }}" class="save api-form" data-api-msg="Registrar updated">
+
+            <div class="rowElem noborder">
+                <label>{% trans 'Enable test mode' %}:</label>
+                <div class="formRight">
+                    <div class="row pt-3">
+                        <div class="col-md-4">
+                            <label class="rdiobox">
+                                <input type="radio" name="test_mode" value="1"{% if registrar.test_mode %} checked="checked"{% endif %}/><span>Yes</span>
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="rdiobox">
+                                <input type="radio" name="test_mode" value="0"{% if not registrar.test_mode %} checked="checked"{% endif %} /><span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Registrar title' %}:</label>
+                <div class="formRight">
+                    <input type="text" class="form-control"  name="title" value="{{registrar.title}}" />
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            {# Build form elements from registrar configuration array #}
+            {{ mf.build_form(registrar.form, registrar.config) }}
+
+            <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+            <input type="hidden" name="id" value="{{ registrar.id }}" />
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set active_menu = 'invoice' %}
+{% block meta_title %}Subscription {{ subscription.sid }}{% endblock %}
+{% block breadcrumbs %}
+
+<li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+<li class="breadcrumb-item  tx-15"><a href="{{ 'invoice/subscriptions'|alink }}">{% trans 'Subscriptions' %}</a></li>
+<li class="breadcrumb-item active">{% trans 'Subscription ' %} {{ subscription.sid }}</li>
+
+{% endblock %}
+{% block content %}
+
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Subscription' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-manage">{% trans 'Manage' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-index">
+                        <div class="text-end">
+                            <a class="btn btn-sm bg-danger-transparent text-danger api-link" href="{{ 'api/admin/invoice/subscription_delete'|link({'id' : subscription.id}) }}" data-api-confirm="Are you sure?" data-api-redirect="{{ 'invoice/subscriptions'|alink }}"><i class="fe fe-trash"></i> <span>{% trans 'Delete' %}</span></a>
+                        </div>
+                        <table class="tableStatic wide">
+                                <tbody>
+                                    <tr class="noborder">
+                                        <td>{% trans 'Client' %}</td>
+                                        <td><a href="{{ 'client/manage'|alink }}/{{subscription.client.id}}">{{ subscription.client.first_name }} {{ subscription.client.last_name }}</a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>{% trans 'Amount' %}</td>
+                                        <td>{{ mf.currency_format( subscription.amount, subscription.currency) }} {{ mf.period_name(subscription.period) }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>{% trans 'Payment gateway' %}</td>
+                                        <td>{{subscription.gateway.title}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>{% trans 'Subscription ID on payment gateway' %}</td>
+                                        <td>{{subscription.sid|default('-')}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>{% trans 'Status' %}</td>
+                                        <td>{{ mf.status_name(subscription.status) }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>{% trans 'Created at' %}</td>
+                                        <td>{{subscription.created_at|date('l, d F Y')}}</td>
+                                    </tr>
+
+                                    {% if subscription.created_at != subscription.updated_at %}
+                                    <tr>
+                                        <td>{% trans 'Updated at' %}</td>
+                                        <td>{{subscription.updated_at|date('l, d F Y')}}</td>
+                                    </tr>
+                                    {% endif %}
+                                 </tbody>
+
+
+                            </table>
+                    </div>
+                    <div id="tab-manage" class="tab-pane">
+                        <form method="post" action="{{ 'api/admin/invoice/subscription_update'|link }}" class="save api-form" data-api-reload="1">
+                            <fieldset>
+                                <div class="rowElem">
+                                    <label>{% trans 'Payment Gateway' %}:</label>
+                                    <div class="formRight">
+                                        {{ mf.selectbox('gateway_id', admin.invoice_gateway_get_pairs, subscription.gateway.id, 0, 'Select payment gateway') }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Subscription ID on payment gateway' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="sid" value="{{subscription.sid}}" required="required" placeholder=""/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Status' %}:</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="status" value="active" {% if subscription.status == 'active' %} checked="checked"{% endif %}/> <span>Active</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="status" value="canceled" {% if subscription.status == 'canceled' %} checked="checked"{% endif %}/> <span>Canceled</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Period' %}:</label>
+                                    <div class="formRight">
+                                        {{ mf.selectbox('period', guest.system_periods, subscription.period, 1, 'Select period') }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Amount' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="amount" value="{{subscription.amount}}" required="required" placeholder=""/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Currency' %}</label>
+                                    <div class="formRight">
+                                        {{ mf.selectbox('currency', guest.currency_get_pairs, subscription.currency, 1, 'Select currency') }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                                <input type="hidden" name="id" value="{{ subscription.id }}" />
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

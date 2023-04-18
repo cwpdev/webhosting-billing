@@ -1,0 +1,318 @@
+{% extends "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}Domain management{% endblock %}
+{% set active_menu = 'system' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-tlds">{% trans 'Top level domains' %}</a></li>
+                        <li><a  class="nav-link" data-bs-toggle="tab" href="#tab-new-tld">{% trans 'New top level domain' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-registrars">{% trans 'Registrars' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-new-registrar">{% trans 'New domain registrar' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-nameservers">{% trans 'Nameservers' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-tlds">
+                        <div class="help">
+                            <h5>{% trans 'Manage TLDs' %}</h5>
+                            <p>{% trans 'Setup domain pricing and allowed operations. Assign specific domain registrars for each Top Level Domain (TLD)' %}</p>
+                        </div>
+
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr class="">
+                                <th>{% trans 'TLD' %}</th>
+                                <th>{% trans 'Registration' %}</th>
+                                <th>{% trans 'Renew' %}</th>
+                                <th>{% trans 'Transfer' %} </th>
+                                <th>{% trans 'Operations' %}</th>
+                                <th>{% trans 'Registrar' %}</th>
+                                <th style="width:13%">&nbsp;</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for tld in admin.servicedomain_tld_get_list({"per_page":99}).list %}
+                            <tr>
+                                <td>{{ tld.tld }}</td>
+                                <td>{{ mf.currency_format(tld.price_registration) }}</td>
+                                <td>{{ mf.currency_format(tld.price_renew) }}</td>
+                                <td>{{ mf.currency_format(tld.price_transfer) }}</td>
+                                <td>
+                                    {% trans 'Allow register:' %} {% if tld.allow_register %}<span class="badge badge-success-transparent text-success">{% trans 'Yes' %}</span>{% else %}<span class="badge badge-danger-transparent text-danger">{% trans 'No' %}</span>{% endif %}<br/>
+                                    {% trans 'Allow transfer:' %} {% if tld.allow_transfer %}<span class="badge badge-success-transparent text-success">{% trans 'Yes' %}</span>{% else %}<span class="badge badge-danger-transparent text-danger">{% trans 'No' %}</span>{% endif %}<br/>
+                                    {% trans 'Active:' %} {% if tld.active %}<span class="badge badge-success-transparent text-success">{% trans 'Yes' %}</span>{% else %}<span class="badge badge-danger-transparent text-danger">{% trans 'No' %}</span>{% endif %}
+                                </td>
+                                <td><a class="" href="{{ 'servicedomain/registrar'|alink }}/{{ tld.registrar.id }}">{{ tld.registrar.title }}</a></td>
+                                <td class="actions">
+                                    <a class="btn btn-sm  bg-info-transparent text-info" href="{{ 'servicedomain/tld'|alink }}/{{ tld.tld|slice(1) }}"><i class="fe fe-edit"></i></a>
+                                    <a class="btn btn-sm bg-danger-transparent text-danger api-link" data-api-confirm="Are you sure?" data-api-reload="1" href="{{ 'api/admin/servicedomain/tld_delete'|link({'tld' : tld.tld}) }}"><i class="fe fe-trash"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="tab-pane " id="tab-new-tld">
+
+                        <div class="help">
+                            <h5>{% trans 'Add new top level domain' %}</h5>
+                            <p>{% trans 'Setup new TLD prices and properties' %}</p>
+                        </div>
+
+                        <form method="post" action="{{ 'api/admin/servicedomain/tld_create'|link }}" class="save api-form" data-api-reload="1">
+
+                                <div class="rowElem ">
+                                    <label>{% trans 'Tld' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="tld" value="." required="required" class="dirTop" title="Must start with a dot">
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Registrar' %}:</label>
+                                    <div class="formRight">
+                                        <select name="tld_registrar_id" class="form-control form-select" required="required">
+                                            {% for id,title in admin.servicedomain_registrar_get_pairs %}
+                                            <option value="{{id}}">{{ title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Registration price' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="price_registration" value="" required="required">
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Renewal price' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="price_renew" value="" required="required">
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Transfer price' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="price_transfer" value="" required="required">
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Minimum years of registration' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="min_years" value="1" required="required">
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Allow registration' %}:</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="allow_register" value="1"checked="checked"/><span>{% trans 'Yes' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="allow_register" value="0"/><span>{% trans 'No' %}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Allow transfer' %}:</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="allow_transfer" value="1" checked="checked"/><span>{% trans 'Yes' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="allow_transfer" value="0"/><span>{% trans 'No' %}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Active' %}:</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                     <input type="radio" name="active" value="1" checked="checked"/><span>{% trans 'Yes' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="active" value="0"/><span>{% trans 'No' %}</span>
+                                                </label>
+                                            </div>
+                                    </div>
+                                    </div>
+                                    <div class="fix"></div>
+
+                                </div>
+                                    <button type="submit" value="" class="btn btn-primary submitForm">{% trans 'Add' %}</button>
+                        </form>
+
+                    </div>
+
+                    <div class="tab-pane" id="tab-registrars">
+
+                            <div class="help">
+                                <h5>{% trans 'Domain registrars' %}</h5>
+                                <p>{% trans 'Manage domain registrars' %}</p>
+                            </div>
+
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr >
+                                        <th>{% trans 'Title' %}</th>
+                                        <th style="width:18%">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for registrar in admin.servicedomain_registrar_get_list.list %}
+                                    <tr>
+                                        <td>{{ registrar.title }}</td>
+                                        <td>
+                                            <a class="btn btn-sm  bg-info-transparent text-info" href="{{ 'servicedomain/registrar/'|alink }}/{{ registrar.id }}"><i class="fe fe-edit"></i></a>
+                                            <a class="btn btn-sm  bg-warning-transparent text-warning api-link" href="{{ 'api/admin/servicedomain/registrar_copy'|link({'id' : registrar.id}) }}" data-api-reload="1" title="Install"><i class="fe fe-copy"></i></a>
+                                            <a class="btn btn-sm  bg-danger-transparent text-danger api-link" href="{{ 'api/admin/servicedomain/registrar_delete'|link({'id' : registrar.id}) }}" data-api-confirm="Are you sure?" data-api-reload="1"><i class="fe fe-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    <div class="tab-pane" id="tab-new-registrar">
+                        {% include "partial_extensions.phtml" with {'type': 'domain-registrar', 'header':"List of domain registrars on extensions site"} only %}
+                        <div class="body">
+                            <h5 class="pt10">{% trans 'Adding new domain registrar' %}</h5>
+                            <p>{% trans 'Follow instructions below to install new domain registrar.' %}</p>
+
+                            <div class="pt20 list arrowGrey">
+                                <ul>
+                                    <li>{% trans 'Check domain registrar you are looking for is available at' %} <a href="http://extensions.boxbilling.com/" target="_blank">WebHosting Billing extensions site</a></li>
+                                    <li>{% trans 'Download domain registrar file and place to' %} <strong>{{ constant('BB_PATH_LIBRARY') }}/Registrar/Adapter</strong></li>
+                                    <li>{% trans 'Reload this page to see newly detected domain registrar' %}</li>
+                                    <li>{% trans 'Click on install button. Now you will be able to create top level domains with new domain registrar' %}</li>
+                                    <li>{% trans 'For developers. Read' %} <a href="http://docs.boxbilling.com/en/latest/reference/extension.html#domain-registrar" target="_blank">{% trans 'WebHosting Billing documentation' %}</a> {% trans 'to learn how to create your own domain registrar.' %}</li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        {% if admin.servicedomain_registrar_get_available|length > 0 %}
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <td>{% trans 'Code' %}</td>
+                                <td style="width: 5%">{% trans 'Install' %}</td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for code in admin.servicedomain_registrar_get_available %}
+                            <tr>
+                                <td>{{ code }}</td>
+                                <td class="actions">
+                                    <a class="btn btn-sm  bg-warning-transparent text-warning api-link" href="{{ 'api/admin/servicedomain/registrar_install'|link({'code' : code}) }}" data-api-msg="Domain registrar installed" title="Install"><i class="fe fe-settings"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                            {% else %}
+                            <tbody>
+                            <tr>
+                                <td colspan="5">
+                                    {% trans 'All payment gateways installed' %}
+                                </td>
+                            </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                        {% endif %}
+                    </div>
+                    <div class="tab-pane" id="tab-nameservers">
+
+                        <div class="help">
+                            <h5>{% trans 'Nameservers' %}</h5>
+                            <p>{% trans 'Setup default nameservers that will be used for new domain registrations if client have not provided his own nameservers in order form' %}</p>
+                        </div>
+
+                        <form method="post" action="{{ 'api/admin/system/update_params'|link }}" class="api-form" data-api-msg="Nameservers updated">
+
+                            <div class="rowElem ">
+                                <label>{% trans 'Nameserver 1' %}:</label>
+                                <div class="formRight ">
+                                    <input type="text" class="form-control" name="nameserver_1" value="{{ admin.system_param({'key':'nameserver_1'}) }}">
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+
+                            <div class="rowElem">
+                                <label>{% trans 'Nameserver 2' %}:</label>
+                                <div class="formRight ">
+                                    <input type="text" class="form-control" name="nameserver_2" value="{{ admin.system_param({'key':'nameserver_2'}) }}">
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Nameserver 3' %}:</label>
+                                <div class="formRight ">
+                                    <input type="text" class="form-control" name="nameserver_3" value="{{ admin.system_param({'key':'nameserver_3'}) }}">
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+
+                            <div class="rowElem">
+                                <label>{% trans 'Nameserver 4' %}:</label>
+                                <div class="formRight ">
+                                    <input type="text" class="form-control" name="nameserver_4" value="{{ admin.system_param({'key':'nameserver_4'}) }}">
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <button type="submit" value="" class="btn btn-primary submitForm"> {% trans 'Update nameservers' %}</button>
+
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

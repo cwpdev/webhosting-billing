@@ -1,0 +1,22 @@
+ <ul class="side-menu main-header-center">
+
+                {% if settings.side_menu_home %}<li class="slide"><a href="{{ ''|link }}" title="{% trans 'Home' %}" class="side-menu__item {% if request._url == '/' or request._url == '' %} active{% endif %}" ><i class="side-menu__icon fe fe-home"></i> <span class="side-menu__label">{% trans 'Home' %}</a></span></li>{% endif %}
+                {% if settings.side_menu_order %}<li class="slide"><a href="{{ '/order'|link }}" title="{% trans 'Order' %}" class="side-menu__item {% if request._url starts with '/order/service' %}{% elseif request._url starts with '/order' %} active{% endif %}" ><i class="side-menu__icon fe fe-shopping-cart"></i><span class="side-menu__label"> {% trans 'Order' %}</a></span></li>{% endif %}
+                {% if settings.side_menu_blog and guest.extension_is_on({"mod":"news"}) %}<li class="slide"><a href="{{ '/news'|link }}" title="{% trans 'Blog' %}" class="side-menu__item{% if request._url starts with '/news' %} active{% endif %}" ><i class="side-menu__icon fe fe-file-text"></i> <span class="side-menu__label">{% trans 'Blog' %}</a></span></li>{% endif %}
+                {% if settings.side_menu_forum and guest.extension_is_on({"mod":"forum"}) %}<li class="slide"><a class="side-menu__item {% if request._url starts with '/forum' %} active{% endif %}" href="{{ '/forum'|link }}"><i class="side-menu__icon fe fe-message-circle"></i> <span class="side-menu__label">{% trans 'Forum' %}</a></span></li>{% endif %}
+                {% if settings.side_menu_kb and guest.extension_is_on({"mod":"kb"}) %}<li class="slide"><a href="{{ 'kb'|link }}" title="{% trans 'Knowledge Base' %}" class="side-menu__item{% if request._url starts with '/kb' %} active{% endif %}"><i class="side-menu__icon fe fe-book-open"></i><span class="side-menu__label"> {% trans 'Knowledge Base' %}</a></span></li>{% endif %}
+        {% if settings.side_menu_contact %}<li class="slide"><a class="side-menu__item{% if request._url starts with '/support/contact-us' %} active{% endif %}" href="{{ '/support/contact-us'|link }}"><i class="side-menu__icon fe fe-mail"></i> <span class="side-menu__label">{% trans 'Contact us' %}</span></a></li>{% endif %}
+
+
+
+{% if client %}
+
+		{% if settings.side_menu_services %}<li class="slide"><a href="{{ 'order/service'|link }}" title="{% trans 'Services' %}" class="side-menu__item {% if request._url == '/order/service' %} active{% endif %}"><i class="side-menu__icon fe fe-shopping-bag"></i> <span class="side-menu__label">{% trans 'Services' %}</a></span></li>{% endif %}
+		{% if settings.side_menu_support %}<li class="slide"><a href="{{ 'support'|link }}" title="{% trans 'Tickets' %}" class="side-menu__item {% if request._url == '/support' %} active{% endif %}"><i class="side-menu__icon fe fe-life-buoy"></i><span class="side-menu__label"> {% trans 'Support' %}</a></span></li>{% endif %}
+		{% if settings.side_menu_invoices %}<li class="slide"><a href="{{ 'invoice'|link }}" title="{% trans 'Invoices' %}" class="side-menu__item {% if request._url == '/invoice' %} active{% endif %}"><i class="side-menu__icon fe fe-credit-card"></i> <span class="side-menu__label">{% trans 'Invoices' %}</a></span></li>{% endif %}
+		<!--<a href="{{ '/client/balance'|link }}" title="{% trans 'Payment history' %}" class="side-menu__item" ><i class="side-menu__icon fa fa-archive"></i> {% trans 'Payment history' %}</a>-->
+
+{% endif %}
+
+    </ul>
+

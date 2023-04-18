@@ -1,0 +1,60 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% block meta_title %}{% trans 'Blog'%}{% endblock %}
+
+{% block content_before %}
+		<!-- Page Heading/Breadcrumbs -->
+<div class="left-content">
+    <span class="main-content-title mg-b-0 mg-b-lg-1">{% trans 'News & Announcements' %}</span>
+    <small class="d-block tx-12 mb-0 text-muted">{% trans 'Track our latest posts' %}</small>
+
+</div>
+
+{% endblock %}
+{% block content %}
+
+		<!-- Blog Post Row -->
+    {% set posts = guest.news_get_list({"page":request.page,"per_page": 5}) %}
+    {% for i, post in posts.list %}
+		<div class="card">
+		<div class="card-body">
+			{% if post.image %}
+			<div class="col-md-6">
+                <a href="{{ '/news'|link }}/{{post.slug}}">
+                   <img class="img-responsive img-hover" src="{{post.image}}" alt="{{post.title}}">
+                </a>
+            </div>
+			<div class="col-md-6">
+			{% else %}
+            <div class="col-md-12">
+			{% endif %}
+                <h5><a href="{{ '/news'|link }}/{{post.slug}}">{{post.title}}</a><h5>
+				<h6>{{post.updated_at|date('Y-m-d h:i')}}</h6>
+                <p>
+					{% if post.excerpt %}
+						{{post.excerpt|bbmd}}
+					{% else %}
+						{{ post.content|bbmd }}
+					{% endif %}
+				</p>
+                <a class="btn btn-primary pull-right" href="{{ '/news'|link }}/{{post.slug}}">{% trans 'Read more..' %} <i class="fa fa-angle-right"></i></a>
+            </div>
+        </div>
+        </div>
+		{% if not loop.last %}<hr>{% endif %}
+    {% else %}
+            <div class="card bd-0 mg-b-20">
+                <div class="card-body bd bd-info text-center rounded">
+                    <div class="info-widget">
+                        <i class="si si-info mg-b-20 tx-50 text-info"></i>
+                        <h3 class="mt-3 text-info">info!</h3>
+                        <p class="mt-3 mb-0">{% trans 'The list is empty' %}</p>
+                    </div>
+                </div>
+            </div>
+    {% endfor %}
+        <!-- /.row -->
+
+	{% include "partial_pagination.phtml" with {'list': posts} %}
+
+{% endblock %}

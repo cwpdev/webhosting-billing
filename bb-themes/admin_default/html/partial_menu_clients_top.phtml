@@ -1,0 +1,14 @@
+<ul class="menu_body">
+    {% if admin.system_is_allowed({"mod":"client"}) %}
+    <li><a href="{{ 'client#tab-new'|alink }}" title="">{% trans 'New Client' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"client"}) %}
+    <li><a href="{{ 'client'|alink }}" title="">{% trans 'Overview' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"client"}) %}
+    <li><a href="{{ 'client#tab-groups'|alink }}" title="">{% trans 'Groups' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"client"}) %}
+    <li><a href="{{ 'client#tab-new-group'|alink }}" title="">{% trans 'New Group' %}</a></li>
+    {% endif %}
+</ul>

@@ -1,0 +1,66 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Cron settings' %}{% endblock %}
+{% set active_menu = 'system' %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a href="{{ 'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'Cron settings' %}</li>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body mt-0">
+    <div class="alert alert-info">
+        <h5>{% trans 'Setup scheduled tasks to be executed once a day' %}</h5>
+        <p>{% trans 'Scheduled tasks must be enabled immediately after installation. Cron is responsible for sending your clients reminder about payments, domain renewal notices and many more.' %}</p>
+    </div>
+
+    {% set cron = admin.cron_info %}
+    <table class="tableStatic wide">
+        <tbody>
+        <tr>
+            <td colspan="2">
+                <div class="text-end">
+                    <a href="{{ cron.cron_url}}" title="" class="btn bg-success-transparent text-success" target="_blank"><i class="fe fe-play"></i> <span>{% trans 'Execute now' %}</span></a>
+                </div>
+            </td>
+        </tr>
+            <tr class="noborder">
+                <td>{% trans 'Timezone' %}</td>
+                <td align="right">{{ "now"|date('e') }}</td>
+            </tr>
+
+            <tr>
+                <td>{% trans 'Time on server' %}</td>
+                <td align="right">{{ "now"|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <td>{% trans 'Last time scheduled tasks were executed' %}</td>
+                <td align="right">
+                    {% if cron.last_cron_exec %}
+                        {{ cron.last_cron_exec|date('Y-m-d H:i:s') }}
+                        ({{cron.last_cron_exec|timeago }} ago)
+                    {% else %}
+                        {% trans 'Scheduled tasks were never executed' %}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>{% trans 'Unix crontab setup:' %}</td>
+                <td align="right"><pre>*/5 * * * * php {{ cron.cron_path}}</pre></td>
+            </tr>
+            <tr>
+                <td>{% trans 'Execute scheduled tasks from browser' %}</td>
+                <td align="right"><pre>{{ cron.cron_url}}</pre></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+
+{% endblock %}

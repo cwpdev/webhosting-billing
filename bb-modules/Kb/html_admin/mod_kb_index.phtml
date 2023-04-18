@@ -1,0 +1,164 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Knowledge Base' %}{% endblock %}
+{% set active_menu = 'kb' %}
+{% block content %}
+
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu2">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Articles' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-new-article">{% trans 'New article' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-new-category">{% trans 'New category' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-categories">{% trans 'Manage categories' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-index">
+
+
+                    <table class="table table-bordered table-striped" id="tableStaff">
+                        <thead>
+                            <tr>
+                                <td>{% trans 'Title' %}</td>
+                                <td>{% trans 'Category' %}</td>
+                                <td>{% trans 'Status' %}</td>
+                                <td>{% trans 'Views' %}</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% set posts = admin.kb_article_get_list({"per_page":30, "page":request.page}|merge(request)) %}
+                        {% for i, post in posts.list %}
+                        <tr>
+                            <td>{{ post.title }}</td>
+                            <td><a href="{{ '/kb/category'|alink }}/{{post.category.id}}">{{post.category.title}}</a></td>
+                            <td>{{ mf.status_name(post.status) }}</td>
+                            <td>{{ post.views }}</td>
+                            <td class="actions">
+                                <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/kb/article'|alink }}/{{post.id}}"><i class="fe fe-edit"></i></a>
+                                <a class="btn btn-sm bg-danger-transparent  text-danger  api-link" data-api-confirm="Are you sure?" data-api-redirect="{{'kb'|alink}}" href="{{ 'api/admin/kb/article_delete'|link({'id' : post.id}) }}"><i class="fe fe-trash"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                    </div>
+
+
+                    <div class="tab-pane" id="tab-new-article">
+                        <form method="post" action="{{ 'api/admin/kb/article_create'|link }}" class="api-form" data-api-reload="1">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Category' %}:</label>
+                                    <div class="formRight">
+                                        {{ mf.selectbox('kb_article_category_id', admin.kb_category_get_pairs, request.kb_article_category_id, 1) }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Title' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text"  class="form-control" name="title" value="{{request.title}}" required="required" placeholder=""/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Status' %}:</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="status" value="draft" checked="checked"/><span>{% trans 'Draft' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="status" value="active"/><span>{% trans 'Active' %}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Content' %}</label>
+                                    <div class="formRight">
+                                        <textarea class="form-control"  name="content" cols="5" rows="10">{{ request.content }}</textarea>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Create' %}</button>
+
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="tab-new-category">
+
+                        <form method="post" action="{{ 'api/admin/kb/category_create'|link }}" class="save api-form" data-api-reload="{% trans 'Category created' %}">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Title' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text"  class="form-control" name="title" value="" required="required"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Description' %}:</label>
+                                    <div class="formRight">
+                                         <textarea class="form-control" name="description" cols="5" rows="20"></textarea>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Create' %}</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="tab-categories">
+                        <table class="tableStatic wide">
+                            <tbody>
+                                {% for cat_id, cat_title in admin.kb_category_get_pairs %}
+                                <tr {% if loop.first %}class="noborder"{% endif %}>
+                                    <td>{{cat_title}}</td>
+                                    <td class="actions" style="width:13%">
+                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/kb/category'|alink }}/{{cat_id}}"><i class="fe fe-edit"></i></a>
+                                        <a class="btn btn-sm bg-danger-transparent  text-danger   api-link" data-api-confirm="Are you sure?" href="{{ 'api/admin/kb/category_delete'|link({'id' : cat_id}) }}" data-api-redirect="{{'kb/new'|alink}}"><i class="fe fe-trash"></i></a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="3">{% trans 'The list is empty' %}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="fix"></div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#tableStaff").DataTable();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{
+    "id": "sociallogin",
+    "type": "mod",
+    "name": "Socialogin",
+    "description": "Login with social networks",
+    "homepage_url": "https://control-webpanel.com/",
+    "author": "Centos Web Panel",
+    "author_url": "https://control-webpanel.com/",
+    "license": "https://control-webpanel.com/",
+    "version": "1.0.0",
+    "icon_url": null,
+    "download_url": null,
+    "project_url": "https://control-webpanel.com/",
+    "minimum_boxbilling_version": null,
+    "maximum_boxbilling_version": null
+}

@@ -1,0 +1,105 @@
+{% extends "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set active_menu = 'kb' %}
+{% block meta_title %}{{ post.title}}{% endblock %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'kb'|alink }}">{% trans 'Knowledge Base' %}</a></li>
+    <li class="breadcrumb-item active">{{ post.title}}</li>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="help">
+            <h5>{{ post.title}}</h5>
+        </div>
+
+        <form method="post" action="{{ 'api/admin/kb/article_update'|link }}" class="save api-form" data-api-msg="{% trans 'Article updated' %}">
+
+                <textarea name="content" cols="5" rows="40" class="bb-textarea form-control">{{ post.content }}</textarea>
+                <button type="submit" value="" class="btn btn-primary submitForm mt-1"/><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                <input type="hidden" name="id" value="{{ post.id }}"/>
+
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="help">
+            <h5>{% trans 'Article details' %}</h5>
+        </div>
+
+        <form method="post" action="{{ 'api/admin/kb/article_update'|link }}" class="save api-form" data-api-msg="{% trans 'Article updated' %}">
+
+                <div class="rowElem noborder">
+                    <label>{% trans 'Category' %}:</label>
+                    <div class="formRight">
+                        {{ mf.selectbox('kb_article_category_id', admin.kb_category_get_pairs, post.kb_article_category_id, 1) }}
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Title' %}:</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control" name="title" value="{{ post.title }}" required="required"/>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Slug' %}:</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control" name="slug" value="{{ post.slug }}" required="required"/>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Views' %}:</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control" name="views" value="{{ post.views }}" required="required"/>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Status' %}:</label>
+                    <div class="formRight noborder">
+                        <div class="row pt-3">
+                            <div class="col-md-3">
+                                <label class="rdiobox">
+                                    <input type="radio" name="status" value="draft"{% if post.status == 'draft' %} checked="checked"{% endif %}/><span>Draft</span>
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="rdiobox">
+                                    <input type="radio" name="status" value="active"{% if post.status == 'active' %} checked="checked"{% endif %} /><span>Active</span>
+                                </label>
+                            </div>
+                    </div>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                <input type="hidden" name="id" value="{{ post.id }}"/>
+
+        </form>
+
+        <div class="body">
+            <a href="{{ 'kb'|alink }}"  title="" class="btn btn-warning mr10"><i class="fe fe-arrow-left-circle"></i> <span>Go back</span></a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block head %}{{ mf.bb_editor('.bb-textarea') }}{% endblock %}

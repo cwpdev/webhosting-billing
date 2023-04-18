@@ -1,0 +1,5996 @@
+# en_US translation of BoxBilling Application
+# Copyright 2011 -2015 BoxBilling <info@boxbilling.com>
+#
+# Translators:
+# filipety <filip.sich@hotmail.cz>, 2014
+# Petr <kocispetr@seznam.cz>, 2014
+# Tom Bam <tombam@email.cz>, 2017
+# Tom Kadlec <tk@t0m1.com>, 2019
+msgid ""
+msgstr ""
+"Project-Id-Version: BoxBilling\n"
+"POT-Creation-Date: 2015-02-27 08:07+0000\n"
+"PO-Revision-Date: 2022-04-03 21:17-0400\n"
+"Last-Translator: Tom Kadlec <tk@t0m1.com>, 2019\n"
+"Language-Team: Czech (Czech Republic) (http://www.transifex.com/boxbilling/boxbilling/language/cs_CZ/)\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"X-Generator: Poedit 3.0.1\n"
+
+msgid "sq_AL"
+msgstr "Albanian (Albania)"
+
+msgid "ar_DZ"
+msgstr "Arabic (Algeria)"
+
+msgid "ar_BH"
+msgstr "Arabic (Bahrain)"
+
+msgid "ar_EG"
+msgstr "Arabic (Egypt)"
+
+msgid "ar_IQ"
+msgstr "Arabic (Iraq)"
+
+msgid "ar_JO"
+msgstr "Arabic (Jordan)"
+
+msgid "ar_KW"
+msgstr "Arabic (Kuwait)"
+
+msgid "ar_LB"
+msgstr "Arabic (Lebanon)"
+
+msgid "ar_LY"
+msgstr "Arabic (Libya)"
+
+msgid "ar_MA"
+msgstr "Arabic (Morocco)"
+
+msgid "ar_OM"
+msgstr "Arabic (Oman)"
+
+msgid "ar_QA"
+msgstr "Arabic (Qatar)"
+
+msgid "ar_SA"
+msgstr "Arabic (Saudi Arabia)"
+
+msgid "ar_SD"
+msgstr "Arabic (Sudan)"
+
+msgid "ar_SY"
+msgstr "Arabic (Syria)"
+
+msgid "ar_TN"
+msgstr "Arabic (Tunisia)"
+
+msgid "ar_AE"
+msgstr "Arabic (United Arab Emirates)"
+
+msgid "ar_YE"
+msgstr "Arabic (Yemen)"
+
+msgid "be_BY"
+msgstr "Belarusian (Belarus)"
+
+msgid "bg_BG"
+msgstr "Bulgarian (Bulgaria)"
+
+msgid "ca_ES"
+msgstr "Catalan (Spain)"
+
+msgid "zh_CN"
+msgstr "Chinese (China)"
+
+msgid "zh_HK"
+msgstr "Chinese (Hong Kong)"
+
+msgid "zh_SG"
+msgstr "Chinese (Singapore)"
+
+msgid "zh_TW"
+msgstr "Chinese (Taiwan)"
+
+msgid "hr_HR"
+msgstr "Croatian (Croatia)"
+
+msgid "cs_CZ"
+msgstr "Czech (Czech Republic)"
+
+msgid "da_DK"
+msgstr "Danish (Denmark)"
+
+msgid "nl_BE"
+msgstr "Dutch (Belgium)"
+
+msgid "nl_NL"
+msgstr "Dutch (Netherlands)"
+
+msgid "en_AU"
+msgstr "English (Australia)"
+
+msgid "en_CA"
+msgstr "English (Canada)"
+
+msgid "en_IN"
+msgstr "English (India)"
+
+msgid "en_IE"
+msgstr "English (Ireland)"
+
+msgid "en_MT"
+msgstr "English (Malta)"
+
+msgid "en_NZ"
+msgstr "English (New Zealand)"
+
+msgid "en_PH"
+msgstr "English (Philippines)"
+
+msgid "en_SG"
+msgstr "English (Singapore)"
+
+msgid "en_ZA"
+msgstr "English (South Africa)"
+
+msgid "en_GB"
+msgstr "English (United Kingdom)"
+
+msgid "en_US"
+msgstr "English (United States)"
+
+msgid "et_EE"
+msgstr "Estonian (Estonia)"
+
+msgid "fi_FI"
+msgstr "Finnish (Finland)"
+
+msgid "fr_BE"
+msgstr "French (Belgium)"
+
+msgid "fr_CA"
+msgstr "French (Canada)"
+
+msgid "fr_FR"
+msgstr "French (France)"
+
+msgid "fr_LU"
+msgstr "French (Luxembourg)"
+
+msgid "fr_CH"
+msgstr "French (Switzerland)"
+
+msgid "de_AT"
+msgstr "German (Austria)"
+
+msgid "de_DE"
+msgstr "German (Germany)"
+
+msgid "de_LU"
+msgstr "German (Luxembourg)"
+
+msgid "de_CH"
+msgstr "German (Switzerland)"
+
+msgid "el_CY"
+msgstr "Greek (Cyprus)"
+
+msgid "el_GR"
+msgstr "Greek (Greece)"
+
+msgid "iw_IL"
+msgstr "Hebrew (Israel)"
+
+msgid "hi_IN"
+msgstr "Hindi (India)"
+
+msgid "hu_HU"
+msgstr "Hungarian (Hungary)"
+
+msgid "is_IS"
+msgstr "Icelandic (Iceland)"
+
+msgid "in_ID"
+msgstr "Indonesian (Indonesia)"
+
+msgid "ga_IE"
+msgstr "Irish (Ireland)"
+
+msgid "it_IT"
+msgstr "Italian (Italy)"
+
+msgid "it_CH"
+msgstr "Italian (Switzerland)"
+
+msgid "ja_JP"
+msgstr "Japanese (Japan)"
+
+msgid "ja_JP_JP"
+msgstr "Japanese (Japan,JP)"
+
+msgid "ko_KR"
+msgstr "Korean (South Korea)"
+
+msgid "lv_LV"
+msgstr "Latvian (Latvia)"
+
+msgid "lt_LT"
+msgstr "Lithuanian (Lithuania)"
+
+msgid "mk_MK"
+msgstr "Macedonian (Macedonia)"
+
+msgid "ms_MY"
+msgstr "Malay (Malaysia)"
+
+msgid "mt_MT"
+msgstr "Maltese (Malta)"
+
+msgid "no_NO"
+msgstr "Norwegian (Norway)"
+
+msgid "no_NO_NY"
+msgstr "Norwegian (Norway,Nynorsk)"
+
+msgid "pl_PL"
+msgstr "Polish (Poland)"
+
+msgid "pt_BR"
+msgstr "Portuguese (Brazil)"
+
+msgid "pt_PT"
+msgstr "Portuguese (Portugal)"
+
+msgid "ro_RO"
+msgstr "Romanian (Romania)"
+
+msgid "ru_RU"
+msgstr "Russian (Russia)"
+
+msgid "sr_BA"
+msgstr "Serbian (Bosnia and Herzegovina)"
+
+msgid "sr_ME"
+msgstr "Serbian (Montenegro)"
+
+msgid "sr_CS"
+msgstr "Serbian (Serbia and Montenegro)"
+
+msgid "sr_RS"
+msgstr "Serbian (Serbia)"
+
+msgid "sk_SK"
+msgstr "Slovak (Slovakia)"
+
+msgid "sl_SI"
+msgstr "Slovenian (Slovenia)"
+
+msgid "es_AR"
+msgstr "Spanish (Argentina)"
+
+msgid "es_BO"
+msgstr "Spanish (Bolivia)"
+
+msgid "es_CL"
+msgstr "Spanish (Chile)"
+
+msgid "es_CO"
+msgstr "Spanish (Colombia)"
+
+msgid "es_CR"
+msgstr "Spanish (Costa Rica)"
+
+msgid "es_DO"
+msgstr "Spanish (Dominican Republic)"
+
+msgid "es_EC"
+msgstr "Spanish (Ecuador)"
+
+msgid "es_SV"
+msgstr "Spanish (El Salvador)"
+
+msgid "es_GT"
+msgstr "Spanish (Guatemala)"
+
+msgid "es_HN"
+msgstr "Spanish (Honduras)"
+
+msgid "es_MX"
+msgstr "Spanish (Mexico)"
+
+msgid "es_NI"
+msgstr "Spanish (Nicaragua)"
+
+msgid "es_PA"
+msgstr "Spanish (Panama)"
+
+msgid "es_PY"
+msgstr "Spanish (Paraguay)"
+
+msgid "es_PE"
+msgstr "Spanish (Peru)"
+
+msgid "es_PR"
+msgstr "Spanish (Puerto Rico)"
+
+msgid "es_ES"
+msgstr "Spanish (Spain)"
+
+msgid "es_US"
+msgstr "Spanish (United States)"
+
+msgid "es_UY"
+msgstr "Spanish (Uruguay)"
+
+msgid "es_VE"
+msgstr "Spanish (Venezuela)"
+
+msgid "sv_SE"
+msgstr "Swedish (Sweden)"
+
+msgid "th_TH"
+msgstr "Thai (Thailand)"
+
+msgid "tr_TR"
+msgstr "Turkish (Turkey)"
+
+msgid "uk_UA"
+msgstr "Ukrainian (Ukraine)"
+
+msgid "vi_VN"
+msgstr "Vietnamese (Vietnam)"
+
+msgid "Mod object is not set for the service"
+msgstr "Objekt Mod není pro službu nastaven"
+
+msgid "Method :method must contain underscore"
+msgstr "Metoda :method musí obsahovat podtržítko"
+
+msgid "Invalid module name"
+msgstr "Nesprávný název modulu"
+
+msgid "BoxBilling module :mod is not installed/activated"
+msgstr "Modil :mod není nainstalován/aktivován"
+
+msgid "You do not have access to :mod module"
+msgstr "Nemáte přístup k modulu :mod"
+
+msgid "Api class must be instance of Api_Abstract"
+msgstr "API třída musí být instance Api_Abstract"
+
+msgid ":type API call :method does not exist in module :module"
+msgstr ":type API volá metodu :method , která neexistuje v modulu :module"
+
+msgid "Page :url not found"
+msgstr "Stránka :url nebyla nalezena"
+
+msgid "Page not found"
+msgstr "Stránka nenalezena"
+
+msgid "php mcrypt extension must be enabled on your server"
+msgstr "Rozšíření php mcrypt musí být povoleno na vašem serveru"
+
+msgid "CURL extension is not enabled"
+msgstr "CURL rozšíření je vypnuto"
+
+msgid "Unable to connect to BoxBilling extensions site."
+msgstr "Nemohu se připojit ke stránce s rozšířeními."
+
+msgid "FTP extension is not enabled in PHP. You will not be able to use automatic updates and other automation."
+msgstr "FTP rozšíření není povoleno v PHP. Nebudete moci získávat aktualizace a ostatní automatizace."
+
+msgid "The ftp PHP extension is not available"
+msgstr "FTP není v PHP dostupné"
+
+msgid "FTP hostname is required"
+msgstr "FTP hostname je povinné"
+
+msgid "FTP username is required"
+msgstr "FTP uživatelské jméno je povinné"
+
+msgid "FTP password is required"
+msgstr "FTP heslo je povinné"
+
+msgid "Failed to connect to FTP Server :host : :port"
+msgstr "Nemohu se připojit k FTP serveru :host : :port"
+
+msgid "FTP Username/Password incorrect for :usernmae"
+msgstr "FTP uživatelské jméno/heslo není správné :username"
+
+msgid "BoxBilling license key must be defined in bb-config.php file."
+msgstr "Licenční klíč BoxBilling musí být definován v souboru bb-config.php"
+
+msgid "License is not valid"
+msgstr "Licence není platná"
+
+msgid "Missing log message"
+msgstr "Chybí log zpráv"
+
+msgid "Bad log priority"
+msgstr "Špátná priorita logu"
+
+msgid "Resource is not a stream"
+msgstr "Zdrojem není stream"
+
+msgid "Mode cannot be changed on existing streams"
+msgstr "Mód nemůže být změněn na existujících streamech"
+
+msgid ":stream cannot be opened with mode :mode"
+msgstr ":stream nemůže být otevřen módem :mode"
+
+msgid "Unable to write to stream"
+msgstr "Nemohu zapisovat do streamu"
+
+msgid "Unknown mail transport: :transport"
+msgstr "Neznámý mail tranport: :transport"
+
+msgid "SMTP host not configured"
+msgstr "SMTP host není nastaven"
+
+msgid "SMTP port not configured"
+msgstr "SMTP port není nastaven"
+
+msgid "SMTP hostname is not configured."
+msgstr "SMTP hostname není nastaveno."
+
+msgid "Module :mod manifest file is missing"
+msgstr "Chybí manifest soubor modulu :mod"
+
+msgid "Module :mod manifest file is not valid. Check file syntax and permissions."
+msgstr "Manifest soubor modulu :mod není správný. Zkontrolujte obsah souboru a práva."
+
+msgid "Module :mod does not have service class"
+msgstr "Modul :mod nemá servisní třídu"
+
+msgid "Module :mod Client controller class was not found"
+msgstr "Module :mod Třída klientského řadiče nebyla nalezena"
+
+msgid "Module :mod Admin controller class was not found"
+msgstr "Module :mod Třída řadiče správce nebyla nalezena"
+
+msgid "Core module can not be updated"
+msgstr "Core modul nemůže být aktualizován"
+
+msgid "Invalid period code. Period definition must be 2 chars length"
+msgstr "Neplatný kód období. Definice období musí mít délku 2 znaky"
+
+msgid "Period Error. Unit :unit is not defined"
+msgstr "Chyba periody. Jednotka :unit není definována"
+
+msgid "Invalid period quantity :qty for unit :unit. Allowed range is from :from to :to"
+msgstr "Špatné množství periody :qty pro jednotku :unit. Povolené rozpětí je od :from do :to"
+
+msgid "Every week"
+msgstr "Každý týden"
+
+msgid "Every month"
+msgstr "Každý měsíc"
+
+msgid "Every 3 months"
+msgstr "Laždé 3 měsíce"
+
+msgid "Every 6 months"
+msgstr "Každých 6 měsíců"
+
+msgid "Every year"
+msgstr "Každý rok"
+
+msgid "Every 2 years"
+msgstr "Každé 2 roky"
+
+msgid "Every 3 years"
+msgstr "Každé 3 roky"
+
+msgid "Every :number day"
+msgstr "Každý :number den"
+
+msgid "Every :number week(s)"
+msgstr "Každý :number týden"
+
+msgid "Every :number months"
+msgstr "Každý :number měsíc"
+
+msgid "Every :number years"
+msgstr "Každý :number rok"
+
+msgid "Unit not defined"
+msgstr "Jdnotka není definována"
+
+msgid "Can not determine months amount from unit"
+msgstr "Nemohu určit počet měsíců z jednotky"
+
+msgid "Service class :class was not found in :path"
+msgstr "Servisní třída :class nebyla nalezena v :path"
+
+msgid "second"
+msgstr "vteřina"
+
+msgid "minute"
+msgstr "minuta"
+
+msgid "hour"
+msgstr "hodina"
+
+msgid "day"
+msgstr "den"
+
+msgid "week"
+msgstr "týden"
+
+msgid "month"
+msgstr "měsíc"
+
+msgid "year"
+msgstr "rok"
+
+msgid "decade"
+msgstr "desetiletí"
+
+msgid "Missing mods param for Box_TwigLoader"
+msgstr "Chybí parametr modů pro Box_TwigLoader"
+
+msgid "Missing theme param for Box_TwigLoader"
+msgstr "Chybí parametr motivu pro Box_TwigLoader"
+
+msgid "Missing type param for Box_TwigLoader"
+msgstr "Chybí parametr typu pro Box_TwigLoader"
+
+msgid "Email is not valid"
+msgstr "Email není správný"
+
+msgid "Password too short!"
+msgstr "Heslo je moc krátké!"
+
+msgid "Password must include at least one number!"
+msgstr "Heslo musí obsahovat alespoň jedno číslo!"
+
+msgid "Password must include at least one letter!"
+msgstr "Heslo musí obsahovat alespoň jedno písmeno!"
+
+msgid "File :file does not exist"
+msgstr "Soubor :file neexistuje"
+
+msgid "Invalid zip file"
+msgstr "Špatný zip archiv"
+
+msgid "Zip extraction failed"
+msgstr "Nepodařilo se extrahovat zip soubor"
+
+msgid "This is a last message in topic. Remove topic in order to remove this message."
+msgstr "Toto je poslední zpráva v tématu. Odeberte toto téma k odebrání této zprávy."
+
+msgid "Could not determine domain price. Domain action is missing"
+msgstr "Nemohu určit cenu domény. Akce domény chybí"
+
+msgid "Unknown TLD. Could not determine registration price"
+msgstr "Neznámé TLD. Nemohu určit registrační cenu"
+
+msgid "Domain product can not be removed."
+msgstr "Produkt domény nemůže být odebrán."
+
+msgid "Unknown period selected "
+msgstr "Vybráno neznámé období"
+
+msgid "Product pricing could not be determined. "
+msgstr "Cena produktu nemohla být zjištěna"
+
+msgid "Unknown Period selected for setup price"
+msgstr "Neznámé platební období pro cenu instalace"
+
+msgid "Product :id payment type is recurrent, but period was not selected"
+msgstr "Produkt  :id má opakující se zúčtování, ale perioda nebyla vybrána"
+
+msgid "Unknown Period selected for price"
+msgstr "Neznámá perioda pro vybranou cenu"
+
+msgid "Payment for invoice :serie:id [:title]"
+msgstr "Platba pro fakturu :serie:id [:title]"
+
+msgid "Card number"
+msgstr "Číslo karty"
+
+msgid "CVV2"
+msgstr "CVV2"
+
+msgid "Expiration Date"
+msgstr "Datum platnosti"
+
+msgid "Name"
+msgstr "Jméno"
+
+msgid "Address"
+msgstr "Adresa"
+
+msgid "City"
+msgstr "Město"
+
+msgid "State"
+msgstr "Stát"
+
+msgid "Zipcode"
+msgstr "PSČ"
+
+msgid "Phone"
+msgstr "Číslo"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Pay now"
+msgstr "Zaplatit nyní"
+
+msgid "Redirecting to PayPal.com"
+msgstr "Přesměrovávám na PayPal.com"
+
+msgid "Redirecting to Payza.com"
+msgstr "Přesměrovávám na Payza.com"
+
+msgid "Redirecting to 2Checkout.com"
+msgstr "Přesměrovávám na 2Checkout.com"
+
+msgid "Payment amount is too small."
+msgstr "Výše platby je příliš malá."
+
+msgid "Payment amount is too big."
+msgstr "Výše platby je příliš velká."
+
+msgid "Selected currency is not available."
+msgstr "Vybraná měna není k dispozici."
+
+msgid "Amount or currency is missing."
+msgstr "Chybí částka nebo měna."
+
+msgid "projectId is missing or such ID does not exist."
+msgstr "projectId chybí nebo takové ID neexistuje."
+
+msgid "Testing mode is turned off, but you have still tried to make a test payment."
+msgstr "Testovací režim je vypnutý, ale přesto jste se pokusili provést zkušební platbu."
+
+msgid "You have banned this way of payment."
+msgstr "Tento způsob plateb jste zakázal."
+
+msgid "Coding of variable \"paytext\" is not suitable (has to be utf-8)."
+msgstr "Kódování proměnné \"paytext\" není vhodné (musí být utf-8)."
+
+msgid "Empty or not correctly filled \"orderID\"."
+msgstr "Prázdné nebo nesprávně vyplněné \"orderID\"."
+
+msgid "Project has not been checked by our administrator."
+msgstr "Projekt nebyl zkontrolován naším administrátorem."
+
+msgid "Accepturl, cancellurl, callbacurl or referer base address differs from the addresses confirmed in the project."
+msgstr "Accepturl, cancellurl, callbacurl nebo referenční základní adresa se liší od adres potvrzených v projektu."
+
+msgid "Invalid \"sign\" parameter."
+msgstr "Neplatný parametr \"sign\"."
+
+msgid "At least one of these parameters is incorrect: cancelurl, accepturl, callbackurl."
+msgstr "Alespoň jeden z těchto parametrů je nesprávný: cancelurl, accepturl, callbackurl."
+
+msgid "Parameter time_limit is not valid (wrong format or not valid value)"
+msgstr "Parametr time_limit není platný (nesprávný formát nebo neplatná hodnota)"
+
+msgid "Unknown error"
+msgstr "Neznámá chyba"
+
+#, php-format
+msgid "'%s' is required but missing."
+msgstr "'%s' je povinné, ale chybí."
+
+#, php-format
+msgid "'%s' value '%s' is too long, %d characters allowed."
+msgstr "'%s' hodnota '%s' je to moc dlouhé, %d povoleny znaky."
+
+#, php-format
+msgid "'%s' value '%s' is invalid."
+msgstr "'%s' hodnota '%s' je neplatný."
+
+#, php-format
+msgid "Can't get openssl public key for %s"
+msgstr "Nelze získat veřejný klíč openssl pro %s"
+
+#, php-format
+msgid "Can't verify SS2 for %s"
+msgstr "Nelze ověřit SS2 pro %s"
+
+#, php-format
+msgid "'%s' must exists in array of second parameter of checkResponse() method."
+msgstr "'%s' musí existovat v poli druhého parametru metody checkResponse()."
+
+#, php-format
+msgid "'%s' yours and requested value is not equal ('%s' != '%s') "
+msgstr "'%s' vaše a požadovaná hodnota není stejná ('%s' != '%s') "
+
+msgid "Can't verify SS1 v2"
+msgstr "Nelze ověřit SS1 v2"
+
+msgid "Directory "
+msgstr "Adresář"
+
+#, php-format
+msgid "Can't connect to %s"
+msgstr "Nelze se připojit k %s"
+
+msgid "fsockopen fail!"
+msgstr "fsockopen selhal!"
+
+#, php-format
+msgid "Incompatible library and response versions: libwebtopay %s, response %s"
+msgstr "Nekompatibilní verze knihovny a odpovědí: libwebtopay%s, Odezva %s"
+
+#, php-format
+msgid "Bad projectid: libwebtopay %s, response %s"
+msgstr "Špatné projectid: libwebtopay%s, Odezva %s"
+
+#, php-format
+msgid "Returned transaction status is %d, successful status should be 1."
+msgstr "Stav vrácené transakce je %d, úspěšný stav by měl být 1."
+
+#, php-format
+msgid "Can't write to logfile: %s"
+msgstr "Nelze zapsat do souboru protokolu:%s"
+
+#, php-format
+msgid "Error: %s"
+msgstr "Chyba: %s"
+
+msgid "No whois server for this tld in list!"
+msgstr "Žádný whois server pro tento TLD v seznamu!"
+
+msgid "Whois server "
+msgstr "server Whois"
+
+msgid "Could not connect to whois :server server"
+msgstr "Nemohu se připojit k whois :server server"
+
+msgid "ID is required"
+msgstr "ID je vyžadováno"
+
+msgid "Event not found"
+msgstr "Akce nenalezena"
+
+msgid "Unknown API call :call"
+msgstr "Neznámé volání API :call"
+
+msgid "Unauthorized IP"
+msgstr "Neoprávněná IP"
+
+msgid "Request limit reached"
+msgstr "Byl dosažen limit požadavků"
+
+msgid "Invalid request. Make sure request origin is :from"
+msgstr "Neplatná žádost. Ujistěte se, že původ požadavku je :from"
+
+msgid "Currency not found"
+msgstr "Měna nebyla nalezena"
+
+msgid "Promo code is expired or does not exist"
+msgstr "Promokód expiroval nebo nebyl nalezen"
+
+msgid "Promo can not be applied to your account"
+msgstr "Promo akci nelze uplatnit na váš účet"
+
+msgid "Period parameter not passed"
+msgstr "Parametr období nebyl předán"
+
+msgid "Selected billing period is not valid"
+msgstr "Vybrané platební období není platné"
+
+msgid "I'm afraid we are out of stock."
+msgstr "Je mi líto, ale zásoby nám už došly."
+
+msgid "Addon period parameter not passed"
+msgstr "Období příplatkové služby nebylo předáno"
+
+msgid "Selected billing period is not valid for addon"
+msgstr "Vybrané platební období není pro příplatek platné"
+
+msgid "Product not found"
+msgstr "Produkt nenalezen"
+
+msgid "Add products to cart before applying promo code"
+msgstr "Přidejte produkty do košíku před použitím slevového kupónu"
+
+msgid "Promo not found"
+msgstr "Slevový kupón nenalezen"
+
+msgid "You have already used this promo code. Please remove promo code and checkout again."
+msgstr "Tento propagační kód jste již použili. Odstraňte prosím propagační kód a zaplaťte znovu."
+
+msgid "Can not checkout empty cart."
+msgstr "Nelze zaplatit prázdný košík."
+
+msgid "Selected currency :selected does not match your profile currency :code. Please change cart currency to continue."
+msgstr "Vybraná měna :selected neodpovídá měně vašeho profilu: kód. Chcete-li pokračovat, změňte měnu košíku."
+
+msgid ":product setup"
+msgstr ":product nastavení"
+
+msgid ":product_title"
+msgstr ":product_title"
+
+msgid "ID required"
+msgstr "ID je povinné"
+
+msgid "Client not found"
+msgstr "Zákazník nenalezen"
+
+msgid "Email required"
+msgstr "Email je povinný"
+
+msgid "First name is required"
+msgstr "Jméno je povinné"
+
+msgid "Email is already registered."
+msgstr "Email je již registrován."
+
+msgid "Client id is missing"
+msgstr "ID zákazníka chybí"
+
+msgid "Id required"
+msgstr "ID je povinné"
+
+msgid "Can not change email. It is already registered."
+msgstr "Nemohu změnit email. Tento email je již registrovaný."
+
+msgid "Invalid birth date value"
+msgstr "Neplatná hodnota data narození"
+
+msgid "Client ID is required"
+msgstr "Id zákazníka je povinné"
+
+msgid "Password required"
+msgstr "Heslo je povinné"
+
+msgid "Password confirmation required"
+msgstr "Ověření hesla je povinné"
+
+msgid "Passwords do not match"
+msgstr "Hesla se neshodují"
+
+msgid "Balance line not found"
+msgstr "Řádek balance nenalezen"
+
+msgid "Amount is required"
+msgstr "Částka je povinná"
+
+msgid "Description is required"
+msgstr "Popis je povinný"
+
+msgid "Group title is missing"
+msgstr "Název skupiny chybí"
+
+msgid "Group id is missing"
+msgstr "ID skupiny chybí"
+
+msgid "Group not found"
+msgstr "Skupina nenalezena"
+
+msgid "Email can not be changed"
+msgstr "E-mail nelze změnit"
+
+msgid "Passwords do not match."
+msgstr "Hesla se neshodují."
+
+msgid "New registrations are temporary disabled"
+msgstr "Nové registace jsou dočasně pozastaveny"
+
+msgid "First name required"
+msgstr "Jméno je povinné"
+
+msgid "It is required that you provide details for field \":field\""
+msgstr "Je vyžadováno, abyste uvedli podrobnosti pro pole \":field\""
+
+msgid "Email is already registered. You may want to login instead of registering."
+msgstr "Email je již registrován. Možná jste se chtěli přihlásit místo registrace..."
+
+msgid "Account has been created. Please check your mailbox and confirm email address."
+msgstr "Účet byl vytvořen. Zkontrolujte poštovní schránku a potvrďte e-mailovou adresu."
+
+msgid "Please check your login details"
+msgstr "Prosím zkontrolujte přihlašovací údaje"
+
+msgid "Email not found in our database"
+msgstr "Email nebyl nalezen v naší databázi"
+
+msgid "Hash required"
+msgstr "Hash je povinný"
+
+msgid "The link have expired or you have already confirmed password reset."
+msgstr "Odkaz expiroval, nebo jste již potvrdili reset hesla."
+
+msgid "Country code is required"
+msgstr "Kód země je povinný"
+
+msgid "Email address was confirmed"
+msgstr "Emailová adresa byla ověřena"
+
+msgid "Invalid email confirmation link"
+msgstr "Neplatný odkaz pro potvrzení emailu"
+
+msgid "Currency can not be changed. Client already have invoices issued."
+msgstr "Měna již nemůže být změněna. Klient má vystavenou fakturu."
+
+msgid "Currency can not be changed. Client already have orders."
+msgstr "Měna již nemůže být změněna. Klient má objednávku."
+
+msgid "Define clients currency before adding funds."
+msgstr "Vybete měnu klientů před přidáváním peněz."
+
+msgid "Funds amount is not valid"
+msgstr "Částka není správná"
+
+msgid "Funds description is not valid"
+msgstr "Popis není správný"
+
+msgid "Client ID or email is required"
+msgstr "ID zákazníka, nebo email je povinný"
+
+msgid "Can not remove group with clients"
+msgstr "Nemohu odebrat skupinu s klienty"
+
+msgid "Please check your mailbox and confirm email address."
+msgstr "Prosím zkontrolujte svoji emailovou schránku a potvrďte email."
+
+msgid "Currency code is missing"
+msgstr "Kód měny chybí"
+
+msgid "Currency format is missing"
+msgstr "Formát měny chybí"
+
+msgid "Currency already registered"
+msgstr "Měna je už registrována"
+
+msgid "Currency code is not valid"
+msgstr "Kód měny není platný"
+
+msgid "Currency conversion rate can not be zero"
+msgstr "Kurz měny nemůže být nulový"
+
+msgid "Currency code not provided"
+msgstr "Kód měny nebyl zadán"
+
+msgid "Can not remove default currency"
+msgstr "Nemohu odebrat výchozí měnu"
+
+msgid "Currency code not found"
+msgstr "Kód měny nebyl nalezen"
+
+msgid "Currency rate is not valid"
+msgstr "Kurz měny není platný"
+
+msgid "Email ID is required"
+msgstr "ID emailu je povinné"
+
+msgid "Receiver Email is required"
+msgstr "Email příjemce je povinný"
+
+msgid "Receiver Name is required"
+msgstr "Jméno příjemce je povinné"
+
+msgid "Sender Name is required"
+msgstr "Jmeno odesílatele je povinné"
+
+msgid "Sender email is required"
+msgstr "Email odesílatele je povinný"
+
+msgid "Email subject is required"
+msgstr "Předmět emailu je povinný"
+
+msgid "Email content is required"
+msgstr "Obsah emailu je povinný"
+
+msgid "Email not found"
+msgstr "Email nenalezen"
+
+msgid "Email template ID is required"
+msgstr "ID šablony emailu je povinné"
+
+msgid "Email template not found"
+msgstr "Šablona emailu nebyla nalezena"
+
+msgid "Email template code is required"
+msgstr "Kód emailové šablony je povinný"
+
+msgid "Email template subject is required"
+msgstr "Předmět šablony emailu je povinný"
+
+msgid "Email template content is required"
+msgstr "Obsah šablony je povinný"
+
+msgid "Email template code was not passed"
+msgstr "Kód šablony emailu nebyl předán"
+
+msgid "Template code not passed"
+msgstr "Kód šablony nebyl předán"
+
+msgid "Receiver is not defined. Define to or to_client or to_staff parameter"
+msgstr "Příjemce nebyl definován. Definujte to, nebo to_client, nebo to_staff parametr"
+
+msgid "From email address can not be empty"
+msgstr "Položka OD nemůže být prázdná"
+
+msgid "Email template :code was not found"
+msgstr "Emailová šablona :code nebyla nalezena"
+
+msgid "You have failed to login too many times. Contact support."
+msgstr "Příliš mnohokrát se vám nepodařilo přihlásit. Kontaktujte podporu."
+
+msgid "You have latest version of BoxBilling. You do not need to update."
+msgstr "Máte poslední verzi platformy. Nepotřebujete update."
+
+msgid "Extension id was not passed"
+msgstr "ID rozšíření nebylo předáno"
+
+msgid "Extension type was not passed"
+msgstr "Typ rozšíření nebyl předán"
+
+msgid "Parameter ext was not passed"
+msgstr "Parametr rozšíření nebyl předán"
+
+msgid "Extension not found"
+msgstr "Rozšíření nenalezeno"
+
+msgid "Parameter ext is missing"
+msgstr "Chybí parametr ext"
+
+msgid "Could not retrieve version information for extension :ext"
+msgstr "Nemohu získat informace o verzi z rozšíření :ext"
+
+msgid "Latest :mod version installed. No need to update"
+msgstr "Máte nainstalovánu poslední verzi modulu :mod. Nepotřebujete update"
+
+msgid "Could not retrieve :ext information"
+msgstr "Nemohu získat informace o :ext"
+
+msgid "Visit extension site for update information."
+msgstr "Navštivte stránku s rozšířenímu pro informaci a aktualizaci."
+
+msgid "BoxBilling core modules can not be managed"
+msgstr "Core moduly nemohou být spravovány"
+
+msgid "Could not extract extension zip file"
+msgstr "Nemohu extrahovat zip soubor s rozšířením"
+
+msgid "Module already installed."
+msgstr "Modul je již nainstalován."
+
+msgid "Extension can not be moved. Make sure your server write permissions to bb-modules folder."
+msgstr "Rozšíření nemůže být přemístěno. Zkontrolujte zda máte práva k zápisu do bb-modules složky."
+
+msgid "Extension can not be moved. Make sure your server write permissions to bb-themes folder."
+msgstr "Rozšíření nemůže být přemístěno. Zkontrolujte zda máte práva k zápisu do bb-themes složky."
+
+msgid "Extension can not be moved. Make sure your server write permissions to bb-locale folder."
+msgstr "Rozšíření nemůže být přemístěno. Zkontrolujte zda máte práva k zápisu do bb-locale složky."
+
+msgid "Extension does not support auto-install feature. Extension must be installed manually"
+msgstr "Rozšíření nepodporuje funkci automatické instalace. Rozšíření je nutné nainstalovat ručně"
+
+msgid "BoxBilling core modules can not be installed or removed"
+msgstr "Core moduly nemohou být instalovány ani odebrány"
+
+msgid "Module can not be installed. It requires at least :min version of BoxBilling. You are using :v"
+msgstr "Modul nemůže být nainstalován. Vyžaduje minimálně :min verzi BoxBilling. Používáte :v"
+
+msgid "path parameter is missing"
+msgstr "parametr cesty chybí"
+
+msgid "Data parameter is missing"
+msgstr "Parametr dat chybí"
+
+msgid "Path parameter is missing"
+msgstr "Parametr cesty chybí"
+
+msgid "Type parameter is missing"
+msgstr "Typ parametr chybí"
+
+msgid "To parameter is missing"
+msgstr "Parametr To chybí"
+
+msgid "File does not exist"
+msgstr "Soubor neexistuje"
+
+msgid "Directory already exists"
+msgstr "Složka již existuje"
+
+msgid "Unknown item type"
+msgstr "Neznámý typ položky"
+
+msgid "Form name was not provided"
+msgstr "Nebyl zadán název formuláře"
+
+msgid "Form style was not found in predefined list"
+msgstr "Styl formuláře nebyl v předdefinovaném seznamu nalezen"
+
+msgid "Form field type is not valid"
+msgstr "Typ pole formuláře není platný"
+
+msgid "This input type must have unique values"
+msgstr "Tento typ vstupu musí mít jedinečné hodnoty"
+
+msgid "Form id was not passed"
+msgstr "ID formuláře nebylo poskytnuto"
+
+msgid "Field id was not passed"
+msgstr "ID pole nebylo předáno"
+
+msgid "Form name was not passed"
+msgstr "Název formuláře nebyl předán"
+
+msgid "Form type was not passed"
+msgstr "Typ formuláře nebyl předán"
+
+msgid "Field type not supported"
+msgstr "Typ pole není podporován"
+
+msgid "Field name can not start with number."
+msgstr "Název pole nemůže začínat číslem."
+
+msgid "Field name can not be empty. Please make sure it is not empty and does not contain special characters."
+msgstr "Název pole nesmí být prázdný. Ujistěte se, že není prázdný a neobsahuje speciální znaky."
+
+msgid "Unfortunately field with this name exists in this form already. Form must have different field names."
+msgstr "Bohužel pole s tímto názvem již v této podobě existuje. Formulář musí mít různé názvy polí."
+
+msgid " values must be unique"
+msgstr " hodnoty musí být unikátní"
+
+msgid " labels must be unique"
+msgstr "štítky musí být jedinečné"
+
+msgid "Textarea size options must be integer values"
+msgstr "Volby velikosti textové oblasti musí být celočíselné hodnoty"
+
+msgid "Form not found"
+msgstr "Formulář nenalezen"
+
+msgid "Field was not found"
+msgstr "Pole nebylo nalezeno"
+
+msgid "Forum id missing"
+msgstr "ID fóra chybí"
+
+msgid "Forum title is missing"
+msgstr "Název fóra chybí"
+
+msgid "priority params is missing"
+msgstr "parametry priority chybí"
+
+msgid "Topic id is missing"
+msgstr "ID tématu chybí"
+
+msgid "Forum ID not passed"
+msgstr "ID fóra nebylo předáno"
+
+msgid "Forum topic title not passed"
+msgstr "Název tématu fóra nebylo předáno"
+
+msgid "Forum topic message not passed"
+msgstr "Zpráva tématu nebyla předána"
+
+msgid "Your message is too short"
+msgstr "Vaše zpráva je moc krátká"
+
+msgid "Forum topic id missing"
+msgstr "ID tématu chybí"
+
+msgid "Forum Topic message ID not passed"
+msgstr "ID zprávy tématu nebylo předáno"
+
+msgid "Forum Topic ID not passed"
+msgstr "ID tématu fóra nebylo předáno"
+
+msgid "Topic message not passed"
+msgstr "Zpráva tématu nebyla předána"
+
+msgid "Message ID not passed"
+msgstr "ID zprávy nebylo předáno"
+
+msgid "Client ID not passed"
+msgstr "ID klienta nebylo předáno"
+
+msgid "Amount not passed"
+msgstr "Částka nebyla předána"
+
+msgid "ID or slug is missing"
+msgstr "ID, nebo slug chybí"
+
+msgid "Forum not found"
+msgstr "Forum nenalezeno"
+
+msgid "Forum Topic not found"
+msgstr "Téma fóra nenalezeno"
+
+msgid "Forum topic not passed"
+msgstr "Téma fóra nebylo předáno"
+
+msgid "Forum message not passed"
+msgstr "Zpráva fór nebyla předána"
+
+msgid "Forum is locked. No new topics can be started"
+msgstr "Fórum je zamčeno. Žádná nová témata nemohou být začata"
+
+msgid "Forum topic is locked. No new message can be posted"
+msgstr "Téma fóra je zamčeno. Žádné nové zprávy nemohou být přidány"
+
+msgid "Enter some keywords for search"
+msgstr "Vložte některá klíčová slova pro hledání"
+
+msgid "Search keyword must be longer than 3 characters"
+msgstr "Hledané slovo musí být delší jak 3 znaky"
+
+msgid "Message not found"
+msgstr "Zpráva nenalezena"
+
+msgid "Hook event not passed"
+msgstr "Událost Hook neprošla"
+
+msgid "Param mod not passed"
+msgstr "Param mod neprošel"
+
+msgid "Order :id is free. No need to generate invoice."
+msgstr "Objednávka:id je zdarma. Není třeba generovat fakturu."
+
+msgid "Client currency must match subscription currency. Check if clients currency is defined."
+msgstr "Měna klienta musí odpovídat měně předplatného. Zkontrolujte, zda je definována měna klienta."
+
+msgid "Subscription id not passed"
+msgstr "ID předplatného neprošlo"
+
+msgid "Subscription sid not passed"
+msgstr "Předplatné neprošlo"
+
+msgid "Subscription not found"
+msgstr "Odběr nebyl nalezen"
+
+msgid "Invoice was not found"
+msgstr "Faktura nebyla nalazena"
+
+msgid "Paid Invoice can not be modified"
+msgstr "Uhrazenou fakturu nelze upravit"
+
+msgid "Order not found"
+msgstr "Objednávka nebyla nalezena"
+
+msgid "You need to enter numeric value"
+msgstr "Musíte vložit číselnou hodnotu"
+
+msgid "Invoice hash not passed. Missing param hash"
+msgstr "Hash faktury neprošel. Chybí parametr hash"
+
+msgid "Payment method not found. Missing param gateway_id"
+msgstr "Platební metoda nenalezena. Chybí parametr gateway_id"
+
+msgid "Invoice hash is missing"
+msgstr "Chybí hash faktury"
+
+msgid "Can not refund invoice with negative amount"
+msgstr "Nemohu vrátit objednávku, která má zápornou hodnotu"
+
+msgid "Invoice is related to order #:id. Please cancel order first."
+msgstr "Faktura se vztahuje k objednávce #:id. Nejprve prosím zrušte objednávku."
+
+msgid "Invoices are not generated for 0 amount orders"
+msgstr "Faktury se negenerují za objednávky s 0 částkami"
+
+msgid "You must have at least one active order before you can add funds so you cannot proceed at the current time!"
+msgstr "Musíte mít alespoň jednu aktivní objednávku, než budete moct přidávat peníze, takže nyní přidat peníze nemůžete!"
+
+msgid "Amount is not valid"
+msgstr "Částka není platná"
+
+msgid "Invoice not found"
+msgstr "Faktura nenalezena"
+
+msgid "Payment method not found"
+msgstr "Platební metoda nenalezena"
+
+msgid "Payment method not enabled"
+msgstr "Platební metoda není povolena"
+
+msgid "Error converting image to .png"
+msgstr "Při převodu obrázku do formátu .png došlo k chybě"
+
+msgid "Invoice number: "
+msgstr "Číslo faktury:"
+
+msgid "Invoice date: "
+msgstr "Datum faktury:"
+
+msgid "Due date: "
+msgstr "Datum splatnosti:"
+
+msgid "Invoice status: "
+msgstr "Stav faktury:"
+
+msgid "Invoice"
+msgstr "Faktura"
+
+msgid "Name: "
+msgstr "Jméno: "
+
+msgid "Address: "
+msgstr "Adresa: "
+
+msgid "Phone: "
+msgstr "Telefon: "
+
+msgid "Email: "
+msgstr "Email: "
+
+msgid "Company"
+msgstr "Firma"
+
+msgid "Company: "
+msgstr "Firma: "
+
+msgid "Billing and delivery address"
+msgstr "Fakturační a dodací adresa"
+
+msgid "#"
+msgstr "#"
+
+msgid "Title"
+msgstr "Název"
+
+msgid "Price"
+msgstr "Cena"
+
+msgid "Total"
+msgstr "Celkem"
+
+msgid "Discount "
+msgstr "Sleva "
+
+msgid "Payment for invoice :serie:id"
+msgstr "Platba pro fakturu :serie:id"
+
+msgid "Could not activate proforma item. Order :id not found"
+msgstr "Nemohu aktivovat zálohovou faktutu. Objednávka :id nenalezena"
+
+msgid "Invoice item title is missing"
+msgstr "Položka faktury chybí"
+
+msgid "Add funds to account"
+msgstr "Přidejte prostředky na účet"
+
+msgid "Payment gateway is not available for installation."
+msgstr "Platební brána není k dispozici pro instalaci."
+
+msgid "Payment gateway :adapter was not found"
+msgstr "Platební brána :adapter nebyla nalezena"
+
+msgid "Transaction invoice id is missing"
+msgstr "Chybí ID faktury transakce"
+
+msgid "Payment gateway id is missing"
+msgstr "Chybí ID platební brány"
+
+msgid "Gateway was not found"
+msgstr "Brána nebyla nalezena"
+
+msgid "Transaction :id not found."
+msgstr "Transakce :id nenalezeno."
+
+msgid "Could not determine transaction origin. Transaction payment gateway is unknown."
+msgstr "Nemohu určit původ platby. Platební brána je neznámá."
+
+msgid "Can not handle transaction received from unknown payment gateway: :id"
+msgstr "Nelze zpracovat transakci obdrženou z neznámé platební brány: :id"
+
+msgid "Payment adapter :adapter does not support action :action"
+msgstr "Platební adaptér :adapter nepodporuje action :action"
+
+msgid "Unknown transaction #:id type: :type"
+msgstr "Neznámá transakce #:id typ: :type"
+
+msgid "Transaction :id is not associated with an invoice."
+msgstr "Transakce :id není spojena s žádnou fakturou."
+
+msgid "Invoice #:id not found"
+msgstr "Faktura č.: :id nebyla nalezena"
+
+msgid "Instant payment notification (IPN) did not pass gateway :id validation"
+msgstr "Okamžitá platba (IPNú neprošla branou: :id validací"
+
+msgid "Payment gateway :id method getTransaction should return Payment_Transaction object"
+msgstr "Platební brána :id metoda getTransaction by měla vrátit Payment_Transaction objekt"
+
+msgid "Can not create subscription. Subscription id from payment gateway was not received"
+msgstr "Nemohu vytvořit předplatné. ID předplatného z platební brány nebylo přijato"
+
+msgid "Subscription #:id was not found. Could not unsubscribe"
+msgstr "Předplatné #:id nebylo nalezeno. Odběr se nepodařilo odhlásit"
+
+msgid "Only approved transaction can be processed"
+msgstr "Pouze schválená transakce můýe být zpracována"
+
+msgid "Transaction currency :code do not match required currency :required"
+msgstr "Měna transakce :code neodpovídá požadované měně :required"
+
+msgid "Transaction status on payment gateway is Pending. Only Complete or Unknown transactions can be processed."
+msgstr "Transakce probíhá. Pouze dokončené, nebo neznámé transakce mohou být zpracovány."
+
+msgid "Client currency do not match invoice currency"
+msgstr "Měna klienta se neshoduje s měnou na faktuře"
+
+msgid "Can not add negative amount to client balance for debit transaction"
+msgstr "Nemohu přidat klientovi zápornou hodnotu"
+
+msgid "Article id not passed"
+msgstr "ID článku neprošlo"
+
+msgid "Article not found"
+msgstr "Článek nebyl nalezen"
+
+msgid "Article category id not passed"
+msgstr "ID kategorie článku neprošlo"
+
+msgid "Article title not passed"
+msgstr "Název článku neprošel"
+
+msgid "Article id is missing"
+msgstr "Chybí ID článku"
+
+msgid "Category id not passed"
+msgstr "Neprošlo ID kategorie"
+
+msgid "Article Category not found"
+msgstr "Kategorie článku nenalezena"
+
+msgid "Category title not passed"
+msgstr "Název kategorie neprošel"
+
+msgid "Category id is missing"
+msgstr "ID kategorie chybí"
+
+msgid "Category not found"
+msgstr "Kategorie nebyla nalezena"
+
+msgid "Article item not found"
+msgstr "Položka článku nebyla nalezena"
+
+msgid "Category ID or slug is missing"
+msgstr "Chybí ID kategorie nebo slug"
+
+msgid "Knowledge base category not found"
+msgstr "Kategorie znalostní báze nenalezena"
+
+msgid "Can not remove category which has articles"
+msgstr "Nemohu odebrat kategorii, která má články"
+
+msgid "Message from name can not be empty"
+msgstr "Položka OD nemůže být prázdná"
+
+msgid "Message subject not passed"
+msgstr "Předmět zprávy nebyl předán"
+
+msgid "Add some content before sending message"
+msgstr "Přidejte nějaký obsah před odesláním"
+
+msgid "Client ID needs to be configured in mass mailer settings."
+msgstr "ID zákazníka musí být nakonfigurováno v nastavení hromadného odesílání."
+
+msgid "Message id not passed"
+msgstr "ID zprávy nebylo předáno"
+
+msgid "Post id not passed"
+msgstr "ID příspěvku nebylo předáno"
+
+msgid "Post title not passed"
+msgstr "Název příspěvku nebyl předán"
+
+msgid "News item not found"
+msgstr "Položka novinek nebyla nalezena"
+
+msgid "Notification id is missing"
+msgstr "Oznámení: ID nenalezeno"
+
+msgid "Notification message was not found"
+msgstr "Oznámení: zpráva nebyla nalezena"
+
+msgid "Only suspended orders can be unsuspended"
+msgstr "Pouze pozastavené objednávky lze zrušit"
+
+msgid "Only canceled orders can be uncanceled"
+msgstr "Zrušit lze pouze zrušené objednávky"
+
+msgid "Order config not passed"
+msgstr "Konfigurace objednávky neprošla"
+
+msgid "Automatically issue renewal invoices"
+msgstr "Automaticky vystavovat obnovovací faktury"
+
+msgid "Issue invoices manually"
+msgstr "Faktury vystavujte ručně"
+
+msgid "Only pending and failed setup orders can be deleted."
+msgstr "Smazat lze pouze nevyřízené a neúspěšné objednávky nastavení."
+
+msgid "This feature is available in BoxBilling PRO version."
+msgstr "Tato funkce je dostupná ve verzi BoxBilling PRO."
+
+msgid "Currency could not be determined for order"
+msgstr "Pro objednávku nebylo možné určit měnu"
+
+msgid "Product :id is out of stock."
+msgstr "Produkt :id není skladem."
+
+msgid "Group ID parameter is missing for addon product order"
+msgstr "V objednávce doplňkového produktu chybí parametr ID skupiny"
+
+msgid "Parent order :group_id was not found"
+msgstr "Nadřazená objednávka :group_id nebyla nalezena"
+
+msgid "Only pending setup or failed orders can be activated"
+msgstr "Aktivovat lze pouze čekající na nastavení nebo neúspěšné objednávky"
+
+msgid "Error creating "
+msgstr "Chyba vytváření "
+
+msgid "Service "
+msgstr "Služba "
+
+msgid "Only active orders can be suspended"
+msgstr "Pouze aktivní objednávky mohou být suspendovány"
+
+msgid "Can not cancel "
+msgstr "Nemohu zrušit "
+
+msgid "Title is required"
+msgstr "Nadpis je povinný"
+
+msgid "type"
+msgstr "typ"
+
+msgid "You have already created domain product."
+msgstr "Již máte vytvořený produkt domény."
+
+msgid "Product type :type is not registered"
+msgstr "Typ produktu :typ není registrován"
+
+msgid "Addon id is required"
+msgstr "ID příplatkové služby je povinné"
+
+msgid "Addon not found"
+msgstr "Příplatková služba nenalezena"
+
+msgid "Category title is missing"
+msgstr "Název kategorie chybí"
+
+msgid "Promo code is missing"
+msgstr "Kód slevového kupónu chybí"
+
+msgid "Promo type is missing"
+msgstr "Typ slevového kupónu chybí"
+
+msgid "Promo value is missing"
+msgstr "Hodnota slevového kupónu chybí"
+
+msgid "Promo id is missing"
+msgstr "ID slevového kupónu chybí"
+
+msgid "Product id not passed"
+msgstr "ID produktu nebylo předáno"
+
+msgid "Product ID or slug is missing"
+msgstr "ID produktu, nebo slug chybí"
+
+msgid "Pricing type is required"
+msgstr "Typ cen je povinný"
+
+msgid "Can not remove product which has active orders."
+msgstr "Nemohu odebrat produkt, který má aktivní objednávky."
+
+msgid "Can not remove product category with products"
+msgstr "Nemohu odebrat kategorii produktů, která má produkty"
+
+msgid "This promo code already exists."
+msgstr "Tento propagační kód již existuje."
+
+msgid "Queue message id is missing"
+msgstr "Fronta ID zpráv chybí"
+
+msgid "Queue message not found"
+msgstr "Fronta zpráv nenalezena"
+
+msgid "Queue name not provided"
+msgstr "Fronta názvů nebyla poskytnuta"
+
+msgid "Module name not provided"
+msgstr "Název modulu nebyl poskytnut"
+
+msgid "Message handler function :method does not exists"
+msgstr "Funkce obslužné rutiny zprávy :method neexistuje"
+
+msgid "Redirect id not passed"
+msgstr "ID přesměrování nebylo předáno"
+
+msgid "Redirect path not passed"
+msgstr "Cesta přesměrování neprošla"
+
+msgid "Redirect target not passed"
+msgstr "Cíl přesměrování neprošel"
+
+msgid "Redirect not found"
+msgstr "Přesměrování nenalezeno"
+
+msgid "Order id is required"
+msgstr "ID objednávky je vyžadováno"
+
+msgid "BoxBilling license order not found"
+msgstr "Nebyla nalezena objednávka licence BoxBilling"
+
+msgid "Order is not activated"
+msgstr "Objednávka není aktivní"
+
+msgid "Could not activate order. Service was not created"
+msgstr "Nemohu aktivovat objednávku. Služba nebyla vytvořena"
+
+msgid "Centova Cast order not found"
+msgstr "CantovaCast objednávka nebyla nalezena"
+
+msgid "Order :id is not activated"
+msgstr "Objednávka :id není aktivní"
+
+msgid "CentovaCast product is not configured properly. Field :field is missing"
+msgstr "Produkt CentovaCasr není správně nakonfigurován. Položka :filed chybý"
+
+msgid "Could not suspend order. Service was not created"
+msgstr "Nemohu suspendovat objednávku. Služba není vytvořena"
+
+msgid "Could not unsuspend order. Service was not created"
+msgstr "Nemohu odsuspedovat objednávku. Služba není vytvořena"
+
+msgid "API call is missing arguments"
+msgstr "Volání API chybí argumenty"
+
+msgid "You must fill in all required fields. "
+msgstr "Musíte vyplnit všechna povinná pole."
+
+msgid "Field "
+msgstr "Pole"
+
+msgid "Custom plugin method :method is forbidden"
+msgstr "Vlastní metoda pluginu :method je zakázaná"
+
+msgid "Config must be an array"
+msgstr "Config musí být pole"
+
+msgid "Plugin class file :file was not found"
+msgstr "Pluginový class soubor :filr nebyl nalezen"
+
+msgid "Plugin :plugin does not support action :action"
+msgstr "Plugin :plugin nepodporuje akci :action"
+
+msgid "Order :id has no active service"
+msgstr "Objednávka :id nemá žádnou aktivní službu"
+
+msgid "TLD is missing"
+msgstr "TLD chybí"
+
+msgid "TLD not found"
+msgstr "TLD nenalezeno"
+
+msgid "Tld already registered"
+msgstr "Tld již registrován"
+
+msgid "TLD registrar id is missing"
+msgstr "registrátor TLD chybí"
+
+msgid "Registration price is missing"
+msgstr "Chybí registrační cena"
+
+msgid "Renewal price is missing"
+msgstr "Chybí cena za obnovení"
+
+msgid "Transfer price is missing"
+msgstr "Chybí převodní cena"
+
+msgid "Registrar code not passed"
+msgstr "Registrační kód nebyl předán"
+
+msgid "Registrar is not available for installation."
+msgstr "Registrátor není k dispozici pro instalaci."
+
+msgid "Registrar id not passed"
+msgstr "Neprošlo ID registrátora"
+
+msgid "Registrar not found"
+msgstr "Registrátor nenalezen"
+
+msgid "Registrar id is missing"
+msgstr "Chybí ID registrátora"
+
+msgid "Order id is missing"
+msgstr "Chybí ID objednávky"
+
+msgid "Domain order is not activated"
+msgstr "Objednávka domény nebyla aktivována"
+
+msgid "Tld is required"
+msgstr "Tld je vyžadováno"
+
+msgid "Sld is required"
+msgstr "Sld je vyžadováno"
+
+msgid "Domain :domain is not valid"
+msgstr "Doména :domain není platná"
+
+msgid "Domain availability could not be determined. TLD is not active."
+msgstr "Dostupnost domény nemohla být určena. TLD není aktivní."
+
+msgid "Domain is not available."
+msgstr "Doména není dostupná."
+
+msgid "TLD is not active."
+msgstr "TLD není aktivní."
+
+msgid "Domain can not be transferred."
+msgstr "Doména nemůže být převedena."
+
+msgid "Domain :domain registration"
+msgstr "Registrace domény :domain"
+
+msgid "Domain :domain transfer"
+msgstr "Transfer domény :domain"
+
+msgid "Are you registering new domain or transferring existing? Action parameter missing."
+msgstr "Registrujete novou doménu nebo převádíte stávající? Chybí parametr akce."
+
+msgid "Invalid domain action."
+msgstr "Neplatná akce domény."
+
+msgid "Order data must contain :field configuration field"
+msgstr "Data objednácky musí obsahovat konfigurační položku :field"
+
+msgid "Domain name :domain is not valid"
+msgstr "Tvar domény :domain není správný"
+
+msgid "Domain TLD is not valid."
+msgstr "Koncovka domény není správná."
+
+msgid "Domain name is required."
+msgstr "Doména je vyžadována."
+
+msgid "Transfer domain type (tld) is required."
+msgstr "Pro transfer potřebujeme i TLD (koncovku) domény."
+
+msgid "Transfer domain name (sld) is required."
+msgstr "Pro transfer potřebujeme SLD (název domény)"
+
+msgid ":domain can not be transferred!"
+msgstr "Doména :domain nemůže být převedena"
+
+msgid "Domain registration tld parameter missing."
+msgstr "Chybí TLD (koncovka) domény."
+
+msgid "Domain registration sld parameter missing."
+msgstr "Chybí SLD (název) domény."
+
+msgid "Years parameter is missing for domain configuration."
+msgstr "Chybí počet let pro registraci."
+
+msgid ":tld can be registered for at least :years years"
+msgstr ":tld může být registrována minimálně na :years let"
+
+msgid ":domain is already registered!"
+msgstr "Doména :domain je již registrována"
+
+msgid "Default domain nameservers are not configured"
+msgstr "Výchozí nameservery nejsou nakonfigurovány"
+
+msgid "Nameserver 1 is required"
+msgstr "Nameserver 1 je povinný"
+
+msgid "Nameserver 2 is required"
+msgstr "Nameserver 2 je povinný"
+
+msgid "Required field contact is missing"
+msgstr "Povinná položka kontaktu chybí"
+
+msgid "Required field :field is missing"
+msgstr "Povinná položka :field chybí"
+
+msgid "Domain name is not valid"
+msgstr "Zkontrolujte prosím doménu"
+
+msgid "Domain can not be transferred"
+msgstr "Doména nemůže být převedena"
+
+msgid "Domain can not be registered"
+msgstr "Doména nemůže být registrována"
+
+msgid "Domain registrar :adapter was not found"
+msgstr "Registrátor domén :adapter nebyl nalezen"
+
+msgid "Registrar :adapter was not found"
+msgstr "Registrátor :adapter nebyl nalezen"
+
+msgid "Registrar adapter :adapter should extend Registrar_AdapterAbstract"
+msgstr "Registrační adaptér :adapter by se měl rozšířit Registrar_AdapterAbstract"
+
+msgid "Can not remove registrar which has domains"
+msgstr "Nemohu odebrat registrátora, který má domény"
+
+msgid "File was not uploaded"
+msgstr "Soubor nebyl nahrán"
+
+msgid "Product is not configured completely."
+msgstr "Produkt není kompletně konfigurován."
+
+msgid "Filename is missing in product config."
+msgstr "Jméno souboru chybí v nastavení produktu."
+
+msgid "Error uploading file"
+msgstr "Chyba nahrávání souboru"
+
+msgid "File can not be downloaded at the moment. Please contact support"
+msgstr "Soubor momentálně nelze stáhnout. Kontaktujte prosím zákaznickou podporu"
+
+msgid "plan_id is missing"
+msgstr "plan_id je chybný"
+
+msgid "Hosting plan not found"
+msgstr "Hostingový plán nebyl nalezen"
+
+msgid "Server name is missing"
+msgstr "Chybí název serveru"
+
+msgid "Server IP is missing"
+msgstr "Chybí IP adresa serveru"
+
+msgid "Server manager is missing"
+msgstr "Chybí server manager"
+
+msgid "Server id is missing"
+msgstr "ID serveru nenalezeno"
+
+msgid "Server not found"
+msgstr "Server nebyl nalezen"
+
+msgid "Hosting plan id is missing"
+msgstr "ID hostingového plánu chybí"
+
+msgid "Hosting plan name is missing"
+msgstr "Chybí název hostingového plánu"
+
+msgid "Hosting plan name can not be empty"
+msgstr "Název plánu nesmí být prázdný"
+
+msgid ":hosting for :domain"
+msgstr ":hosting pro :domain"
+
+msgid "Hosting product is not configured completely. Configure server for hosting product."
+msgstr "Hostingový produkt není správně nakonfigurován. Nakonfigurujte server pro produkt."
+
+msgid "Hosting product is not configured completely. Configure hosting plan for hosting product."
+msgstr "Hostingový produkt není správně nakonfigurován. Nakonfigurujte plán pro produkt."
+
+msgid "Domain name is not valid."
+msgstr "Doména není správná"
+
+msgid "Domain extension is not valid."
+msgstr "Koncovka domény není správná"
+
+msgid "Server from order configuration was not found"
+msgstr "Server z konfigurace objednávky byl nalezen"
+
+msgid "Hosting plan from order configuration was not found"
+msgstr "Hosting plán z objednávky byl nalezen"
+
+msgid "Account password is missing or is not valid"
+msgstr "Heslo účtu chybí, není správné"
+
+msgid "Account ip is missing or is not valid"
+msgstr "IP účtu chybí, nebo není správná"
+
+msgid "Domain sld or tld is missing"
+msgstr "TLD domény chybí"
+
+msgid "Hosting product must have domain configuration"
+msgstr "Hosting musí mít doménu"
+
+msgid "Domain action is missing"
+msgstr "Doména chybí"
+
+msgid "Hosting product must have defined register_sld parameter"
+msgstr "Hostingový produkt musí mít definovaný register_sld parametr"
+
+msgid "Hosting product must have defined register_tld parameter"
+msgstr "Hostingový produkt musí mít definovaný register_sld parametr"
+
+msgid "Hosting product must have defined transfer_sld parameter"
+msgstr "Hostingový produkt musí mít definovaný register_sld parametr"
+
+msgid "Hosting product must have defined transfer_tld parameter"
+msgstr "Hostingový produkt musí mít definovaný register_sld parametr"
+
+msgid "Invalid server manager. Server was not configured properly."
+msgstr "Nesprávný server manager. Server nebyl nekonfigurován správně."
+
+msgid "Server manager :adapter is not valid"
+msgstr "Server manager :adapter není správný"
+
+msgid "Can not remove hosting plan which has active accounts"
+msgstr "Nemohu odebrat hostingový plán, který má aktivní účty"
+
+msgid "Could not find main domain product"
+msgstr "Nemohu najít produkt hlavní domény"
+
+msgid "License plugin :plugin was not found"
+msgstr "Licenční plugin :plugin nebyl nalezen"
+
+msgid "License plugin do not have generate method"
+msgstr "Licenční plugin nemůže být použit ke generování"
+
+msgid "Solusvm order not found"
+msgstr "Objednávka Solusvm nebyla nalezena"
+
+msgid "Node is not selected for import."
+msgstr "Uzel není vybrán pro import."
+
+msgid "No servers selected for import."
+msgstr "Pro import nebyly vybrány žádné servery."
+
+msgid "Select product for orders."
+msgstr "Vyberte produkt pro objednávky."
+
+msgid "Product is not configured completely. Please provide solusvm node in product configuration page."
+msgstr "Produkt není zcela nakonfigurován. Uveďte prosím uzel solusvm na stránce konfigurace produktu."
+
+msgid "Product is not configured completely. Please provide solusvm plan in product configuration page."
+msgstr "Produkt není zcela nakonfigurován. Uveďte prosím plán solusvm na stránce konfigurace produktu."
+
+msgid "No clients selected for import."
+msgstr "Pro import nebyli vybráni žádní klienti."
+
+msgid "No clients found on SolusVM server."
+msgstr "Na serveru SolusVM nebyli nalezeni žádní klienti."
+
+msgid "Virtual private server :title"
+msgstr "Virtuální privátní server :title"
+
+msgid "Please enter VPS hostname."
+msgstr "Zadejte název hostitele VPS."
+
+msgid "Hostname :hostname is not valid."
+msgstr "Název hostitele :hostname není platný."
+
+msgid "Please select VPS template."
+msgstr "Vyberte šablonu VPS."
+
+msgid "SolusVM API ID is missing."
+msgstr "Chybí ID rozhraní SolusVM API."
+
+msgid "SolusVM API KEY is missing."
+msgstr "Chybí klíč API SolusVM."
+
+msgid "SolusVM API ipaddress is missing."
+msgstr "IP adresa SolusVM API chybí."
+
+msgid "SolusVM API secure is missing."
+msgstr "SolusVM API secure chybí."
+
+msgid "SolusVM API port is missing."
+msgstr "Port SolusVM API chybí."
+
+msgid "Could not activate order because ordered product does not exists"
+msgstr "Objednávku nelze aktivovat, protože objednaný produkt neexistuje"
+
+msgid "Could not activate order. Product :id configuration is missing node parameter"
+msgstr "Nelze aktivovat objednávku. V konfiguraci produktu :id chybí parametr uzlu"
+
+msgid "Could not activate order. Product :id configuration is missing plan parameter"
+msgstr "Nelze aktivovat objednávku. V konfiguraci produktu :id chybí parametr plánu"
+
+msgid "Could not activate order. Product :id configuration is missing virtualization type parameter"
+msgstr "Nelze aktivovat objednávku. V konfiguraci produktu :id chybí parametr typ virtualizace"
+
+msgid "Could not activate order. Product :id configuration is missing ips amount parameter"
+msgstr "Nelze aktivovat objednávku. V konfiguraci produktu :id chybí parametr ips"
+
+msgid "Root password must be longer than 4 symbols"
+msgstr "Heslo roota musí být delší než 4 znaky"
+
+msgid "Plan name must not be empty"
+msgstr "Plán nesmí být prázdný"
+
+msgid "Hostname must not be empty"
+msgstr "Název hostitele nesmí být prázdný"
+
+msgid "Template must not be empty"
+msgstr "Šablona nesmí být prázdná"
+
+msgid "Password must be longer than 4 symbols"
+msgstr "Heslo musí být delší než 4 znaky"
+
+msgid "Please enter subdomain"
+msgstr "Zadejte prosím subdoménu"
+
+msgid "Please select master domain"
+msgstr "Vyberte prosím hlavní doménu"
+
+msgid "Please enter domain value"
+msgstr "Zadejte hodnotu domény"
+
+msgid ":product for :domain"
+msgstr ":produkt pro :doménu"
+
+msgid "Unknown domain type."
+msgstr "Neznámý typ domény."
+
+msgid "Akismet API Key not set."
+msgstr "Klíč Akismet API není nastaven."
+
+msgid "Could not start new CURL instance"
+msgstr "Nelze spustit novou instanci CURL"
+
+msgid "Could not close the CURL instance"
+msgstr "Instanci CURL nelze zavřít"
+
+msgid "Could not send cURL request"
+msgstr "Nelze odeslat požadavek cURL"
+
+msgid "Could not open socket"
+msgstr "Nelze otevřít zásuvku"
+
+msgid "IP :ip is blocked"
+msgstr "IP :ip je blokována"
+
+msgid "Akismet detected this message is spam"
+msgstr "Akismet detekoval, že zpráva je spam"
+
+msgid "To use reCAPTCHA you must get an API key from <a href='https://www.google.com/recaptcha/admin/create'>https://www.google.com/recaptcha/admin/create</a>"
+msgstr "Pro použití reCAPTCHA musíte získat API klíč z <a href='https://www.google.com/recaptcha/admin/create'>https://www.google.com/recaptcha/admin/create</a>"
+
+msgid "Captcha verification failed."
+msgstr "Neúspěšné Captcha ověření"
+
+msgid "Your Username is blacklisted in global database"
+msgstr "Vaše uživatelské jméno je uvedeno na černé listině v globální databázi"
+
+msgid "Your Email is blacklisted in global database"
+msgstr "Váš email je uveden na černé listině v globální databázi"
+
+msgid "Your IP is blacklisted in global database"
+msgstr "Vaše IP je uvedenana černé listině v globální databázi"
+
+msgid "Administrator account already exists"
+msgstr "Účet správce již existuje"
+
+msgid "You are not allowed to login to admin area from :ip address"
+msgstr "Nemáte povoleno se přihlásit do administrační oblasti z :ip adresy"
+
+msgid "Check your login details"
+msgstr "Prosím zkontrolujte své přihlašovací údaje"
+
+msgid "This administrator account is protected and can not be removed"
+msgstr "Účet administrátora je chráněn a nemůže být odebrán"
+
+msgid "Staff member with email :email is already registered"
+msgstr "Zaměstnanec s e-mailem: e-mail je již zaregistrován"
+
+msgid "Administrators group can not be removed"
+msgstr "Skupina správců nemůže být odebrána"
+
+msgid "Can not remove group which has staff members"
+msgstr "Nemohu odebrat skupinu, kde jsou zaměstnanci"
+
+msgid "Ticket not found"
+msgstr "Ticket nenalezen"
+
+msgid "Ticket can not be reopened."
+msgstr "Ticket nemůže být znovu otevřen"
+
+msgid "Please enter your message"
+msgstr "Prosím vložte svou zprávu"
+
+msgid "Can not remove helpdesk which has tickets"
+msgstr "Nemohu odebrat helpdesk, který má tickety"
+
+msgid "We have already received this request."
+msgstr "Již jsme tuto žádost obrdželi."
+
+msgid "Identity is not valid"
+msgstr "Identita není platná"
+
+msgid "Public ticket not found"
+msgstr "Veřejný ticket nenalezen"
+
+msgid "Parameter key is missing"
+msgstr "Klíč parametru chybí"
+
+msgid "mod parameter not passed"
+msgstr "parametr mod nebyl předán"
+
+msgid "Parameter :param does not exist"
+msgstr "Parametr :param neexistuje"
+
+msgid "Country :code phone code is not registered"
+msgstr "Země :code kód telefonu není zaregistrován"
+
+msgid "You have reached free version limit. Upgrade to PRO version of BoxBilling if you want this limit removed."
+msgstr "Dosáhli jste limitu free verze. Upgradujte na verzi PRO pokud chcete tento limit odebrat."
+
+msgid "Theme code is missing"
+msgstr "Kód vzhledu chybí"
+
+msgid "Theme preset name is missing"
+msgstr "Chybí název přednastaveného motivu"
+
+msgid "Theme \":name\" assets folder is not writable. Files can not be uploaded and settings can not be saved. Set folder permissions to 777"
+msgstr "Složka aktiv motivu \":name\" není zapisovatelná. Soubory nelze nahrát a nastavení nelze uložit. Nastavte oprávnění složky na 777"
+
+msgid "Theme \":name\" assets folder is not writable. Set folder :folder permissions to 777"
+msgstr "Složka aktiv motivu \":name\" není zapisovatelná. Nastavte oprávnění složky :složka na 777"
+
+msgid "Theme \":name\" is not configurable"
+msgstr "Téma \":name\" nelze konfigurovat"
+
+msgid "Theme \":name\" does not exists"
+msgstr "Motiv \":name\" neexistuje"
+
+msgid "Error uploading file :file Error code: :error"
+msgstr "Chyba při nahrávání souboru :file Kód chyby: :chyba"
+
+msgid "Theme was not found in path :path"
+msgstr "Vzhled nebyl nalezen v cestě :path"
+
+msgid "Unable to decode theme manifest file :file"
+msgstr "Nemohu dékódovat manifest soubor vzhledu :file"
+
+msgid "Wysiwyg settings"
+msgstr "Nastavení Wysiwyg"
+
+msgid "Home"
+msgstr "Domů"
+
+msgid "Settings"
+msgstr "Nastavení"
+
+msgid "Configuration updated"
+msgstr "Nastavení aktualizována"
+
+msgid "Default editor"
+msgstr "Výchozí editor"
+
+msgid "Update"
+msgstr "Aktualizovat"
+
+msgid "Reset password"
+msgstr "Resetovat heslo"
+
+msgid "Email Address"
+msgstr "Emailová adresa"
+
+msgid "Your email address"
+msgstr "Vaše emailová adresa"
+
+msgid "You must fill in your email."
+msgstr "Musíte zadat váš email"
+
+msgid "Enter your email to reset password. You will receive new password after reset link is confirmed."
+msgstr "Vložte svůj email. Dostanete na něj nové heslo."
+
+msgid "Signup"
+msgstr "Registrace"
+
+msgid "Login"
+msgstr "Uživatelské jméno"
+
+msgid "Password reset confirmation email was sent"
+msgstr "Potvrzení o resetu hesla bylo odesláno"
+
+msgid "SEO settings"
+msgstr "SEO nastavení"
+
+msgid "Ping sitemap to Google"
+msgstr "Odeslání souboru Sitemap do Googlu"
+
+msgid "Yes"
+msgstr "Ano"
+
+msgid "No"
+msgstr "Ne"
+
+msgid "Ping sitemap to Yahoo"
+msgstr "Pingujte mapu webu na Yahoo"
+
+msgid "Ping sitemap to Bing"
+msgstr "Odešlete příkaz ping na mapu webu Bing"
+
+msgid "Help?"
+msgstr "Nápověda"
+
+msgid "Help"
+msgstr "Nápověda"
+
+msgid "Forum"
+msgstr "Fórum"
+
+msgid "Report bug"
+msgstr "Nahlásit chybu"
+
+msgid "Search:"
+msgstr "Hledat:"
+
+msgid "Enter search text.."
+msgstr "Vložte hledaný text"
+
+msgid "License settings"
+msgstr "Licenční nastavení"
+
+msgid "Prefix"
+msgstr "Prefix"
+
+msgid "Length"
+msgstr "Délka"
+
+msgid "Plugin"
+msgstr "Plugin"
+
+msgid "Validate IP"
+msgstr "Potvrdit IP"
+
+msgid "Validate Hostname"
+msgstr "Potvrdit hostname"
+
+msgid "Validate Version"
+msgstr "Potvrdit verzi"
+
+msgid "Validate Path"
+msgstr "Potvrdit cestu"
+
+msgid "License plugins"
+msgstr "Licenční pluginy"
+
+msgid "BoxBilling gives you ability to provide your own license generation script. Follow instructions bellow to install new license plugin"
+msgstr "BoxBilling Vám dává možnost uvádět vlastní skript, který generuje licence. Pokračujte prosím podle instrukcí k instalaci nového licenčního pluginu."
+
+msgid "License plugin is PHP class \"License_PluginName\" with one method"
+msgstr "Licenční plugin je PHP třída \"Licence_PLuginName\" s jednou metodou"
+
+msgid "Take a look at default plugin at"
+msgstr "Podívejte se na výchozí plugin na"
+
+msgid "Create your plugin and place it to"
+msgstr "Vytvořte vlastní plugin a dejte ho do"
+
+msgid "BoxBilling will automatically detect new plugin"
+msgstr "Automaticky bude plugin detekován"
+
+msgid "Read"
+msgstr "Číst"
+
+msgid "BoxBilling documentation"
+msgstr "BoxBilling dokumentace"
+
+msgid "for more information."
+msgstr "pro více informací."
+
+msgid "Client settings"
+msgstr "Nastavení klienta"
+
+msgid "General"
+msgstr "Obecné"
+
+msgid "Custom Fields"
+msgstr "Vlastní pole"
+
+msgid "Allow new signups"
+msgstr "Povolit nové registrace"
+
+msgid "Require email confirmation"
+msgstr "Vyžadovat potvrzení emailu"
+
+msgid "Allow email change"
+msgstr "Povolit změnu emailu"
+
+msgid "Required fields"
+msgstr "Povinná pole"
+
+msgid "Select required fields"
+msgstr "Vyberte požadovaná pole"
+
+msgid "Last Name"
+msgstr "Přijmení"
+
+msgid "Gender"
+msgstr "Pohlaví"
+
+msgid "Birthday"
+msgstr "Narozeniny"
+
+msgid "Country"
+msgstr "Země"
+
+msgid "Address Line 1"
+msgstr "1. řádek adresy"
+
+msgid "Address Line 2"
+msgstr "2. řádek adresy"
+
+msgid "Post code"
+msgstr "PSČ"
+
+msgid "Custom_"
+msgstr "Zvyk_"
+
+msgid "Active"
+msgstr "Aktivní"
+
+msgid "Required"
+msgstr "Povinné"
+
+msgid "Update profile"
+msgstr "Upravit profil"
+
+msgid "Gateway"
+msgstr "Brána"
+
+msgid "Payment gateways"
+msgstr "Platební brány"
+
+msgid "Payment gateway configuration"
+msgstr "Nastavení platební brány"
+
+msgid "Payment gateway title"
+msgstr "Jméno platební brány"
+
+msgid "Select which currencies can accept this payment gateway (Select none to allow all currencies)"
+msgstr "Vyberte, které měny budou akceptovány platební bránou. (Nevybárejte žádnou pro povolení všech měn)"
+
+msgid "Enabled"
+msgstr "Zapnuto"
+
+msgid "Allow one time payments"
+msgstr "Povolit jednorázové platby"
+
+msgid "Allow subscription payments"
+msgstr "Povolit platby odběru"
+
+msgid "Enable test mode"
+msgstr "Povolit test mód"
+
+msgid "IPN Callback URL"
+msgstr "IPN Callback URL"
+
+msgid "Register a new domain"
+msgstr "Registrovat novou doménu"
+
+msgid "Enter new domain name to register"
+msgstr "Vložte jméno domény k registraci"
+
+msgid "Check"
+msgstr "Zkontrolovat"
+
+msgid "I want to use my nameservers"
+msgstr "Chci použít vlastní nameservery"
+
+msgid "Nameserver 1"
+msgstr "Nameserver 1"
+
+msgid "Nameserver 2"
+msgstr "Nameserver 2"
+
+msgid "Nameserver 3"
+msgstr "Nameserver 3"
+
+msgid "Nameserver 4"
+msgstr "Nameserver 3"
+
+msgid " Year/s @ "
+msgstr " Roky @"
+
+msgid "Order"
+msgstr "Objednat"
+
+msgid "Client"
+msgstr "Klient"
+
+msgid "Product"
+msgstr "Produkt"
+
+msgid "Support ticket"
+msgstr "Ticket"
+
+msgid "Staff member"
+msgstr "Zaměstnanec"
+
+msgid "Announcement"
+msgstr "Oznámení"
+
+msgid "Forum topic"
+msgstr "Téma fóra"
+
+msgid "Products"
+msgstr "Produkty"
+
+msgid "Categories"
+msgstr "Kategorie"
+
+msgid "Category updated"
+msgstr "Kategorie aktualizována"
+
+msgid "Icon"
+msgstr "Ikona"
+
+msgid "Browse"
+msgstr "Procházet"
+
+msgid "Select icon and click OK"
+msgstr "Vyberte ikonu a klikněte na OK"
+
+msgid "Top level domains"
+msgstr "Doména nejvyššího řádu"
+
+msgid "New top level domain"
+msgstr "Nová doména nejvyššího řádu"
+
+msgid "Registrars"
+msgstr "Registrátoři"
+
+msgid "New domain registrar"
+msgstr "Nový registrátor"
+
+msgid "Nameservers"
+msgstr "Nameservery"
+
+msgid "Manage TLDs"
+msgstr "Spravovat koncovky"
+
+msgid "Setup domain pricing and allowed operations. Assign specific domain registrars for each Top Level Domain (TLD)"
+msgstr "Nastavte ceny a povolené operace. Přiřaďte specifické registrátory pro každé TLD"
+
+msgid "TLD"
+msgstr "TLD"
+
+msgid "Registration"
+msgstr "Registrace"
+
+msgid "Renew"
+msgstr "Prodloužení"
+
+msgid "Transfer"
+msgstr "Transfer"
+
+msgid "Operations"
+msgstr "Operace"
+
+msgid "Registrar"
+msgstr "Registrátor"
+
+msgid "Allow register:"
+msgstr "Povolit registrace:"
+
+msgid "Allow transfer:"
+msgstr "Povolit transfer"
+
+msgid "Active:"
+msgstr "Aktivní:"
+
+msgid "Add new top level domain"
+msgstr "Přidat novou doménu nejvyššího řádu"
+
+msgid "Setup new TLD prices and properties"
+msgstr "Nastavit nové ceny a vlastnosti TLD"
+
+msgid "Tld"
+msgstr "TLD"
+
+msgid "Registration price"
+msgstr "Registrační cena"
+
+msgid "Renewal price"
+msgstr "Cena prodloužení"
+
+msgid "Transfer price"
+msgstr "Cena transferu"
+
+msgid "Minimum years of registration"
+msgstr "Minimální počet let k registraci"
+
+msgid "Allow registration"
+msgstr "Povolit registrace"
+
+msgid "Allow transfer"
+msgstr "Povolit transfer"
+
+msgid "Add"
+msgstr "Přidat"
+
+msgid "Domain registrars"
+msgstr "Doménoví registrátoři"
+
+msgid "Manage domain registrars"
+msgstr "Spravovat registrátory"
+
+msgid "Setup default nameservers that will be used for new domain registrations if client have not provided his own nameservers in order form"
+msgstr "Nastavte výchozí nameservery, které budou použity pro nové registrace pokud klient nevybere jinak"
+
+msgid "Update nameservers"
+msgstr "Aktualizovat nameservery"
+
+msgid "Adding new domain registrar"
+msgstr "Přidávání nového registrátora"
+
+msgid "Follow instructions below to install new domain registrar."
+msgstr "Při instalaci nového registrátora domény postupujte podle pokynů níže."
+
+msgid "Check domain registrar you are looking for is available at"
+msgstr "Zkontrolujte jestli registrátor, kterého hledáte je dostupný na"
+
+msgid "Download domain registrar file and place to"
+msgstr "Stáhnout soubor registrátora a dát ho na"
+
+msgid "Reload this page to see newly detected domain registrar"
+msgstr "Obnovte stránku pro zobrazení nově detekovaných registrátorů"
+
+msgid "Click on install button. Now you will be able to create top level domains with new domain registrar"
+msgstr "Klikněte na tlačítko instalovat. A  budete moci registrovat domény nejvyššího řádu s novýmm registrátorem"
+
+msgid "For developers. Read"
+msgstr "Pro developery. Čtěte"
+
+msgid "to learn how to create your own domain registrar."
+msgstr "k naučení jak vytvořit vlastního registrátora."
+
+msgid "Code"
+msgstr "Kód"
+
+msgid "Install"
+msgstr "Instalovat"
+
+msgid "All payment gateways installed"
+msgstr "Všechny platební brány instalovány"
+
+msgid "Transactions"
+msgstr "Transakce"
+
+msgid "Transaction"
+msgstr "Transakce"
+
+msgid "Manage"
+msgstr "Spravovat"
+
+msgid "IPN"
+msgstr "IPN"
+
+msgid "Notes"
+msgstr "Poznámky"
+
+msgid "Transaction details"
+msgstr "Detaily transakce"
+
+msgid "If you are sure that this transaction is valid you can update transaction details in &quot;Manage&quot; tab and try processing transaction again"
+msgstr "Pokud si myslíte, že transakce byla platná, můžete aktualizovat detaily transakce v záložce &quot;Zpráva&quot; a zkusit provést transakci znovu"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Invoice Id"
+msgstr "ID faktury"
+
+msgid "Amount"
+msgstr "Částka"
+
+msgid "Payment gateway"
+msgstr "Platební brána"
+
+msgid "Transaction ID on payment gateway"
+msgstr "ID transakce na platební bráně"
+
+msgid "Transaction status on payment gateway"
+msgstr "Status transakce na platební bráně"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "IP"
+msgstr "IP"
+
+msgid "Note"
+msgstr "Poznámka"
+
+msgid "Received at"
+msgstr "Obdrženo"
+
+msgid "Updated at"
+msgstr "Aktualizováno"
+
+msgid "Process"
+msgstr "Provést"
+
+msgid "Delete"
+msgstr "Smazat"
+
+msgid "Invoice ID"
+msgstr "ID faktury"
+
+msgid "Currency"
+msgstr "Měna"
+
+msgid "Transaction processing information"
+msgstr "Informace o provedení transakce"
+
+msgid "Payment Gateway"
+msgstr "Platební brána"
+
+msgid "Validate IPN"
+msgstr "Potvrdit IPN"
+
+msgid "Transaction information on payment gateway"
+msgstr "Informace o transakci na platbní bráně"
+
+msgid "Transaction type"
+msgstr "Typ transakce"
+
+msgid "Transaction status on Payment Gateway"
+msgstr "Status transakce na platební bráně"
+
+msgid "Transaction ID on Payment Gateway"
+msgstr "ID transakce na platební bráně"
+
+msgid "Note about this transaction"
+msgstr "Nic ohledně této transakce"
+
+msgid "GET"
+msgstr "GET"
+
+msgid "No GET parameters received"
+msgstr "Žádné GET parametry nebyly přijaty"
+
+msgid "POST"
+msgstr "POST"
+
+msgid "No POST parameters received"
+msgstr "Žádné POST parametry nebyly přijaty"
+
+msgid "SERVER"
+msgstr "SERVER"
+
+msgid "No SERVER parameters logged"
+msgstr "Žádné SERVER parametry nebyly zapsány"
+
+msgid "Currency settings"
+msgstr "Nastavení měny"
+
+msgid "Currencies"
+msgstr "Měny"
+
+msgid "Add new currency"
+msgstr "Přidat novou měnu"
+
+msgid "Manage currencies"
+msgstr "Spravovat měny"
+
+msgid ""
+"Default currency is the one you manage all your prices in admin area. If your client in client area chooses other than default currency, prices will be recalculated according to conversion rate. You can have only one default currency. You can not add same currency once again. Changing default "
+"currency is not recommended when active orders are available. Nothing is recalculated on default currency change. Your income is calculated in default currency. Changing default currency after you have paid invoices will distort income statistics. Currency rates are taken from Yahoo."
+msgstr ""
+"Výchozí měna je ta, kterou spravujete všechny své ceny v oblasti administrátora. Pokud váš klient v klientské oblasti zvolí jinou než výchozí měnu, ceny budou přepočítány podle konverzního kurzu. Výchozí měnu můžete mít pouze jednu. Nelze přidat stejnou měnu znovu. Změna výchozí měny se "
+"nedoporučuje, pokud jsou k dispozici aktivní objednávky. Při výchozí změně měny se nic nepřepočítává. Váš příjem se počítá ve výchozí měně. Změna výchozí měny poté, co jste zaplatili faktury, zkreslí statistiky příjmů. Kurzy měn jsou převzaty z Yahoo."
+
+msgid "ISO code"
+msgstr "Kód ISO"
+
+msgid "Conversion rate"
+msgstr "Konverzní poměr"
+
+msgid "Example price"
+msgstr "Ukázková cena"
+
+msgid "The list is empty"
+msgstr "Seznam je prázdný"
+
+msgid "Update Rates"
+msgstr "Aktualizovat sazby"
+
+msgid "Format"
+msgstr "Formát"
+
+msgid "Result"
+msgstr "Výsledek"
+
+msgid "Email templates"
+msgstr "Šablony emailu"
+
+msgid "New template"
+msgstr "Nová šablona"
+
+msgid "Email settings"
+msgstr "Nastavení emailu"
+
+msgid "Extension"
+msgstr "Rozšíření"
+
+msgid "The list is empty. Depending on modules enabled email templates will be inserted after first event occurrence."
+msgstr "Seznam je prázdný. V závislosti na modulech povolené e-mailové šablony budou po prvním výskytu události vloženy."
+
+msgid "Configure email options"
+msgstr "Konfigurovat nastavení emailu"
+
+msgid "BoxBilling sends emails using <em>sendmail</em> by default or you can configure your own SMTP server"
+msgstr "K odesílání emailů používáme <em>sendmail</em> jako výchozí, nebo můžete nastavit vlastní SMTP server"
+
+msgid "Send emails per cron run (0 = unlimited)"
+msgstr "Odesílejte e-maily za běh cronu (0 = neomezeně)"
+
+msgid "Max email sending time in minutes (0 = unlimited, default 5 min.)"
+msgstr "Maximální doba odeslání e-mailu v minutách (0 = neomezeně, výchozí 5 min.)"
+
+msgid "Cancel sending email after unsuccessful tries (0 = do not cancel)"
+msgstr "Zrušit odesílání e-mailu po neúspěšných pokusech (0 = nezrušit)"
+
+msgid "Log sent emails to database"
+msgstr "Log odeslané e-maily do databáze"
+
+msgid "Email transport"
+msgstr "Emailový transport"
+
+msgid "SendMail"
+msgstr "SendMail"
+
+msgid "SMTP"
+msgstr "SMTP"
+
+msgid "SMTP Hostname"
+msgstr "SMTP Hostname"
+
+msgid "SMTP Port"
+msgstr "SMTP Port"
+
+msgid "SMTP Username"
+msgstr "SMTP Uživatelské jméno"
+
+msgid "SMTP Password"
+msgstr "SMTP Heslo"
+
+msgid "SMTP Security"
+msgstr "SMTP Ochrana"
+
+msgid "Update email settings"
+msgstr "Aktualizovat nastavení emailu"
+
+msgid "Send test email to staff members"
+msgstr "Odeslat testovací email zaměstnancům"
+
+msgid "Where I can use new email template?"
+msgstr "Kde použiji novou šablonu emailu?"
+
+msgid "Newly created email templates can be used in custom event hooks."
+msgstr "Nově vytvořené emailové šablony mohou být použity pro uživatelské akce."
+
+msgid "Category"
+msgstr "Kategorie"
+
+msgid "Action code"
+msgstr "Kód akce"
+
+msgid "Subject"
+msgstr "Předmět"
+
+msgid "Content"
+msgstr "Obsah"
+
+msgid "Create"
+msgstr "Vytvořit"
+
+msgid "Forum settings"
+msgstr "Nastavení fóra"
+
+msgid "Forum points"
+msgstr "Body fóra"
+
+msgid "Disabled"
+msgstr "Vypnuto"
+
+msgid "Give points for posting in selected forums"
+msgstr "Dejte body za příspěvky na vybraných fórech"
+
+msgid "Message"
+msgstr "Zpráva"
+
+msgid "Incorrect please try again"
+msgstr "Špatně, znovu prosím"
+
+msgid "Enter the words above"
+msgstr "Vložte slova níže"
+
+msgid "Send"
+msgstr "Odeslat"
+
+msgid "Notifications"
+msgstr "Upozornění"
+
+msgid "New note"
+msgstr "Nová poznámka"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Are you sure?"
+msgstr "Opravdu?"
+
+msgid "Delete all messages"
+msgstr "Smazat všechny zprávy"
+
+msgid "Add note or todo task"
+msgstr "Přidat poznámku"
+
+msgid "Add note"
+msgstr "Přidat poznámku"
+
+msgid "Domain configuration"
+msgstr "Konfigurace domény"
+
+msgid "Subdomain"
+msgstr "Subdoména"
+
+msgid "Host my own domain"
+msgstr "Hostit moji vlastní doménu"
+
+msgid "Product promotions"
+msgstr "Propagace produktů"
+
+msgid "Promo"
+msgstr "Promo"
+
+msgid "New promo"
+msgstr "Nová promo akce"
+
+msgid "Discount"
+msgstr "Sleva"
+
+msgid "Applies to"
+msgstr "Použitelné pro"
+
+msgid "Client groups"
+msgstr "Skupiny klientů"
+
+msgid "Valid period"
+msgstr "Povolené období"
+
+msgid "Usage"
+msgstr "Využití"
+
+msgid "Create new coupon code"
+msgstr "Vytvořit nový slevový kupón"
+
+msgid "Create special offers for your clients by creating coupon codes."
+msgstr "Vytvořte speciální nabídky za použití slevových kupónů."
+
+msgid "Discount type"
+msgstr "Typ slevy"
+
+msgid "Absolute"
+msgstr "Číselná"
+
+msgid "Percentage"
+msgstr "Procentuální"
+
+msgid "Recurring"
+msgstr "Opakuje se"
+
+msgid "Free setup"
+msgstr "Instalace zdarma"
+
+msgid "Promo code limitations"
+msgstr "Omezení slevového kupónu"
+
+msgid "Once per client"
+msgstr "Jeden na klienta"
+
+msgid "Max uses (zero for unlimited)"
+msgstr "Max. počet použití (0 pro neomezeno)"
+
+msgid "Valid time (Leave blank for undefined time)"
+msgstr "Povolený čas (nechte prázdné pro neomezené)"
+
+msgid "Products (Select none to apply to all products)"
+msgstr "Produkty (nechte prázdné pro všechny)"
+
+msgid "Periods (Select none to apply to all periods)"
+msgstr "Období (nevybírejte pro všechna)"
+
+msgid "Client Groups (Select none to apply to all client groups)"
+msgstr "Skupiny klientů (Nevyberte žádné, chcete-li použít všechny skupiny klientů)"
+
+msgid "Processing payment ..."
+msgstr "Převádím platbu ..."
+
+msgid "Thank you for your patience."
+msgstr "Thank you for your patience."
+
+msgid "Redirecting to payment gateway.."
+msgstr "Přesměrovávám na platební bránu ..."
+
+msgid "Please click here to continue if this page does not redirect automatically in 5 seconds"
+msgstr "Prosím klikněte zde pokud se stránka automaticky nepřesměruje během 5 vteřin"
+
+msgid "Hosting plans and servers"
+msgstr "Hostingové plány a servery"
+
+msgid "New server"
+msgstr "Nový server"
+
+msgid "New hosting plan"
+msgstr "Nový hostingový plán"
+
+msgid "Servers"
+msgstr "Servery"
+
+msgid "Server manager"
+msgstr "Server manager"
+
+msgid "Hosting plans"
+msgstr "Hostingové plány"
+
+msgid "Addon domains"
+msgstr "Addon domény"
+
+msgid "Disk space"
+msgstr "Místo na disku"
+
+msgid "Bandwidth"
+msgstr "Přenos dat"
+
+msgid "Unique name to identify this server"
+msgstr "Unikátní jméno pro server"
+
+msgid "Hostname"
+msgstr "Hostname"
+
+msgid "server1.yourserverdomain.com"
+msgstr "server1.domena.cz"
+
+msgid "Primary IP address of the server used to connect to it like: 123.123.123.123"
+msgstr "Primární IP adresa server používaná pro připojení, např.: 123.123.123.123"
+
+msgid "Assigned IP Addresses"
+msgstr "Přidělené IP adresy"
+
+msgid "List the IP Addresses assigned to the server (One per line)"
+msgstr "Seznam přidělených IP adres tomuto serveru (jedna na řádek)"
+
+msgid "Enable/Disable"
+msgstr "Zapnout/Vypnout"
+
+msgid "ns1.yourdomain.com"
+msgstr "ns1.domena.cz"
+
+msgid "ns2.yourdomain.com"
+msgstr "ns2.domena.cz"
+
+msgid "ns3.yourdomain.com"
+msgstr "ns3.domena.cz"
+
+msgid "ns4.yourdomain.com"
+msgstr "ns4.domena.cz"
+
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+msgid "Login username to your server: root/reseller"
+msgstr "Přihlašovací uživatelské jméno k serveru: root/reseller"
+
+msgid "Password"
+msgstr "Heslo"
+
+msgid "Login password to your server"
+msgstr "Přihlašovací heslo k serveru"
+
+msgid "Access Hash (Instead of password for cPanel servers)"
+msgstr "Přístupový Hash (místo hesla pro cPanel servery)"
+
+msgid "Use Secure connection"
+msgstr "Použít zabezpečené připojení"
+
+msgid "Add server"
+msgstr "Přidat server"
+
+msgid "Adding new hosting plan"
+msgstr "Přidávání nového hostingového plánu"
+
+msgid "Depending on server manager used to setup hosting account you may require provide additional parameters in next step. In this step provide basic hosting plan information."
+msgstr "V  závislosti na server manageru toto slouží k nastavení hosting účtu, můžete požadovat poskytnout dodatečné parametry v dalším kroku. V tomto kroku poskytněte základní informace hosting plánu."
+
+msgid "Unique name to identify this hosting plan"
+msgstr "Unikátní jméno po tento hosting plán"
+
+msgid "Disk quota (MB)"
+msgstr "Velikost disku (MB)"
+
+msgid "Bandwidth (MB)"
+msgstr "Přenos dat (MB)"
+
+msgid "Create hosting plan"
+msgstr "Vytvořit hostingový plán"
+
+msgid "Tax rules"
+msgstr "Pravidla DPH"
+
+msgid "New tax rule"
+msgstr "Nové pravidlo DPH"
+
+msgid "Tax settings"
+msgstr "Nastavení DPH"
+
+msgid "EU VAT"
+msgstr "EU DPH"
+
+msgid "State/Region"
+msgstr "Stát/Region"
+
+msgid "Tax rate"
+msgstr "Velikost DPH"
+
+msgid "Actions"
+msgstr "Akce"
+
+msgid "Applies to any country"
+msgstr "Aplikováno na všechny země"
+
+msgid "Applies to any state"
+msgstr "Apliováno na všechny kraje"
+
+msgid "Enable tax support"
+msgstr "Povolit podporu DPH"
+
+msgid "Automatic VAT Tax Rules Setup"
+msgstr "Automatické nastavení DPH pravidel"
+
+msgid ""
+"If you would like BoxBilling to automatically setup the EU VAT tax rules for you for all EU Member States then simply enter your VAT Label & local VAT rate below and click the submit button. <strong>This action will delete any existing tax rules</strong> and configure the VAT rates for all EU "
+"countries."
+msgstr ""
+"If you would like BoxBilling to automatically setup the EU VAT tax rules for you for all EU Member States then simply enter your VAT Label & local VAT rate below and click the submit button. <strong>This action will delete any existing tax rules</strong> and configure the VAT rates for all EU "
+"countries."
+
+msgid "Tax title"
+msgstr "Název DPH"
+
+msgid "sales Tax"
+msgstr "DPH prodeje"
+
+msgid "18"
+msgstr "18"
+
+msgid "Leave empty to apply to all states"
+msgstr "Nechte prázdné pro aplikování pro všechny státy"
+
+msgid "Example module"
+msgstr "Ukázkový modul"
+
+msgid "Example module title"
+msgstr "Název ukázkového modulu"
+
+msgid "This is an example extension content"
+msgstr "Toto je příklad obsahu rozšíření"
+
+msgid "Parameters from Controller"
+msgstr "Parameters from Controller"
+
+msgid "Parameters from URL"
+msgstr "Parametry z URL"
+
+msgid "API example"
+msgstr "Příklad API"
+
+msgid "README"
+msgstr "README"
+
+msgid "Manage hosting account"
+msgstr "Spravovat hostingový účet"
+
+msgid "Details"
+msgstr "Detaily"
+
+msgid "Domain"
+msgstr "Doména"
+
+msgid "Server IP"
+msgstr "Server IP"
+
+msgid "Server Hostname"
+msgstr "Hostname serveru"
+
+msgid "Hosting plan"
+msgstr "Hosting plán"
+
+msgid "per month"
+msgstr "za měsíc"
+
+msgid "Disk quota"
+msgstr "Místo na disku"
+
+msgid "Manage domain"
+msgstr "Spravovat doménu"
+
+msgid "Jump to cPanel"
+msgstr "Skok do cPanelu"
+
+msgid "Reseller control panel"
+msgstr "Reseller control panel"
+
+msgid "Change your FTP/cPanel/SSH password."
+msgstr "Správa hostingového účtu / cPanel / SSH heslo."
+
+msgid "Password Confirm"
+msgstr "Potvrzení hesla"
+
+msgid "Change password"
+msgstr "Změnit heslo"
+
+msgid "Change domain"
+msgstr "Změnit doménu"
+
+msgid "New domain"
+msgstr "Nová doména"
+
+msgid "Change username"
+msgstr "Změnit uživatelské jméno"
+
+msgid "Subscriptions"
+msgstr "Odběry"
+
+msgid "New subscription"
+msgstr "Nový odběr"
+
+msgid "Start typing clients name, email or ID"
+msgstr "Začněte psát jméno, email, nebo ID"
+
+msgid "Subscription ID on payment gateway"
+msgstr "ID odběru na platební bráně"
+
+msgid "Canceled"
+msgstr "Zrušeno"
+
+msgid "Period"
+msgstr "Platební období"
+
+msgid "Addons & extras"
+msgstr "Doplňkové služby"
+
+msgid "Order now"
+msgstr "Koupit nyní"
+
+msgid "License"
+msgstr "Licence"
+
+msgid "Module settings"
+msgstr "Nastavení modulu"
+
+msgid "After purchase you have received an e-mail with license key. Update license key to unlock all features of BoxBilling"
+msgstr "Po zakoupení dostaneme licenční klíč. Aktualizujte licenční klíč pro odemknutí všech možností softwaru."
+
+msgid "To change license key, change <em>BB_LICENSE</em> value in <em>bb-config.php</em> file"
+msgstr "Pro změnu licenčního klíče, změňte <em>BB_LICENSE</em> hodnotu v <em>bb-config.php</em> souboru"
+
+msgid "Edit bb-config.php file"
+msgstr "Upravte soubor bb-config.php"
+
+msgid "Licensed to"
+msgstr "Licencováno na"
+
+msgid "Key"
+msgstr "Klíč"
+
+msgid "Expires at"
+msgstr "Končí"
+
+msgid "Create main administrator account"
+msgstr "Vytvořit účet hlavního správce"
+
+msgid "Enter your email address"
+msgstr "Vložte svůj email"
+
+msgid "Enter your password"
+msgstr "Vložte své heslo"
+
+msgid "Create administrator account"
+msgstr "Vytvořit účet správce"
+
+msgid "Remember me"
+msgstr "Zapamatuj si mě"
+
+msgid "Log me in"
+msgstr "Přihlásit"
+
+msgid "Stock control settings"
+msgstr "Nastavení skladu"
+
+msgid "Enable stock control"
+msgstr "Povolit sklad"
+
+msgid "Allow quantity select on order form"
+msgstr "Povolit možnost \"množství\""
+
+msgid "Quantity in stock"
+msgstr "Množství na skladě"
+
+msgid "Plugin name"
+msgstr "Jméno pluginu"
+
+msgid "Update configuration fields"
+msgstr "Aktualizujte konfigurační pole"
+
+msgid "Support"
+msgstr "Podpora"
+
+msgid "Canned responses"
+msgstr "Koverzované odpovědi"
+
+msgid "New response"
+msgstr "Nová odpověď"
+
+msgid "New category"
+msgstr "Nová kategorie"
+
+msgid "Delete selected"
+msgstr "Smazat vybrané"
+
+msgid "Sign up"
+msgstr "Registrovat"
+
+msgid "Account has been created"
+msgstr "Účet byl vytvořen"
+
+msgid "Please check your mailbox and confirm email address"
+msgstr "Prosím zkontrolujte svoji emailovou schránku a potvrďte email"
+
+msgid "First Name"
+msgstr "Jméno"
+
+msgid "You are"
+msgstr "Jste"
+
+msgid "Address 2"
+msgstr "Adresa 2"
+
+msgid "-- Select country --"
+msgstr "-- Vyberte zemi --"
+
+msgid "Zip/Postal Code"
+msgstr "PSČ"
+
+msgid "Phone Number"
+msgstr "Telefon"
+
+msgid "Password confirm"
+msgstr "Potvrzení hesla"
+
+msgid "YouHosting settings"
+msgstr "Nastavení YouHosting"
+
+msgid "Advanced"
+msgstr "Pokročilý"
+
+msgid "Your IP"
+msgstr "Vaše IP"
+
+msgid "WebHook URL"
+msgstr "WebHook URL"
+
+msgid "Api Key"
+msgstr "Api klíč"
+
+msgid "Update settings"
+msgstr "Aktualizovat nastavení"
+
+msgid "Check connection"
+msgstr "Zkontrolujte připojení"
+
+msgid "Import clients"
+msgstr "Importovat klienty"
+
+msgid "Import clients, accounts and products"
+msgstr "Import klientů, účtů a produktů"
+
+msgid "Allowed IPs for Webhook listener"
+msgstr "Povolené IP adresy pro Webhook listener"
+
+msgid "Client Area"
+msgstr "Klientská sekce"
+
+msgid "Dashboard"
+msgstr "Nástěnka"
+
+msgid "Tickets waiting your reply"
+msgstr "Tickety čekající na Vaši odpověď"
+
+msgid "Id"
+msgstr "ID"
+
+msgid "Help desk"
+msgstr "Podpora"
+
+msgid "Submitted"
+msgstr "Vloženo"
+
+msgid "Reply"
+msgstr "Odpovědět"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Balance"
+msgstr "Balance"
+
+msgid "Invoices"
+msgstr "Faktury"
+
+msgid "All Invoices"
+msgstr "Všechny faktury"
+
+msgid "Paid"
+msgstr "Zaplaceno"
+
+msgid "Unpaid"
+msgstr "Nezaplaceno"
+
+msgid "Orders"
+msgstr "Objednávky"
+
+msgid "New order"
+msgstr "Nová objednávka"
+
+msgid "All orders"
+msgstr "Všechny objednávky"
+
+msgid "Expiring"
+msgstr "Končí platnost"
+
+msgid "Tickets"
+msgstr "Tickety"
+
+msgid "New ticket"
+msgstr "Nový ticket"
+
+msgid "All tickets"
+msgstr "Všechny tickety"
+
+msgid "Open"
+msgstr "Otevřený"
+
+msgid "On Hold"
+msgstr "V pořadí"
+
+msgid "Recent orders"
+msgstr "Nedávné objednávky"
+
+msgid "Recent emails"
+msgstr "Nedávné emaily"
+
+msgid "ago"
+msgstr "zpět"
+
+msgid "Filter transactions"
+msgstr "Filtrovat transakce"
+
+msgid "ID on payment gateway"
+msgstr "ID na platební brání"
+
+msgid "Filter"
+msgstr "Filtr"
+
+msgid "Processed"
+msgstr "Zpracováno"
+
+msgid "Approved"
+msgstr "Schváleno"
+
+msgid "Error"
+msgstr "Chyba"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "API"
+msgstr "API"
+
+msgid "Gravatar"
+msgstr "Gravatar"
+
+msgid "Profile updated"
+msgstr "Profil aktualizován"
+
+msgid "Signature"
+msgstr "Podpis"
+
+msgid "Password changed"
+msgstr "Heslo změněno"
+
+msgid "API Key"
+msgstr "API Klíč"
+
+msgid "API key allows integration with external applications. You will need this key for authentication."
+msgstr "API klíč Vám dovoluje integraci s dalšími aplikacemi. Budete klíč potřebovat pro autentifikaci."
+
+msgid "External application can control every aspect of BoxBilling using this API key."
+msgstr "Externí aplikace mohou kontrolovat každý aspekt pomocí tohoto API klíče."
+
+msgid "Warning! Resetting the key will break existing applications using it."
+msgstr "Upozonění! Když klíč resetujete, starý klíč nebude fungovat"
+
+msgid "Generate new key"
+msgstr "Vygenerovat nový klíč"
+
+msgid "Change your avatar at"
+msgstr "Změňte avatara na"
+
+msgid "Import existing"
+msgstr "Importovat existující"
+
+msgid "Account Id"
+msgstr "Číslo účtu"
+
+msgid "Support settings"
+msgstr "Nastavení podpory"
+
+msgid "Helpdesk -"
+msgstr "Podpora -"
+
+msgid "Support help desk"
+msgstr "Podpora help desk"
+
+msgid "Help desk name will be visible for clients when submitting new ticket. Define very large number of hours to disable auto close ticket option"
+msgstr "Název helpdesku bude viditelný pro klienty při odesílání nového tiketu. Definujte velmi velký počet hodin pro deaktivaci možnosti automatického uzavření lístku"
+
+msgid "Close after"
+msgstr "Zavřít po"
+
+msgid "Can reopen"
+msgstr "Možnost znovu otevření?"
+
+msgid "Terms and Conditions"
+msgstr "Obchodní podmínky"
+
+msgid "Back to Homepage"
+msgstr "Zpět na domovskou stránku"
+
+msgid "Staff"
+msgstr "Zpět na domovskou stránku"
+
+msgid "New staff member"
+msgstr "Nový zaměstananec"
+
+msgid "Manage groups"
+msgstr "Spravovat skupiny"
+
+msgid "New group"
+msgstr "Nová skupina"
+
+msgid "Group"
+msgstr "Skupina"
+
+msgid "Check login IP"
+msgstr "Zkontrolujte přihlašovací IP"
+
+msgid "Allowed IPs. One per line"
+msgstr "Povolené IP adresy. Jeden na řádek"
+
+msgid "Inactive"
+msgstr "Neaktivní"
+
+msgid "Create group"
+msgstr "Vytvořit skupinu"
+
+msgid "Staff members logins history"
+msgstr "Historie přihlašování zaměstanců"
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "SolusVM configuration"
+msgstr "SolusVM Nastavení"
+
+msgid "Virtualization type"
+msgstr "Typ virtualizace"
+
+msgid "Node"
+msgstr "Node"
+
+msgid "Make sure BoxBilling can connect to SolusVM master server and check if nodes are configured for selected virtualizator type. Refresh page if you have changed virtualization type to see new nodes."
+msgstr "Ujistěte se, že se BoxBilling připojí k SolusVM master serveru a zkontrolujte zda jsou nody nakonfigurovány na vybraný typ virtualizace. Obnovte stránku pokud jste změnili typ virtualizace, aby jste viděli nové nody."
+
+msgid "Plan"
+msgstr "Plán"
+
+msgid "Make sure BoxBilling can connect to SolusVM master server and check if plans are configured for selected virtualizator type."
+msgstr "Ujistěte se, že se BoxBilling dokáže připojit k SolusVM master serveru a zkontrolujte, že plány jsou nakonfigurovány pro zvolený typ virtualizace."
+
+msgid "Plan parameters"
+msgstr "Parametry plánu"
+
+msgid "IPs amount"
+msgstr "Počet IP"
+
+msgid "Guaranteed RAM"
+msgstr "Garantovaná RAM"
+
+msgid "Hdd Space"
+msgstr "HDD prostor"
+
+msgid "CPU cores"
+msgstr "Jádra CPU"
+
+msgid "Custom extraip"
+msgstr "Přídavná IP"
+
+msgid "HVMT"
+msgstr "HVMT"
+
+msgid "Issue cPanel License"
+msgstr "Vydat cPanel Licenci"
+
+msgid "Dedicated CPU"
+msgstr "Dedikované CPU"
+
+msgid "Dedicated RAM"
+msgstr "Dedikovaná RAM"
+
+msgid "Network transfer"
+msgstr "Přenos dat"
+
+msgid "Description"
+msgstr "Popis"
+
+msgid "Posts"
+msgstr "Příspěvky"
+
+msgid "Topics"
+msgstr "Témata"
+
+msgid "Forums"
+msgstr "Fóra"
+
+msgid "New topic"
+msgstr "Nové téma"
+
+msgid "New forum"
+msgstr "Nové fórum"
+
+msgid "Replies"
+msgstr "Odpovědi"
+
+msgid "Views"
+msgstr "Zobrazeno"
+
+msgid "Sticky"
+msgstr "Přilepit"
+
+msgid "Locked"
+msgstr "Zamknuto"
+
+msgid "Sorting"
+msgstr "Řazení"
+
+msgid "Knowledge Base"
+msgstr "Znalostní databáze"
+
+msgid "Articles"
+msgstr "Články"
+
+msgid "New article"
+msgstr "Nový článek"
+
+msgid "Manage categories"
+msgstr "Spravovat kategorie"
+
+msgid "Draft"
+msgstr "Koncept"
+
+msgid "Category created"
+msgstr "Kategorie vytvořena"
+
+msgid "Membership settings"
+msgstr "Nastavení členství"
+
+msgid "Membership service does not have any configuration options"
+msgstr "Služba členství nemá žádné konfigurovatelné možnosti"
+
+msgid "Recent posts"
+msgstr "Nedávné příspěvky"
+
+msgid "Enable forum points feature in extension configuration page"
+msgstr "Povolte funkci bodů fóra na konfigurační stránce rozšíření"
+
+msgid "Order Button settings"
+msgstr "Nastavení tlačítka objednávky"
+
+msgid "Order window settings"
+msgstr "Nastavení okna objednávky"
+
+msgid "Advanced settings"
+msgstr "Pokročilé nastavení"
+
+msgid "Order popup settings"
+msgstr "Nastavení vyskakovacího okna objednávky"
+
+msgid "Configure how your popup window will look like"
+msgstr "Nakonfigurujte, jak bude vaše vyskakovací okno vypadat"
+
+msgid "Theme color"
+msgstr "Barva motivu"
+
+msgid "Green"
+msgstr "Zelený"
+
+msgid "Red"
+msgstr "Zelený"
+
+msgid "Blue"
+msgstr "Modrý"
+
+msgid "Dark"
+msgstr "Temný"
+
+msgid "Border radius"
+msgstr "Poloměr hranice"
+
+msgid "Background"
+msgstr "Pozadí"
+
+msgid "Color"
+msgstr "Barva"
+
+msgid "Opacity"
+msgstr "Neprůhlednost"
+
+msgid "Loader (while content of popup is being loaded)"
+msgstr "Loader (během načítání obsahu vyskakovacího okna)"
+
+msgid "Width"
+msgstr "Šířka"
+
+msgid "Close (ESC key by default)"
+msgstr "Zavřít (ve výchozím nastavení klávesa ESC)"
+
+msgid "Click on background closes popup"
+msgstr "Kliknutím na pozadí se zavře vyskakovací okno"
+
+msgid "Show values of custom form before checkout"
+msgstr "Zobrazit hodnoty vlastního formuláře před pokladnou"
+
+msgid "User input will be shown before checkout for custom form"
+msgstr "Vstup uživatele se zobrazí před pokladnou pro vlastní formulář"
+
+msgid "Order Button code"
+msgstr "Kód tlačítka objednávky"
+
+msgid "Clicking on html element with classname or ID"
+msgstr "Kliknutím na prvek html s názvem třídy nebo ID"
+
+msgid "will open popup window for"
+msgstr "otevře vyskakovací okno pro"
+
+msgid "symbols"
+msgstr "symboly"
+
+msgid "IMPORTANT"
+msgstr "IMPORTANT"
+
+msgid "You need to add ID (if you want to use it for one html element) or class (if you want to use it for multiple elements) in order for it to work"
+msgstr "Aby to fungovalo, musíte přidat ID (pokud jej chcete použít pro jeden html prvek) nebo třídu (pokud jej chcete použít pro více prvků)."
+
+msgid "Add order-button class to your elements which must call popup. For example: "
+msgstr "Přidejte třídu tlačítka objednávky ke svým prvkům, které musí volat popup. Například:"
+
+msgid "Add data-product attribute to your element to open specific product. For example:<br/>"
+msgstr "Chcete-li otevřít konkrétní produkt, přidejte ke svému prvku atribut data-product. Například:<br/>"
+
+msgid "data-product attribute value will be overiden if popup's product is selected from select-box above"
+msgstr "hodnota atributu data-product bude přepsána, pokud je produkt vyskakovacího okna vybrán z výběrového pole výše"
+
+msgid "Copy this code to your website"
+msgstr "Zkopírujte tento kód na svůj web"
+
+msgid "Try your popup"
+msgstr "Zkuste vyskakovací okno"
+
+msgid "It must start with dot(.) if it is classname or with a hashtag(#)"
+msgstr "Musí začínat tečkou (.), pokud se jedná o název třídy, nebo hashtagem (#)"
+
+msgid "Add \"+selector+\" class to your elements which must call popup. For example: "
+msgstr "Přidejte třídu „+selector+“ ke svým prvkům, které musí volat popup. Například:"
+
+msgid "Add \"+selector+\" ID to your element which must call popup. For example: "
+msgstr "Přidejte ke svému prvku ID „+selector+“, který musí volat vyskakovací okno. Například:"
+
+msgid "Email history"
+msgstr "Historie e-mailů"
+
+msgid "INFORMATION"
+msgstr "INFORMACE"
+
+msgid "Email logging is not enabled. If you want to log sent mails to database, enable it in"
+msgstr "Není povoleno protokolování e-mailů. Pokud chcete protokolovat odeslané e-maily do databáze, povolte ji"
+
+msgid "email settings."
+msgstr "nastavení e-mailu."
+
+msgid "To"
+msgstr "Komu"
+
+msgid "From"
+msgstr "Od"
+
+msgid "Node / ID / VMID"
+msgstr "NODE / ID / VMID"
+
+msgid "Operating System"
+msgstr "Operační systém"
+
+msgid "IP address"
+msgstr "IP Adresa"
+
+msgid "Additional IP addresses"
+msgstr "Dodatečné IP Adresy"
+
+msgid "Root password"
+msgstr "ROOT heslo"
+
+msgid "Client area username / password"
+msgstr "Jméno a heslo klientské sekce"
+
+msgid "Console user / password"
+msgstr "Jméno a heslo do konzole"
+
+msgid "Client area"
+msgstr "Klientská sekce"
+
+msgid "Admin area"
+msgstr "Sekce správce"
+
+msgid "Change root password"
+msgstr "Změnit ROOT heslo"
+
+msgid "New password"
+msgstr "Nové heslo"
+
+msgid "Change"
+msgstr "Změnit"
+
+msgid "Change hostname"
+msgstr "Změnit hostname"
+
+msgid "New hostname"
+msgstr "Nové hostnane"
+
+msgid "Change plan"
+msgstr "Změnit plán"
+
+msgid "New plan"
+msgstr "Nový plán"
+
+msgid "Rebuild"
+msgstr "Přestavit"
+
+msgid "Usage statistics"
+msgstr "Statistiky využití"
+
+msgid "Used"
+msgstr "Využito"
+
+msgid "Free"
+msgstr "Volno"
+
+msgid "Memory"
+msgstr "Paměť"
+
+msgid "Disk usage"
+msgstr "Využití disku"
+
+msgid "Traffic"
+msgstr "Přenos"
+
+msgid "Load"
+msgstr "Load"
+
+msgid "Master node is offline, order is not yet activated or API is not configured properly."
+msgstr "Master node je offline, objednávky nebyla aktivována, nebo není správně nakonfigurováno API."
+
+msgid "Service management"
+msgstr "Správa služeb"
+
+msgid "Changing settings does not send actions to SolusVM server."
+msgstr "Změna nastavení neodešle akce do SolusVM."
+
+msgid "Template"
+msgstr "Šablona"
+
+msgid "Main IP address"
+msgstr "Hlavní IP"
+
+msgid "New payment gateway"
+msgstr "Nová platební brána"
+
+msgid "Allow subscriptions"
+msgstr "Povolit odběry"
+
+msgid "Adding new payment gateway"
+msgstr "Přidávání nové platební brány"
+
+msgid "Although BoxBilling ships with most popular payment gateways, you can install other gateways."
+msgstr "Ačkoli BoxBilling se dodává s většinou populárních platebních bran, můžete nainstalovat další brány."
+
+msgid "Follow these instructions to install new payment gateway."
+msgstr "Postupujte podle instrukcí pro instalaci nové platební brány-"
+
+msgid "Check for payment gateway at"
+msgstr "Kontrola platební brány v"
+
+msgid "for more payment gateways"
+msgstr "pro více platebních bran"
+
+msgid "Download payment gateway extension file and place it to"
+msgstr "Stáhněte soubor s platební bránou a dejte ho do:"
+
+msgid "After file is uploaded in place, reload this page."
+msgstr "Potom co je soubor nahrán, aktualizujte tuto stránku."
+
+msgid "Select uploaded file name and click on install."
+msgstr "Vyberte nahraný soubor a klikněte na instalovat."
+
+msgid "Payment gateway will be installed in BoxBilling and can be configured in \"Payment gateways\" tab."
+msgstr "Platební brána bude nainstalováno a může být konfigurována na stránce \"Platební brány\""
+
+msgid "to learn how to create your own payment gateway and share it with community"
+msgstr "k naunčení se jak vytvořit vlastní platební bránu a sdílet jí s komunitou"
+
+msgid "License details"
+msgstr "Licenční údaje"
+
+msgid "Valid IPs"
+msgstr "Povolené IP"
+
+msgid "All ips"
+msgstr "Všechny IP"
+
+msgid "Valid Domains"
+msgstr "Povolené domény"
+
+msgid "All hosts"
+msgstr "Všechny"
+
+msgid "Valid Versions"
+msgstr "Povolené verze"
+
+msgid "All versions"
+msgstr "Všechny verze"
+
+msgid "Valid Install paths"
+msgstr "Povolené instalační cesty"
+
+msgid "All paths"
+msgstr "Všechny cesty"
+
+msgid "Reset license"
+msgstr "Resetovat licenci"
+
+msgid "You can reset your license parameters if you have changed your server"
+msgstr "Můžete resetovat licenci pokud se změnil server"
+
+msgid "Reset"
+msgstr "Reset"
+
+msgid "Addons"
+msgstr "Příplatkové služby"
+
+msgid "Edit product addon"
+msgstr "Upravit příplatkovou službu"
+
+msgid "Activation"
+msgstr "Aktivace"
+
+msgid "I will use my existing domain and update nameservers"
+msgstr "Použiji vlastní a aktualizuji nameservery"
+
+msgid "I want to register a new domain"
+msgstr "Chci registrovat novou doménu"
+
+msgid "mydomain"
+msgstr "mojedoména"
+
+msgid "Started by"
+msgstr "Začal"
+
+msgid "Messages"
+msgstr "Zprávy"
+
+msgid "Created at"
+msgstr "Vytvořeno"
+
+msgid "Slug"
+msgstr "Slug"
+
+msgid "Quote"
+msgstr "Citovat"
+
+msgid "Post"
+msgstr "Přispět"
+
+msgid "Edit field"
+msgstr "Upravit pole"
+
+msgid "Please keep in mind that field name can not start with number. Special characters will be replaced with underscrore ( _ )"
+msgstr "Prosím mějte na paměti, že pole Název nemůže začínat číslem. Speciální znaky budou nahrazeny podtržítkem (_)"
+
+msgid "Label"
+msgstr "Označení"
+
+msgid "options"
+msgstr "možnosti"
+
+msgid "Value"
+msgstr "Hodnota"
+
+msgid "+ Add new option"
+msgstr "+ Přidat novou možnost"
+
+msgid "Options"
+msgstr "Možnosti"
+
+msgid "Hide label"
+msgstr "Skrýt štítek"
+
+msgid "Read only"
+msgstr "Read only"
+
+msgid "Additional settings"
+msgstr "Volitelné nastavení"
+
+msgid "Prepend text"
+msgstr "Předřadit text"
+
+msgid "Append text"
+msgstr "Připojit text"
+
+msgid "Textarea size"
+msgstr "Velikost textové oblasti"
+
+msgid "px"
+msgstr "px"
+
+msgid "Height"
+msgstr "Výška"
+
+msgid "Default value/option"
+msgstr "Výchozí hodnota/možnost"
+
+msgid "Save"
+msgstr "Uložit"
+
+msgid "BoxBilling license management"
+msgstr "Správa licencí BoxBilling"
+
+msgid "License order ID"
+msgstr "ID objednávky licence"
+
+msgid "Order status"
+msgstr "Stav objednávky"
+
+msgid "License key"
+msgstr "Licenční klíč"
+
+msgid "Valid hostnames"
+msgstr "Povolené hostname"
+
+msgid "Valid versions"
+msgstr "Povolené verze"
+
+msgid "Valid install paths"
+msgstr "Povolené instalační cesty"
+
+msgid "Order is not activated or not found"
+msgstr "Objednávka není aktivována nebo nebyla nalezena"
+
+msgid "Create new order"
+msgstr "Vytvořit novou objednávku"
+
+msgid "for"
+msgstr "pro"
+
+msgid "Invoice option"
+msgstr "Možnosti objednávky"
+
+msgid "Activate order"
+msgstr "Aktivovat objednávku"
+
+msgid "Place new order"
+msgstr "Vložit novou objednávku"
+
+msgid "Selected price is 0.00"
+msgstr "Zvolená cena je 0,00"
+
+msgid "Product is disabled in configuration"
+msgstr "Produkt je v konfiguraci zakázán"
+
+msgid "Forum details"
+msgstr "Detaily fóra"
+
+msgid "Cart"
+msgstr "Košík"
+
+msgid "Remove item"
+msgstr "Odebrat položku"
+
+msgid "setup"
+msgstr "instalace"
+
+msgid "Have coupon code?"
+msgstr "Máte kód kupónu?"
+
+msgid "Enter code"
+msgstr "Zadejte kód"
+
+msgid "Remove"
+msgstr "Odebrat"
+
+msgid "Apply"
+msgstr "Použít"
+
+msgid "Subtotal:"
+msgstr "Mezisoučet:"
+
+msgid "Discount:"
+msgstr "Sleva:"
+
+msgid "VAT"
+msgstr "IČO"
+
+msgid "Total:"
+msgstr "Celkem:"
+
+msgid "Pay by"
+msgstr "Zaplatil"
+
+msgid "Total amount will be deducted from account balance"
+msgstr "Celková částka bude odečtena ze zůstatku na účtu"
+
+msgid "Checkout"
+msgstr "Zaplatit"
+
+msgid "Promo code was removed"
+msgstr "Promokód byl odebrán"
+
+msgid "Are you sure you want to remove this item from cart?"
+msgstr "Opravdu chcete odstranit tuto položku z košíku?"
+
+msgid "Item was removed from cart"
+msgstr "Položka byla odebrána z košíku"
+
+msgid "File manager"
+msgstr "Správce souborů"
+
+msgid "Full screen"
+msgstr "Celá obrazovka"
+
+msgid "Domains management"
+msgstr "Správa domén"
+
+msgid "Clients"
+msgstr "Klienti"
+
+msgid "Filter clients"
+msgstr "Filtrovat zákazníky"
+
+msgid "Company name"
+msgstr "Jméno firmy"
+
+msgid "All"
+msgstr "Vše"
+
+msgid "Suspended"
+msgstr "Suspendováno"
+
+msgid "Registration date"
+msgstr "Datum registrace"
+
+msgid "New client"
+msgstr "Nový klient"
+
+msgid "Groups"
+msgstr "Skupiny"
+
+msgid "Postcode"
+msgstr "PSČ"
+
+msgid "Main website"
+msgstr "Hlavní web"
+
+msgid "Loading ..."
+msgstr "Nahrávám ..."
+
+msgid "This staff member is used by BoxBilling to perform system tasks and can not be removed."
+msgstr "Tento zaměstnanec je používán službou BoxBilling k provádění systémových úloh a nelze jej odebrat."
+
+msgid "Permissions"
+msgstr "Oprávnění"
+
+msgid "Manage staff member details"
+msgstr "Spravovat zaměstnance"
+
+msgid "This staff member updated."
+msgstr "Tento zaměstnanec byl aktualizován."
+
+msgid "%member_name% permissions"
+msgstr "%member_name% oprávnění"
+
+msgid "Administrator account is allowed to do everything"
+msgstr "Administrátorský účet může dělat vše"
+
+msgid "Permissions updated"
+msgstr "Oprávnění aktualizována"
+
+msgid "Module"
+msgstr "Modul"
+
+msgid "Change staff member password"
+msgstr "Změnit heslo zamšstnance"
+
+msgid "Staff member password changed"
+msgstr "Heslo zaměstnance změneno"
+
+msgid "Repeat same password"
+msgstr "Opakujte heslo"
+
+msgid "Submit"
+msgstr "Vložit"
+
+msgid "Api key is used to manage system via other interfaces."
+msgstr "API klíč je používán pro správu systému z jiných rozhraních"
+
+msgid "API key"
+msgstr "API Klíč"
+
+msgid "Privacy policy"
+msgstr "Ochrana osobních údajů"
+
+msgid "Payment type"
+msgstr "Typ platby"
+
+msgid "One time"
+msgstr "Jednou"
+
+msgid "Recurrent"
+msgstr "Opakující se"
+
+msgid "Setup price"
+msgstr "Instalační poplatek"
+
+msgid "Price for period"
+msgstr "Cena za období"
+
+msgid "First payment sum"
+msgstr "Suma první platby"
+
+msgid "On"
+msgstr "Na"
+
+msgid "Weekly"
+msgstr "Týdně"
+
+msgid "Monthly"
+msgstr "Měsíčně"
+
+msgid "Import SolusVM clients"
+msgstr "Importovat SolusVM klienty"
+
+msgid "Created"
+msgstr "Vytvořeno"
+
+msgid "Import selected SolusVM clients to BoxBilling"
+msgstr "Importovat vybrané klienty do BoxBilling"
+
+msgid "Connection port"
+msgstr "Port"
+
+msgid "Update and test connection"
+msgstr "Aktualizovat a ověřit připojení"
+
+msgid "Update server"
+msgstr "Aktualizovat server"
+
+msgid "Hosting settings"
+msgstr "Nastavení hostingu"
+
+msgid "Server"
+msgstr "Server"
+
+msgid "Reseller hosting"
+msgstr "Reseller hosting"
+
+msgid "Free domain registration"
+msgstr "Registrace domény zdarma"
+
+msgid "Free domain transfer"
+msgstr "Transfer domény zdarma"
+
+msgid "Payments history"
+msgstr "Historie plateb"
+
+msgid "Here you can track what you have been charged for and add more funds to your account"
+msgstr "Zde můžete sledovat vaše platby a přidat více finančních prostředků na váš účet"
+
+msgid "Add funds!"
+msgstr "Přidat prostředky!"
+
+msgid "Manage coupon code"
+msgstr "Spravovat kód kupónu"
+
+msgid "Period when code is valid"
+msgstr "Období kdy je kód platný"
+
+msgid "Client area languages"
+msgstr "Jazyky klientské sekce"
+
+msgid "New language"
+msgstr "Nový jazyk"
+
+msgid "Language"
+msgstr "Jazyk"
+
+msgid "BoxBilling in your language"
+msgstr "Platforma ve Vašem jazyce"
+
+msgid "Although BoxBilling displays in U.S. English by default, the software has the built-in capability to be used in any language. Follow instructions bellow to install new language."
+msgstr "Ačkoli se platforma zobrazuje v americké angličtině ve výchozím nastavení, software má vestavěnou schopnost být použit v jakémkoliv jazyce. Postupujte podle pokynů níže a nainstalujte nový jazyk."
+
+msgid "Check if your language translation file is available at"
+msgstr "Zkontrolujte jestli je jazykový soubor dostupný ve Vašem jazyce na"
+
+msgid "BoxBilling extensions site"
+msgstr "Stránce s rozšířeními"
+
+msgid "Download language files and place them to"
+msgstr "Stáhněte jazykové soubory a dejte je do"
+
+msgid "Language will be automatically available and can be changed in client area"
+msgstr "Jazyk bude automaticky dostupný a změna může být provedena v klientské sekci"
+
+msgid "Installing BoxBilling in Your Language"
+msgstr "Instalujte BoxBilling ve Vašem jazyce"
+
+msgid "to learn how to install files that will transform BoxBilling so it displays in your language."
+msgstr "jak nainstalovat soubory, které převedou platformu do Vašeho jazyka."
+
+msgid "Translations can be made with"
+msgstr "Překlady mohou být editovány s"
+
+msgid "software"
+msgstr "softwarem"
+
+msgid "Changing default language"
+msgstr "Změnit výchozí jazyk"
+
+msgid "Default language can be set in"
+msgstr "Výchozí jazyk mže být nastaven v"
+
+msgid "Removing language"
+msgstr "Odebrat jazyk"
+
+msgid "Removing languages from BoxBilling is really simple. Just delete language folder you wish from"
+msgstr "Odebrání jazyka je opravdu jednoduché. Pouze smažte složku s jazykem z"
+
+msgid "Thank you"
+msgstr "Děkujeme Vám"
+
+msgid "Your payment is being processed right now. It can take up 5 minutes to complete."
+msgstr "Vaše platba je právě teď zpracovávána. To může trvat až 5 minut."
+
+msgid "Payment for invoice received"
+msgstr "Platba za fakturu obdržena"
+
+msgid "You will be automatically redirected to invoice page after 5 minutes."
+msgstr "Budete automaticky přesměrování na stránku s fakturou po 5ti minutách."
+
+msgid "Product Configuration"
+msgstr "Konfigurace produktu"
+
+msgid "FREE"
+msgstr "VOLNÝ, UVOLNIT"
+
+msgid "New Addon"
+msgstr "Nová příplatková služba"
+
+msgid "After order is placed"
+msgstr "Poté co je objednávka odeslána"
+
+msgid "After payment is received"
+msgstr "Poté co je platba obdržena"
+
+msgid "Manual activation"
+msgstr "Ruční aktivace"
+
+msgid "News"
+msgstr "Zprávy"
+
+msgid "Post updated"
+msgstr "Příspěvek aktualizován"
+
+msgid "Image"
+msgstr "obraz"
+
+msgid "http://www.yourdomain.com/image.jpg"
+msgstr "http://www.yourdomain.com/image.jpg"
+
+msgid "Post created"
+msgstr "Příspěvek vytvořen"
+
+msgid "Last update"
+msgstr "Poslední aktualizace"
+
+msgid "Go back"
+msgstr "Jít zpět"
+
+msgid "Setup:"
+msgstr "Setup:"
+
+msgid "Clients logins history"
+msgstr "Log  přihlašování uživatelů"
+
+msgid "Public tickets"
+msgstr "Veřejné tickety"
+
+msgid "Ticket ID"
+msgstr "ID Ticketu"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Time opened"
+msgstr "Čas otevření"
+
+msgid "Last updated"
+msgstr "Poslední aktualizace"
+
+msgid "Reply as"
+msgstr "Odpovědět jako"
+
+msgid "Login or Register"
+msgstr "Přihlaste se nebo se zaregistrujte"
+
+msgid "You must fill in your password."
+msgstr "Je třeba zadat heslo."
+
+msgid "Log in"
+msgstr "Přihlásit"
+
+msgid "Or register"
+msgstr "Nebo se registrujte"
+
+msgid "Register"
+msgstr "Registrovat"
+
+msgid "Or Login"
+msgstr "Nebo Přihlášení"
+
+msgid "Custom forms"
+msgstr "Vlastní formuláře"
+
+msgid "Form"
+msgstr "Formulář"
+
+msgid "Orders using this form"
+msgstr "Objednávky pomocí tohoto formuláře"
+
+msgid "Products using this form"
+msgstr "Produkty využívající tento formulář"
+
+msgid "Create new form"
+msgstr "Vytvořit nový formulář"
+
+msgid "Import"
+msgstr "Importovat"
+
+msgid "Form options"
+msgstr "Možnosti formuláře"
+
+msgid "New form name and options"
+msgstr "Nový název formuláře a možnosti"
+
+msgid "Labels on top"
+msgstr "Štítky nahoře"
+
+msgid "Labels on the left"
+msgstr "Štítky vlevo"
+
+msgid "Show form title"
+msgstr "Zobrazit název formuláře"
+
+msgid "Do not show form title"
+msgstr "Nezobrazovat název formuláře"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Dropdown"
+msgstr "Dropdown"
+
+msgid "Radio"
+msgstr "Výběr možností (jedna)"
+
+msgid "Checkbox"
+msgstr "Zaškrtávací políčko"
+
+msgid "Textarea"
+msgstr "Text"
+
+msgid "Form options were updated"
+msgstr "Možnosti formuláře byly aktualizovány"
+
+msgid "Select Product"
+msgstr "Vyberte produkt"
+
+msgid "Items"
+msgstr "Položky"
+
+msgid "Choose products we offer for selling"
+msgstr "Vyberte produkty, které nazíme k prodeji"
+
+msgid "Domain type"
+msgstr "Typ domény"
+
+msgid "Host subdomain"
+msgstr "Hostitelská subdoména"
+
+msgid "subdomain"
+msgstr "subdoména"
+
+msgid "Host domain"
+msgstr "Hostitelská doména"
+
+msgid "domain.com"
+msgstr "domain.com"
+
+msgid "Information"
+msgstr "Informace"
+
+msgid "Sent"
+msgstr "Odesláno"
+
+msgid "Resend"
+msgstr "Poslat znovu"
+
+msgid "Variables"
+msgstr "Proměnné"
+
+msgid "Template Settings"
+msgstr "Nastavení šablony"
+
+msgid "Reset template"
+msgstr "Resetovat šablonu"
+
+msgid "Examples"
+msgstr "Příkaldy"
+
+msgid "Manage email template"
+msgstr "Spravovat emailové šablony"
+
+msgid "Most email templates receives parameters from BoxBilling. You can browse them on \"Variables\" tab. Copy variable name to email template and hit preview to see parsed content. Please note that values will be different when actual email is sent."
+msgstr "Většina e-mailových šablon přijímá parametry z platformy. Můžete procházet je na kartě  \"Proměnné \" Zkopírujte název proměnné do e-mailové šablony a klikněte na náhled pro zobrazení analyzovaného obsahu. Vezměte prosím na vědomí, že hodnoty se budou lišit, pokud je skutečný e-mail odeslán."
+
+msgid "Template updated"
+msgstr "Šablona aktualizována"
+
+msgid "Preview"
+msgstr "Náhled"
+
+msgid "Preview mode is disabled until first event occurrence"
+msgstr "Režim náhledu je deaktivován až do výskytu první události"
+
+msgid "Template settings"
+msgstr "Nastavení šablony"
+
+msgid "Enable or disable this email template."
+msgstr "Zapnout, nebo vypnout tuto šablonu."
+
+msgid "List of variables used in this email"
+msgstr "Seznam proměnných použitých v tomto emailu"
+
+msgid "These values will change when real email is sent. You can pass these variables to admin or guest API to get additional information from database."
+msgstr "Tyto hodnoty se změní v reálné když je email odesílán. Můžete přesunout tyto hodnoty správci, nebo hostovi API pro získání volitelných informací z databáze."
+
+msgid "Variable"
+msgstr "Proměnná"
+
+msgid "Example value"
+msgstr "Ukázka"
+
+msgid "This template does not receive any parameters"
+msgstr "Tato šablona nedostala žádné parametry"
+
+msgid "Reset email template to default"
+msgstr "Resetovat do vychozího"
+
+msgid "Reset to default"
+msgstr "Resetovat do výchozího"
+
+msgid "Email templates examples"
+msgstr "Příklady emailových šablon"
+
+msgid "Email template playground. Use this tool to try rendering email templates."
+msgstr "\"Hříště\" emailové šablony. Poiužijte tento nástroj pro vykreslení emailových šablon."
+
+msgid "Domain action"
+msgstr "Akce domény"
+
+msgid "Register domain"
+msgstr "Zaregistrujte doménu"
+
+msgid "Domain name to register"
+msgstr "Název domény k registraci"
+
+msgid "Years"
+msgstr "Roky"
+
+msgid "Transfer domain"
+msgstr "Převod domény"
+
+msgid "Domain name to transfer"
+msgstr "Název domény k převodu"
+
+msgid "Domain transfer code"
+msgstr "Kód převodu domény"
+
+msgid "Themes"
+msgstr "Témata"
+
+msgid "Client area themes"
+msgstr "Vzhledy klientské sekce"
+
+msgid "Set as default"
+msgstr "Nastavit jako výchozí"
+
+msgid "New product"
+msgstr "Nový produkt"
+
+msgid "Priority"
+msgstr "Priorita"
+
+msgid "Update priority"
+msgstr "Aktualizovat prioritu"
+
+msgid "Icon URL"
+msgstr "URL ikony"
+
+msgid "Support tickets"
+msgstr "Tickety podpory"
+
+msgid "Need an answer? We are here to help!"
+msgstr "Potřebujete odpověď? Jsme tady, abychom vám pomohli!"
+
+msgid "Submit new ticket"
+msgstr "Vožit nový ticket"
+
+msgid "View"
+msgstr "Pohled"
+
+msgid "Submit new support ticket"
+msgstr "Vložit nový ticket podpory"
+
+msgid "Queues"
+msgstr "Fronty"
+
+msgid "The list is empty."
+msgstr "Seznam je prázdný."
+
+msgid "SpamChecker settings"
+msgstr "Nastavení SpamChecker"
+
+msgid "Enable IP blocking"
+msgstr "Povolit blokování IP"
+
+msgid "Blocked IPs are not allowed to login, register or open public ticket. One IP per line"
+msgstr "Blokované IP adresy se nemohou přihlásit, zaregistrovat nebo otevřít veřejný tiket. Jedna IP na řádek"
+
+msgid "Recaptcha settings"
+msgstr "Nastavení recaptcha"
+
+msgid "Enable captcha for client registration and contact us forms"
+msgstr "Povolit captcha pro registrace a kontaktní formuláře"
+
+msgid "Sign up for Recaptcha key for your domain at"
+msgstr "Registrujte si Recaptcha klíč na:"
+
+msgid "Recaptcha Enabled"
+msgstr "Recaptcha povoleno"
+
+msgid "ReCaptcha Public key"
+msgstr "ReCaptcha Public key"
+
+msgid "ReCaptcha Private key"
+msgstr "ReCaptcha Private key"
+
+msgid "Akismet settings"
+msgstr "Akismet nastavení"
+
+msgid "Enable forum messages checking on <a href=\"http://www.akismet.com/\" target=\"_blank\">http://www.akismet.com</a> database"
+msgstr "Povolte zprávy fóra, aby byly kontrolovány v  <a href=\"http://www.akismet.com/\" target=\"_blank\">http://www.akismet.com</a> databázi"
+
+msgid "Enable check"
+msgstr "Povolit kontrolu"
+
+msgid "Akismet API key"
+msgstr "Akismet API key"
+
+msgid "StopForumSpam.com settings"
+msgstr "StopForumSpam.com nastavení"
+
+msgid "If enabled, client ip will be checked on <a href=\"http://www.stopforumspam.com/\" target=\"_blank\">http://www.stopforumspam.com</a> database before registration"
+msgstr "Pokud je povoleno, klient bude zkontrolovánv <a href=\"http://www.stopforumspam.com/\" target=\"_blank\">http://www.stopforumspam.com</a> databázi před registrací"
+
+msgid "Invoice management"
+msgstr "Správa faktur"
+
+msgid "List of invoices"
+msgstr "Seznam faktur"
+
+msgid "All of your invoices can be found here. You can choose to see either paid or unpaid invoices by clicking corresponding button."
+msgstr "Zde lze nalézt všechny faktury . Můžete fitrovat buď placené nebo neplacené faktury klepnutím na odpovídající tlačítko."
+
+msgid "Issue Date"
+msgstr "Datum vydání"
+
+msgid "Due Date"
+msgstr "Datum splatnosti"
+
+msgid "Pay"
+msgstr "Zaplatit"
+
+msgid "Paid at"
+msgstr "Zaplaceno:"
+
+msgid "Download "
+msgstr "Stažení"
+
+msgid "Download"
+msgstr "Stáhnout"
+
+msgid "Membership details"
+msgstr "Detaily členství"
+
+msgid "Domain name"
+msgstr "Doménové jméno"
+
+msgid "Domain TLD"
+msgstr "TLD domény"
+
+msgid "Domain management"
+msgstr "Správa doména"
+
+msgid "Protection"
+msgstr "Ochrana"
+
+msgid "Privacy"
+msgstr "Ochrana"
+
+msgid "Whois"
+msgstr "Kdo je"
+
+msgid "Domain details"
+msgstr "Detaily domény"
+
+msgid "Domain Protection"
+msgstr "Ochrana domény"
+
+msgid "Domain locking is a security enhancement to prevent unauthorized transfers of your domain to another registrar or web host by \"locking\" your domain name servers."
+msgstr "Zámek domény Vám pomáhá jí chránit před nevyžádáným transferem."
+
+msgid "Unlock"
+msgstr "Odemknout"
+
+msgid "Lock"
+msgstr "Zamknout"
+
+msgid "Domain Privacy Settings"
+msgstr "Nastavení soukromí domény"
+
+msgid ""
+"If you would like to hide domain contact information which is shown on WHOIS you can enable privacy protection. Once domain privacy protection is enabled no one will know who registered this service. And once you decide to disable privacy protection, information that is listed above on \"Update "
+"Domain Contact Details\" section will be seen on domain WHOIS again."
+msgstr "Pokud si přejete skrýt kontaktní informace domény, které jsou možné vidět ve WHOIS, pak zapněte soukromí domény. Pokud je soukromí aktivní nikdo nezjistí kdo si doménu registroval. Pokud je soukromí neaktivní všichni vidí informace o majiteli."
+
+msgid "Disable Privacy protection"
+msgstr "Vypnout soukromou doménu"
+
+msgid "Enable Privacy protection"
+msgstr "Zapnout soukromou doménu"
+
+msgid "Update Nameservers"
+msgstr "Aktualizujte jmenné servery"
+
+msgid "If you would like to host this domain with another company you can update nameservers."
+msgstr "Pokud si přejete hostovat tuto doménu u jiné firmy můžete změnit nameservery."
+
+msgid "Update domain contact details"
+msgstr "Aktualizovat kontaktní údaje domény"
+
+msgid "Domain contact details will be displayed once someone will check WHOIS output (which is public) of your service. This will update Technical, Billing and Admin contacts for this service. You can enable domain privacy protection if you want to hide your public WHOIS information."
+msgstr "Kontaktní údaje doménu budou zobrazeny veřejně ve výpisu WHOIS. Toto aktualizuje Technický, Fakturační a Admin kontakt pro tuto doménu. Můžete zapnout soukromou doménu pokud chcete informace ve výpisu WHOIS skrýt."
+
+msgid "Zip"
+msgstr "PSČ"
+
+msgid "Phone Country Code"
+msgstr "Předčíslí"
+
+msgid "Phone number"
+msgstr "Telefon"
+
+msgid "Domain Secret"
+msgstr "Soukromá doména"
+
+msgid "All domain names (except a .EU, .UK domain name) have a Domain (Transfer) Secret Key/Authorization Code (EPP Code) associated with them. This would be required if you want to transfer service."
+msgstr "Všechny domény (mimo .EU, .UK) mají Doménové (Transfer) heslo. Heslo bude vyžadováno při transferu."
+
+msgid "Get EPP code"
+msgstr "Poslat transfer heslo"
+
+msgid "Contact us"
+msgstr "Kontaktujte nás"
+
+msgid "Settings for"
+msgstr "Nastavení pro"
+
+msgid "Switch to a predefined set of theme settings from the dropdown. Adjust each section and apply the changes once you're done."
+msgstr "Z rozevíracího seznamu přepněte na předdefinovanou sadu nastavení motivu. Upravte každou sekci a aplikujte změny, jakmile budete hotovi."
+
+msgid "delete this preset"
+msgstr "odstranit tuto předvolbu"
+
+msgid "Save current settings as a new preset called"
+msgstr "Uložte aktuální nastavení jako novou předvolbu"
+
+msgid "Apply changes"
+msgstr "Aplikuj změny"
+
+msgid "Profile details"
+msgstr "Detaily profilu"
+
+msgid "User profile settings"
+msgstr "Nastavení uživatelského profilu"
+
+msgid "Change Password"
+msgstr "Změnit heslo"
+
+msgid "Update details"
+msgstr "Aktualizovat podrobnosti"
+
+msgid "Keep your personal data up to date."
+msgstr "Udržujte své osobní údaje aktuální."
+
+msgid "Please register with"
+msgstr "Prosím registrujte se s"
+
+msgid "at "
+msgstr "na"
+
+msgid "to change your profile image. Gravatar image updates may not appear immediately."
+msgstr "ke změně Vašeho profilového obrázku. Gravatar se nemusí hned zobrazit."
+
+msgid "Birth date"
+msgstr "Datum narození"
+
+msgid "Company Name"
+msgstr "Jměno firmy"
+
+msgid "Company VAT"
+msgstr "Firemní DIČ"
+
+msgid "Company Number"
+msgstr "Číslo firmy"
+
+msgid "Passport number"
+msgstr "Číslo pasu"
+
+msgid "Please enter new password two times in order avoid mistypes"
+msgstr "Zadejte nové heslo dvakrát, abyste předešli chybám"
+
+msgid "Update password"
+msgstr "Aktualizujte heslo"
+
+msgid "Warning! Resetting the key will break existing applications using it!"
+msgstr "Varování! Resetováním klíče přerušíte stávající aplikace, které jej používají!"
+
+msgid "Your API key"
+msgstr "Váš API Klíč"
+
+msgid "Reset key"
+msgstr "Resetovat API"
+
+msgid "Your profile currency is defined after your first order. Once your currency is set, all your profile accounting will be managed in that currency and can not be changed."
+msgstr "Měna profilu je definována po první objednávce. Po nastavení vaší měny bude vaše účtování profilů spravováno v této měně a nelze ji změnit."
+
+msgid "Your profile currency is"
+msgstr "Měna Vašeho účtu je"
+
+msgid "Create new client profile if you want to manage your money in other currency"
+msgstr "Vytvořte nový účet pokud chcete změnit měnu"
+
+msgid "Ticket information"
+msgstr "Informace o vstupenkách"
+
+msgid "Close ticket"
+msgstr "Zavřít ticket"
+
+msgid "by "
+msgstr "od"
+
+msgid "Ticket was closed and cannot be reopened."
+msgstr "Vstupenka byla uzavřena a nelze ji znovu otevřít."
+
+msgid "Example module settings"
+msgstr "Příklad nastavení modulu"
+
+msgid "Example extension settings"
+msgstr "Nastavení ukázkového modulu"
+
+msgid "Every extension can have settings page. Only requirement is to have mod_example_settings.phtml page in html_admin folder"
+msgstr "Každé rozšíření může mít vlastní stránku. Je nutné aby měl mod_example_settings.phtml stránku v html_admin složce."
+
+msgid "Parameter title"
+msgstr "Název parametru"
+
+msgid "Example custom value"
+msgstr "Vlastní ukázková hodnota"
+
+msgid "Public Parameter title"
+msgstr "Název veřejného parametru"
+
+msgid "This setting will be accessible by Guest API"
+msgstr "Toto nastavení bude přístupné prostřednictvím Guest API"
+
+msgid "Centova Cast product settings"
+msgstr "Centova Cast produktové nastavení"
+
+msgid "Max clients"
+msgstr "Max. klientů"
+
+msgid "Max bitrate"
+msgstr "Max. datový tok"
+
+msgid "Transfer limit"
+msgstr "Přenosový limit"
+
+msgid "Autostart"
+msgstr "Autostart"
+
+msgid "System settings"
+msgstr "Nastavení systému"
+
+msgid "Company details"
+msgstr "Detaily firmy"
+
+msgid "FTP layer"
+msgstr "FTP Vrstva"
+
+msgid "Countries"
+msgstr "země"
+
+msgid "Cache"
+msgstr "Mezipaměti"
+
+msgid "Logo URL"
+msgstr "Logo URL"
+
+msgid "Company number, chamber of commerce number"
+msgstr "IČ"
+
+msgid "VAT number"
+msgstr "IČ"
+
+msgid "Bank Account number"
+msgstr "Číslo bankovního účtu"
+
+msgid "Company terms of service, legal regulation"
+msgstr "Podmínky služby, právní úprava"
+
+msgid "Company privacy policy"
+msgstr "Ochrana soukromí"
+
+msgid "Countries updated"
+msgstr "Země aktualizovány"
+
+msgid "List of countries"
+msgstr "Seznam zemí"
+
+msgid "Cache folder cleared"
+msgstr "Složka mezipaměti byla vymazána"
+
+msgid "Invalidate cache"
+msgstr "Zrušit platnost mezipaměti"
+
+msgid "FTP layer for BoxBilling"
+msgstr "FTP vrstva pro BoxBilling"
+
+msgid "FTP is used to manage BoxBilling modules and updates."
+msgstr "FTP je používáno ke správě modulů a ktualizací."
+
+msgid "FTP settings updated"
+msgstr "FTP nastavení aktualizována"
+
+msgid ""
+"<strong>FTP Hostname</strong> - can be a numerical URL 127.0.0.1 is the default address for a locally hosted server, it might be this, it might be the full URL as my example above with the File Transfer Protocol (FTP) prefix, it might be the http:// protocol it might be SFTP (secure FTP) even "
+"secure http (https). Your host will be able to advise you on the correct format."
+msgstr "<strong>FTP Hostname</strong> -může být numerické URL 127.0.0.1 je výchozí adresa lokálního serveru (localhost), možná to bude toto, možná to bude plné URL"
+
+msgid "<strong>FTP port</strong> - is nearly always 21 unless the host has changed this they will have notified you of this. Secure FTP generally uses port 22."
+msgstr "<strong>FTP port</strong> - je většinou 21. Zabezpečené FTP je většinou port 22."
+
+msgid ""
+"<strong>FTP user</strong> - In most cases, this is the specific user name your host has set up for you to access your Web site via FTP- It is the name you use in your FTP client. This could be an alphanumeric, it could be your name, even your e-mail address, If you don't know this speak to your "
+"host. You may have the facility on your Web account to set up additional FTP users if that is the case (and it's more secure) you are recommended to do this"
+msgstr "<strong>FTP uživatel</strong> -Toto je specifické jméno. Je stejné jako jméno, kterým se přihlašujete například do WebFTP. "
+
+msgid "<strong>FTP password</strong> - this is the password you enter in your FTP client."
+msgstr "<strong>FTP heslo</strong> - toto je heslo používané k přihlášení do FTP klienta."
+
+msgid ""
+"<strong>FTP root</strong> - This is generally the directory in which BoxBilling is installed. This setting is very important to be setup correctly as it very specifically depends on the Host server settings. In can be just / BUT it might be htdocs/boxbilling, public_html/, /public_html/boxbilling "
+"or other. It is a variable that BoxBilling has absolutely no control over. You will need to clarify this with your host."
+msgstr "<strong>FTP root</strong> - Je složka kde je nainstalovaný BoxBilling."
+
+msgid "Staff members"
+msgstr "Zaměstnanci"
+
+msgid "File"
+msgstr "Soubor"
+
+msgid "Currently uploaded file"
+msgstr "Aktuálně nahraný soubor"
+
+msgid "Upload new file"
+msgstr "Nahrát nový soubor"
+
+msgid "Upload"
+msgstr "Nahrát"
+
+msgid "Select product"
+msgstr "Vybrat produkt"
+
+msgid "Configure"
+msgstr "Konfigurovat"
+
+msgid "Confirm"
+msgstr "Potvrdit"
+
+msgid "Extensions"
+msgstr "Rozšíření"
+
+msgid "Update BoxBilling"
+msgstr "Aktualizovat BoxBilling"
+
+msgid "Learn more about extensions"
+msgstr "Dozvědět se více o rozšíření"
+
+msgid "Hooks"
+msgstr "Háčky"
+
+msgid "Activate or deactivate extensions"
+msgstr "Aktivovat, nebo deaktivovat rozšíření"
+
+msgid "Deactivate"
+msgstr "Deaktivovat"
+
+msgid "Hook"
+msgstr "Háček"
+
+msgid "Automatic update"
+msgstr "Automaticky aktualizovat"
+
+msgid "Automatic updater is a tool to update BoxBilling to latest version in one click. Works on these hosting environments where PHP has permissions to overwrite files uploaded via FTP."
+msgstr "Automatické aktualizace je nástroj k aktualizaci platformy na nejnovější verzi v jednom kliknutí. Pracuje s tímto hostingovým prostředím, které má práva k přepisování souborů nahraných přes FTP."
+
+msgid "Manual update"
+msgstr "Ruční update"
+
+msgid "Manual update is a solution when auto updater can not work on current installation environment"
+msgstr "Ruční aktualizace je nástroj, který se používá tam kde automatické aktualizace nefungují"
+
+msgid "Extending BoxBilling"
+msgstr "Prodloužení BoxBilling"
+
+msgid "BoxBilling gives developers all the capabilities to customize, integrate & extend the core system into your own website & applications."
+msgstr "BoxBilling dává developerům možnosti upravovat, integrovat a rozšířit holý systém o vlastní stránky a aplikace."
+
+msgid "Invoice settings"
+msgstr "Nastavení faktury"
+
+msgid "Number of days to generate new invoice before order expiration"
+msgstr "Počet dní kdy bude vygenerována nová faktura před expirací objednávky"
+
+msgid "Invoice due days"
+msgstr "Den splatnosti objednávky"
+
+msgid "Auto invoice approval"
+msgstr "Automaticky schvalovat faktury"
+
+msgid "Proforma Invoicing / Sequential Invoice Numbering"
+msgstr "Zálohové fakturace / Sekvenční faktury číslování"
+
+msgid "Remove unpaid invoices after x days. Set 0 to keep invoices forever"
+msgstr "Odstraňte nezaplacené faktury po x dnech. Chcete-li faktury uchovávat navždy, nastavte 0"
+
+msgid "Proforma invoice prefix/series"
+msgstr "Prefix zálohových faktur"
+
+msgid "Paid invoice prefix/series"
+msgstr "Prefix zaplacených faktur"
+
+msgid "Next paid invoice number"
+msgstr "Číslo další faktury"
+
+msgid "Refunds settings"
+msgstr "Nastavení vracení peněz"
+
+msgid "Refunds logic"
+msgstr "Logika vracení peněz"
+
+msgid "Add funds settings"
+msgstr "Nastavení přidávání peněz"
+
+msgid "Minimum amount for add funds invoice"
+msgstr "Minimální hodnota pro přidání peněz"
+
+msgid "Unlimited"
+msgstr "Neomezený"
+
+msgid "Maximum amount for add funds invoice"
+msgstr "Maximální hodnota přidání peněz"
+
+msgid "SolusVM"
+msgstr "SolusVM"
+
+msgid "API configuration"
+msgstr "API konfigurace"
+
+msgid "Getting started with SolusVM"
+msgstr "Začínáme s SolusVM"
+
+msgid "This guide will help you to get started selling SolusVM virtual servers with BoxBilling."
+msgstr "Tento návod Vám poradí jak začít prodávat SolusVM virtuální servery."
+
+msgid "1. Configure your SolusVm server"
+msgstr "1. Nakonfigurujte SolusVM server"
+
+msgid "2. Configure API"
+msgstr "2. Nakonfigurujte API"
+
+msgid "3. Create new product category"
+msgstr "3. Vytvořte kategorii produktu"
+
+msgid "4. Create SolusVM products"
+msgstr "4. Vytvořte SolusVM produkty"
+
+msgid "5. Import data from SolusVM server"
+msgstr "5. Importujte data ze SolusVM seerveru"
+
+msgid "Connect to SolusVM master server via API"
+msgstr "Připojit se k SolusVM master serveru přes API"
+
+msgid "To create an API user login to SolusVM admin area and click Configuration > API Access from the top menu then select Add API User."
+msgstr "To create an API user login to SolusVM admin area and click Configuration > API Access from the top menu then select Add API User."
+
+msgid "Master server IP"
+msgstr "IP master serveru"
+
+msgid "Secure connection"
+msgstr "Zabezpečené připojení"
+
+msgid "Custom port"
+msgstr "Vlastní port"
+
+msgid "Leave blank to use default port 5353 and 5656 for secure connection"
+msgstr "Nechtě prázdný pro použití výchozího portu 5353 a 5656 pro zabezpečené připojení."
+
+msgid "Test connection"
+msgstr "Test spojení"
+
+msgid "Cron settings"
+msgstr "Nastavení cronu"
+
+msgid "Setup scheduled tasks to be executed once a day"
+msgstr "Nastavené naplánované úlohy budou spuštěny jednou denně"
+
+msgid "Scheduled tasks must be enabled immediately after installation. Cron is responsible for sending your clients reminder about payments, domain renewal notices and many more."
+msgstr "Naplánované úlohy musí být povoleny hned po instalaci. Cron je zodpovědný za odeslání upomínky klientům o platbách, oznámení o obnovení domény a mnoho dalších."
+
+msgid "Timezone"
+msgstr "Časová zóna"
+
+msgid "Time on server"
+msgstr "Čas na serveru"
+
+msgid "Last time scheduled tasks were executed"
+msgstr "Poslední spuštěné naplánované úlohy"
+
+msgid "Scheduled tasks were never executed"
+msgstr "Naplánované úlohy ještě nikdy nebyly spuštěny"
+
+msgid "Unix crontab setup:"
+msgstr "Nastavení Unix crontab:"
+
+msgid "Execute scheduled tasks from browser"
+msgstr "Spouštět naplánované úlohy z prohlížeče"
+
+msgid "Execute now"
+msgstr "Spustit nyní"
+
+msgid "Redirects"
+msgstr "Přesměrování"
+
+msgid "Create new redirect"
+msgstr "Vytvořit nové přesměrování"
+
+msgid "Emails"
+msgstr "Emaily"
+
+msgid "Here you can find all the emails we sent you. Please click on email topic in left column and it will be displayed in right side."
+msgstr "Zde naleznete všechny e-maily, které jsme vám poslali. Klepněte prosím na předmět emailu v levém sloupci a zobrazí se na pravé straně."
+
+msgid "There are no emails to display"
+msgstr "Nejsou žádné e-maily k zobrazení"
+
+msgid "From:"
+msgstr "Z:"
+
+msgid "To:"
+msgstr "Na:"
+
+msgid "Created at:"
+msgstr "Vytvořeno na:"
+
+msgid "Mass Mail Messages"
+msgstr "Zprávy hromadného odesílání"
+
+msgid "Create new mass mail message"
+msgstr "Vytvořit nové hromadné odesílání"
+
+msgid "Mass Mail Settings"
+msgstr "Zprávy hromadného odesílání"
+
+msgid "Client ID to send test email while creating message"
+msgstr "ID zákazníka pro odeslání testovacího emailu"
+
+msgid "Paid support settings"
+msgstr "Nastavení placené podpory"
+
+msgid "Ticket price:"
+msgstr "Cena lístku:"
+
+msgid "Error message:"
+msgstr "Chybové hlášení:"
+
+msgid "Set paid supoprt for helpdesks: "
+msgstr "Nastavit placenou podporu pro helpdesky:"
+
+msgid "Create new helpdesk"
+msgstr "Vytvořte nový helpdesk"
+
+msgid "Back to emails list"
+msgstr "Zpět na seznam e-mailů"
+
+msgid "Centova Cast"
+msgstr "Centova Cast"
+
+msgid "Centova Cast settings"
+msgstr "Nastavení Centova Cast"
+
+msgid "Server URL"
+msgstr "URL Serveru"
+
+msgid "Register new server"
+msgstr "registrovat nový server"
+
+msgid "Edit server"
+msgstr "Upravit server"
+
+msgid "CentovaCast URL"
+msgstr "CentovaCast URL"
+
+msgid "IP Address"
+msgstr "IP Adresa"
+
+msgid "Administrator password"
+msgstr "Heslo správce"
+
+msgid "Register Centova Cast server"
+msgstr "Registrovat Centova Cast server"
+
+msgid "Server added"
+msgstr "Server přidán"
+
+msgid "Back to settings"
+msgstr "Zpět do nastavení"
+
+msgid "Create CentovaCast product"
+msgstr "Vytvořit CentovaCast produkt"
+
+msgid "My Products & Services"
+msgstr "Moje produkty a služby"
+
+msgid "All of your orders are displayed here. Click on any order to get full information about it."
+msgstr "Zobrazí se zde všechny vaše objednávky. Kliknutím na libovolnou objednávku získáte úplné informace o ní."
+
+msgid "Product/Service"
+msgstr "Produkt/Služba"
+
+msgid "Next due date"
+msgstr "Datum zúčtování"
+
+msgid "Canned response"
+msgstr "Předpřipravená odpověď"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "RAM"
+msgstr "RAM"
+
+msgid "Monthly price"
+msgstr "Měsíční cena"
+
+msgid "Centova Cast order details"
+msgstr "Centova Cast - detaily objednávky"
+
+msgid "Changing settings does not send actions to CentovaCast server."
+msgstr "Změna nastavení nepošle akce do CentovaCast serveru"
+
+msgid "Reconfigure"
+msgstr "Rekonfigurovat"
+
+msgid "Changing CentovaCast server settings."
+msgstr "Změnit CentovaCast server nastavení"
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Source password"
+msgstr "Zdrojové heslo"
+
+msgid "Max BitRate"
+msgstr "Max. datový tok"
+
+msgid "Organization"
+msgstr "Organizace"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Auto rebuild list"
+msgstr "Automaticky přestavit seznam"
+
+msgid "Account details"
+msgstr "Detaily účtu"
+
+msgid "Parameter"
+msgstr "Parametr"
+
+msgid "Help desks"
+msgstr "Help desk"
+
+msgid "New help desk"
+msgstr "Nové oddělení"
+
+msgid "Auto responder settings"
+msgstr "Nastavení automatického odpovídače"
+
+msgid "Enable auto responder"
+msgstr "Povolit automatickou odpověď"
+
+msgid "Auto respond message"
+msgstr "Automatická odpověď na zprávu"
+
+msgid "Delay message - selected canned response message will be added to default reply message"
+msgstr "Zpožděná zpráva - vybraná předpřipravená odpověď bude přidána do výchozí odpovědi"
+
+msgid "Enable delay message"
+msgstr "Povolit zprávu o zpoždění"
+
+msgid "Delay hours"
+msgstr "Zpoždění hodin"
+
+msgid "Delay reply"
+msgstr "Odložit odpověď"
+
+msgid "Wait time - how many hours user needs to wait until consequent ticket submission"
+msgstr "Čekací doba – kolik hodin musí uživatel čekat na následné odeslání tiketu"
+
+msgid "Wait time in hours"
+msgstr "Čekací doba v hodinách"
+
+msgid "Close tickets after"
+msgstr "Zavřít tickety po"
+
+msgid "Currency management"
+msgstr "Správa měn"
+
+msgid "Edit currency information"
+msgstr "Upravit informace o měně"
+
+msgid "Price format"
+msgstr "Formát ceny"
+
+msgid "Order confirm"
+msgstr "Potvrdit objednávku"
+
+msgid "Order confirmation"
+msgstr "Potvrzení objednávky"
+
+msgid "These are the products you have selected"
+msgstr "Tyto produkty máte vybrané"
+
+msgid "Have a promo code?"
+msgstr "Máte slevový kupón?"
+
+msgid "Sign in"
+msgstr "Přihlásit se"
+
+msgid "Login to client area"
+msgstr "Přihlást se do klientské sekce"
+
+msgid "Do not have an account yet?"
+msgstr "Ještě nemáte účet?"
+
+msgid "Enter your details below"
+msgstr "Vložte detaily níže"
+
+msgid "Create new profile"
+msgstr "Vytvořit nový profil"
+
+msgid "You have not selected any product"
+msgstr "Nemáte vybraný žádný produkt"
+
+msgid "Order new service"
+msgstr "Koupit novou službu"
+
+msgid "Subscription"
+msgstr "Odběr"
+
+msgid "Subscription details"
+msgstr "Detaily odběru"
+
+msgid "Send Email Message"
+msgstr "Odeslat emailovou zprávu"
+
+msgid "From name"
+msgstr "Od (jméno)"
+
+msgid "From email"
+msgstr "Od (email)"
+
+msgid "Recipients filter. Select none to send message to all clients"
+msgstr "Filtr příjemců. Nevybírejte nikoho pro odeslání zprávy všem klientům"
+
+msgid "Client status and group"
+msgstr "Status klienta a skupiny"
+
+msgid "Has order"
+msgstr "Má objednávku"
+
+msgid "Message content"
+msgstr "Zpráva obsahuje"
+
+msgid "Update and preview"
+msgstr "Aktualizovat a náhled"
+
+msgid "Send test message"
+msgstr "Odeslat testovací zprávu"
+
+msgid "Send message to clients"
+msgstr "Odeslat zprávu klientům"
+
+msgid "Back to list"
+msgstr "Zpět na seznam"
+
+msgid "management"
+msgstr "správa"
+
+msgid "Edit"
+msgstr "Upravit"
+
+msgid "Payments"
+msgstr "Platby"
+
+msgid "Logins"
+msgstr "Přihlášení"
+
+msgid "Client profile details"
+msgstr "Detaily zákazníka"
+
+msgid "Client Profile updated"
+msgstr "Zákaznický profil aktualizován"
+
+msgid "Individual"
+msgstr "Individuální"
+
+msgid "Other/Unknown"
+msgstr "Jiný/Neznámý"
+
+msgid "Mail approved"
+msgstr "Mail schválen"
+
+msgid "Date of birth"
+msgstr "Datum narození"
+
+msgid "Address and contact details"
+msgstr "Adresa a kontaktní údaje"
+
+msgid "Alternative ID"
+msgstr "Alternativní ID"
+
+msgid "Used to identify client on foreign system. Usually used by importers"
+msgstr "Používá se k identifikaci klienta na cizím systému. Obvykle se používá pro import"
+
+msgid "Exempt from tax"
+msgstr "Osvobozen od daně"
+
+msgid "Signed up time"
+msgstr "Datum registrace"
+
+msgid "Custom fields"
+msgstr "Uživatelské položky"
+
+msgid "Use these fields to define custom client details"
+msgstr "Použijte tyto položky pro definování vlastních detailů o zákazníkovi"
+
+msgid "Client Profile custom fields updated"
+msgstr "Uživatelské položky zákazníka aktualizovány"
+
+msgid "Custom field"
+msgstr "Uživatelská položka"
+
+msgid "Client payments history"
+msgstr "Historie plateb zákazníka"
+
+msgid "Add funds for client"
+msgstr "Přidat peníze klientovi"
+
+msgid "Funds added"
+msgstr "Peníze přidány"
+
+msgid "Add funds"
+msgstr "Přidat peníze"
+
+msgid "Client orders"
+msgstr "Objednávky klienta"
+
+msgid "Client invoices"
+msgstr "Faktury klienta"
+
+msgid "Client support tickets"
+msgstr "Tickety klienta"
+
+msgid "Logins history"
+msgstr "Historie přihlášení"
+
+msgid "Emails sent to client"
+msgstr "Emaily odeslané klientovi"
+
+msgid "Email subject"
+msgstr "Předmět emailu"
+
+msgid "Date sent"
+msgstr "Datum odeslání"
+
+msgid "Transactions received"
+msgstr "Přijaté transakce"
+
+msgid "Hi,"
+msgstr "Dobrý den,"
+
+msgid "New"
+msgstr "Nový"
+
+msgid "All settings"
+msgstr "Všechna nastavení"
+
+msgid "Theme settings"
+msgstr "Nastavení motivu"
+
+msgid "Visit site"
+msgstr "Navštívit web"
+
+msgid "Logout"
+msgstr "Odhlásit se"
+
+msgid "Inquiries"
+msgstr "Dotazy"
+
+msgid "Registrar configuration"
+msgstr "Konfigurace registrátora"
+
+msgid "Registrar title"
+msgstr "Titul registrátora"
+
+msgid "Service details"
+msgstr "Detaily služby"
+
+msgid "All information about your service"
+msgstr "Všechny informace o Vaší službě"
+
+msgid "Product name"
+msgstr "Název produktu"
+
+msgid "Payment amount"
+msgstr "Výše platby"
+
+msgid "Billing cycle"
+msgstr "Fakturační cyklus"
+
+msgid "Order created"
+msgstr "Objednávka vytvořena"
+
+msgid "Activated at"
+msgstr "Aktivována"
+
+msgid "Renewal date"
+msgstr "Datum obnovení"
+
+msgid "Order notes"
+msgstr "Poznámky objednávky"
+
+msgid "Active support tickets"
+msgstr "Aktivní tickety podpory"
+
+msgid "Renew now"
+msgstr "Obnovit nyní"
+
+msgid "Request Upgrade"
+msgstr "Žádost o upgrade"
+
+msgid "Open ticket"
+msgstr "Otevřít ticket"
+
+msgid "Request Cancellation"
+msgstr "Žádost o zrušení"
+
+msgid "Back to services"
+msgstr "Zpět ke službám"
+
+msgid "Addons you have ordered with this service"
+msgstr "Doplňové služby, které máte zakoupené s touto službou"
+
+msgid "Billing Cycle"
+msgstr "Fakturační cyklus"
+
+msgid "Submit cancellation request"
+msgstr "Odeslat žádost o zrušení"
+
+msgid "I would like to cancel"
+msgstr "Přeji službu ukončit"
+
+msgid "Reason"
+msgstr "Důvod"
+
+msgid "Submit upgrade request"
+msgstr "Odeslat žádost o upgrade"
+
+msgid "I would like to upgrade"
+msgstr "Chci upgradovat"
+
+msgid "Upgrade to"
+msgstr "Upgradovat na"
+
+msgid "Request"
+msgstr "Požádat"
+
+msgid "Import SolusVM servers"
+msgstr "Importovat SolusVM servery"
+
+msgid "Read before importing servers"
+msgstr "Čtěte před importováním serverů"
+
+msgid "VServer ID"
+msgstr "VServer ID"
+
+msgid "Client ID"
+msgstr "ID klienta"
+
+msgid "Import selected SolusVM virtual server to BoxBilling"
+msgstr "Importovat vybrané SolusVM virtuální servery do BoxBilling"
+
+msgid "Vps hostname"
+msgstr "VPS Hostname"
+
+msgid "mydomain.com"
+msgstr "mydomain.com"
+
+msgid "OS template"
+msgstr "OS Šablona"
+
+msgid "Forum members"
+msgstr "Členové fóra"
+
+msgid "List of all forum members. You can filter the list by clicking on letter above to find usernames which start with this letter."
+msgstr "Seznam všech členů fóra. Seznam můžete filtrovat kliknutím na písmeno výše, abyste našli uživatelská jména začínající tímto písmenem."
+
+msgid "Joined"
+msgstr "Připojeno"
+
+msgid "No icons available"
+msgstr "Nejsou k dispozici žádné ikony"
+
+msgid "Orders settings"
+msgstr "Stránka objednávek"
+
+msgid "Expiration date"
+msgstr "Datum expirace"
+
+msgid "Show addon orders in orders list (if this is disabled they are shown in master order view \"Addons\" tab)"
+msgstr "Zobrazit objednávky addonu v seznamu objednávek (pokud je tato volba zakázána, zobrazí se v hlavním pohledu na kartě \"Addons\")"
+
+msgid "Auto suspend reason"
+msgstr "Důvod automatického pozastavení"
+
+msgid "Auto Cancellation"
+msgstr "Automatické zrušení"
+
+msgid "Suspension reasons"
+msgstr "Důvody pozastavení"
+
+msgid "Payment"
+msgstr "Způsob platby"
+
+msgid "Powered by BoxBilling"
+msgstr "Používá technologii BoxBilling"
+
+msgid "You logged in successfully"
+msgstr "Úspěšně jste se přihlásili"
+
+msgid "Product was added to shopping cart"
+msgstr "Produkt byl přidán do nákupního košíku"
+
+msgid "Promo code was applied for your order"
+msgstr "Pro vaši objednávku byl použit propagační kód"
+
+msgid "YouHosting specifict settings"
+msgstr "Specifická nastavení YourHosting"
+
+msgid "Invoice number"
+msgstr "Číslo faktury"
+
+msgid "Invoice date"
+msgstr "Datum faktury"
+
+msgid "Due date"
+msgstr "Datum splatnosti"
+
+msgid "Invoice status"
+msgstr "Stav faktury"
+
+msgid "Account"
+msgstr "Účet"
+
+msgid "Billing & Delivery address"
+msgstr "Fakturační a dodací adresa"
+
+msgid "Company number"
+msgstr "Číslo společnosti"
+
+msgid "System activity"
+msgstr "Systémová aktivita"
+
+msgid "Ip"
+msgstr "IP"
+
+msgid "Related to"
+msgstr "Souvisí s"
+
+msgid "Service #"
+msgstr "Služba #"
+
+msgid "Last tickets"
+msgstr "Poslední vstupenky"
+
+msgid "Back to tickets list"
+msgstr "Zpět na seznam vstupenek"
+
+msgid "Quantity"
+msgstr "Množství"
+
+msgid "Canned category"
+msgstr "Konzervované kategorie"
+
+msgid "News and announcements"
+msgstr "Novinky a oznámení"
+
+msgid "New announcement"
+msgstr "Nové oznámení"
+
+msgid "Product configuration"
+msgstr "Konfigurace produktu"
+
+msgid "General settings"
+msgstr "Hlavní nastavení"
+
+msgid "Configuration"
+msgstr "Konfigurace"
+
+msgid "Upgrades"
+msgstr "Upgrady"
+
+msgid "Links"
+msgstr "Odkazy"
+
+msgid "Order Form"
+msgstr "Objednávka"
+
+msgid "Open Editor"
+msgstr "Otevřete Editor"
+
+msgid "Hidden"
+msgstr "Skryté"
+
+msgid "Icon/Image URL"
+msgstr "Adresa URL ikony/obrázku"
+
+msgid "Product / service description"
+msgstr "Popis produktu / služby"
+
+msgid "Choose which addons you would like to offer with"
+msgstr "Vyberte jaké příplatkové služby si chcete přikoupit (většinou se aktivují manuálně)"
+
+msgid "Create new addon"
+msgstr "Vytvořit nový doplněk"
+
+msgid "Choose which products can client upgrade to"
+msgstr "Vyberte na jaké proodukty může klient upgradovat"
+
+msgid "Product Upgrades"
+msgstr "Upgrady produkty"
+
+msgid "No additional configuration for this product is required"
+msgstr "Žádná další konfigurace pro tento produkt"
+
+msgid "Product links"
+msgstr "Odkazy produktu"
+
+msgid "Product ID"
+msgstr "ID produktu"
+
+msgid "Order page with ID"
+msgstr "Stránka objednávky s ID"
+
+msgid "Order page with slug"
+msgstr "Stránka objednávky s \"slug\""
+
+msgid "View as client<"
+msgstr "Zobrazit jako klient<"
+
+msgid "Article updated"
+msgstr "Článek aktualizován"
+
+msgid "Article details"
+msgstr "Detaily článku"
+
+msgid "Forgot password?"
+msgstr "Zapomenuté heslo?"
+
+msgid "Max Addon domains"
+msgstr "Max. počet addon domén"
+
+msgid "Max FTP accounts"
+msgstr "Max. počet FTP účtů"
+
+msgid "Max SQL Databases"
+msgstr "Max. počet SQL databází"
+
+msgid "Max Email Accounts"
+msgstr "Max. počet emailových účtů"
+
+msgid "Max Subdomains"
+msgstr "Max. počet subdomén"
+
+msgid "Max Parked Domains"
+msgstr "Max. počet parkovaných domén"
+
+msgid "Server manager specific parameters"
+msgstr "Specifické parametry server manageru"
+
+msgid "Update hosting plan"
+msgstr "Aktualizovat hostingový plán"
+
+msgid "Hosting plan additional parameters"
+msgstr "Volitelné parametry hostingového plánu"
+
+msgid "Depending on server manager used to setup hosting account you may require provide additional parameters. List of parameters server managers requires you can find on extensions page."
+msgstr "V závislosti na server manageru používaný pro hostingové účty můžete uvést volitelné parametry. Seznam parametrů můžete nalézt na stránce s rozšířeními."
+
+msgid "Add new configuration field"
+msgstr "Přidat novou položku konfigurace"
+
+msgid "How to reset my password?"
+msgstr "Jak resetuji své heslo?"
+
+msgid "Please click on \"Edit\" in order to add new select box"
+msgstr "Klepnutím na tlačítko Upravit přidáte nové pole pro výběr"
+
+msgid "Please click on \"Edit\" in order to add new checkbox"
+msgstr "Chcete-li přidat nové zaškrtávací políčko, klikněte na „Upravit“."
+
+msgid "Please click on \"Edit\" in order to add new radio box"
+msgstr "Pro přidání nového rádia klikněte na \"Upravit\"."
+
+msgid "Select currency"
+msgstr "Vyberte měnu"
+
+msgid "Top level domain management"
+msgstr "Správa domény nejvyšší úrovně"
+
+msgid "Something went wrong here"
+msgstr "Něco je špatně"
+
+msgid "Back to Dashboard"
+msgstr "Zpátky na nástěnku"
+
+msgid "Staff Group management"
+msgstr "Správa skupin zaměstnanců"
+
+msgid "Staff group updated"
+msgstr "Skupina zaměstnanců aktualizována"
+
+msgid "Proforma invoice"
+msgstr "Zálohová faktura"
+
+msgid "Payment methods"
+msgstr "Platební metody"
+
+msgid "Please choose payment type and pay for your chosen products."
+msgstr "Prosím vyberte platební bránu a zaplaťte za zvolené produkty"
+
+msgid "Pay with"
+msgstr "Platit"
+
+msgid "You can print this invoice or export it to PDF file by clicking on corresponding button."
+msgstr "Tuto fakturu můžete vytisknout nebo exportovat do souboru PDF kliknutím na příslušné tlačítko."
+
+msgid "PDF"
+msgstr "PDF"
+
+msgid "Print"
+msgstr "Tisk"
+
+msgid "BoxBilling license"
+msgstr "Licence BoxBilling"
+
+msgid "1. Configure API"
+msgstr "1.Nakofigurovat APIA"
+
+msgid "Update API key"
+msgstr "Aktualizovat API"
+
+msgid "2. Become partner"
+msgstr "2.Staňte se partnerem"
+
+msgid "3. Create license product"
+msgstr "3.Vytvořte licenční produkt"
+
+msgid "About us"
+msgstr "O nás"
+
+msgid "Tickets waiting for staff reply"
+msgstr "Ticket čeká na odpověď zaměstnance."
+
+msgid "Tickets waiting for client reply"
+msgstr "Ticket čeká na odpověď zákazníka."
+
+msgid "Solved tickets"
+msgstr "Vyřešené tickety"
+
+msgid "Payment gateway \"AlertPay\" is not configured properly. Please update configuration parameter \"AlertPay Email address\" at \"Configuration -> Payments\"."
+msgstr "Platební brána \"AlertPay\" není správně nakonfigurována. Aktualizujte konfigurační parametr \"E-mailová adresa AlertPay\" v části \"Konfigurace -> Platby\"."
+
+msgid "Payment gateway \"AlertPay\" is not configured properly. Please update configuration parameter \"IPN Security Code\" at \"Configuration -> Payments\"."
+msgstr "Platební brána \"AlertPay\" není správně nakonfigurována. Aktualizujte konfigurační parametr \"IPN Security Code\" v \"Configuration -> Payments\"."
+
+msgid "Not implemented yet"
+msgstr "Dosud neimplementováno"
+
+msgid "Payment gateway \"AliPay\" is not configured properly. Please update configuration parameter \"Partner ID\" at \"Configuration -> Payment gateways\"."
+msgstr "Platební brána „AliPay“ není správně nakonfigurována. Aktualizujte konfigurační parametr \"Partner ID\" v \"Konfigurace -> Platební brány\"."
+
+msgid "Payment gateway \"AliPay\" is not configured properly. Please update configuration parameter \"Security Code\" at \"Configuration -> Payment gateways\"."
+msgstr "Platební brána „AliPay“ není správně nakonfigurována. Aktualizujte konfigurační parametr \"Bezpečnostní kód\" v části \"Konfigurace -> Platební brány\"."
+
+msgid "Payment gateway \"AliPay\" is not configured properly. Please update configuration parameter \"Seller email\" at \"Configuration -> Payment gateways\"."
+msgstr "Platební brána „AliPay“ není správně nakonfigurována. Aktualizujte konfigurační parametr \"E-mail prodejce\" v \"Konfigurace -> Platební brány\"."
+
+msgid "AliPay does not support recurrent payments"
+msgstr "AliPay nepodporuje opakované platby"
+
+msgid "cURL extension is not enabled"
+msgstr "Rozšíření cURL není povoleno"
+
+msgid "SimpleXml extension is not enabled"
+msgstr "Rozšíření SimpleXml není povoleno"
+
+msgid "Payment gateway \"Authorize.net\" is not configured properly. Please update configuration parameter \"API Login ID\" at \"Configuration -> Payments\"."
+msgstr "Platební brána „Authorize.net“ není správně nakonfigurována. Aktualizujte konfigurační parametr \"ID přihlášení k API\" v části \"Konfigurace -> Platby\"."
+
+msgid "Payment gateway \"Authorize.net\" is not configured properly. Please update configuration parameter \"Transaction Key\" at \"Configuration -> Payments\"."
+msgstr "Platební brána „Authorize.net“ není správně nakonfigurována. Aktualizujte konfigurační parametr \"Transakční klíč\" v části \"Konfigurace -> Platby\"."
+
+msgid "Payment gateway \"Authorize.net\" is not configured properly. Please update configuration parameter \"MD5 Hash Value\" at \"Configuration -> Payments\"."
+msgstr "Platební brána „Authorize.net“ není správně nakonfigurována. Aktualizujte konfigurační parametr \"MD5 Hash Value\" v \"Konfigurace -> Platby\"."
+
+msgid "Authorize.net unknown x_response_code"
+msgstr "Authorize.net neznámý x_response_code"
+
+msgid "IPN is not valid"
+msgstr "IPN není platné"
+
+msgid "Shop ID is missing in gateway configuration"
+msgstr "V konfiguraci brány chybí ID obchodu"
+
+msgid "Secret key is missing in gateway configuration"
+msgstr "V konfiguraci brány chybí tajný klíč"
+
+msgid "Interkassa payment gateway do not support recurrent payments"
+msgstr "Platební brána Interkassa nepodporuje opakované platby"
+
+msgid "PHP Curl extension must be enabled in order to use PayPal gateway"
+msgstr "Aby bylo možné používat bránu PayPal, musí být povoleno rozšíření PHP Curl"
+
+msgid "Payment gateway \"PayPal\" is not configured properly. Please update configuration parameter \"PayPal Email address\" at \"Configuration -> Payments\"."
+msgstr "Platební brána \"PayPal\" není správně nakonfigurována. Aktualizujte konfigurační parametr \"E-mailová adresa PayPal\" v části \"Konfigurace -> Platby\"."
+
+msgid "PHP Curl extension must be enabled in order to use Payza gateway"
+msgstr "Aby bylo možné používat bránu Payza, musí být povoleno rozšíření PHP Curl"
+
+msgid "Payment gateway \"Payza\" is not configured properly. Please update configuration parameter \"Payza Email address\" at \"Configuration -> Payments\"."
+msgstr "Platební brána \"Payza\" není správně nakonfigurována. Aktualizujte konfigurační parametr \"E-mailová adresa Payza\" v části \"Konfigurace -> Platby\"."
+
+msgid "Payment gateway \"Payza\" is not configured properly. Please update configuration parameter \"IPN Security Code\" at \"Configuration -> Payments\"."
+msgstr "Platební brána \"Payza\" není správně nakonfigurována. Aktualizujte konfigurační parametr \"IPN Security Code\" v \"Configuration -> Payments\"."
+
+msgid "Payment gateway \"2Checkout\" is not configured properly. Please update configuration parameter \"Vendor account number\" at \"Configuration -> Payments\"."
+msgstr "Platební brána „2Checkout“ není správně nakonfigurována. Aktualizujte konfigurační parametr „Číslo účtu dodavatele“ v části „Konfigurace -> Platby“."
+
+msgid "Payment gateway \"2Checkout\" is not configured properly. Please update configuration parameter \"Secret word\" at \"Configuration -> Payments\"."
+msgstr "Platební brána „2Checkout“ není správně nakonfigurována. Aktualizujte konfigurační parametr \"Tajné slovo\" v části \"Konfigurace -> Platby\"."
+
+msgid "2Checkout IPN is not valid"
+msgstr "2IPN pokladny není platný"
+
+msgid "Invoice id could not be determined for this transaction"
+msgstr "Pro tuto transakci nebylo možné určit ID faktury"
+
+msgid "Payment gateway \"WebMoney\" is not configured properly. Please update configuration parameter \"Purse\" at \"Configuration -> Payment gateways > WebMoney\"."
+msgstr "Platební brána „WebMoney“ není správně nakonfigurována. Aktualizujte konfigurační parametr \"Purse\" v \"Konfigurace -> Platební brány > WebMoney\"."
+
+msgid "WebMoney IPN is not valid"
+msgstr "WebMoney IPN není platné"
+
+msgid "Payment gateway \"WebToPay\" is not configured properly. Please update configuration parameter \"Project ID\" at \"Configuration -> Payments\"."
+msgstr "Platební brána „WebToPay“ není správně nakonfigurována. Aktualizujte konfigurační parametr \"ID projektu\" v části \"Konfigurace -> Platby\"."
+
+msgid "Payment gateway \"WebToPay\" is not configured properly. Please update configuration parameter \"Sign Password\" at \"Configuration -> Payments\"."
+msgstr "Platební brána „WebToPay“ není správně nakonfigurována. Aktualizujte konfigurační parametr \"Heslo pro přihlášení\" v části \"Konfigurace -> Platby\"."
+
+msgid "WebToPay payment gateway do not support recurrent payments"
+msgstr "WebToPay payment gateway do not support recurrent payments"
+
+msgid "Return URL for payment gateway was not set"
+msgstr "Návratová adresa URL pro platební bránu nebyla nastavena"
+
+msgid "Cancel URL for payment gateway was not set"
+msgstr "Adresa URL pro zrušení pro platební bránu nebyla nastavena"
+
+msgid "IPN Notification URL for payment gateway was not set"
+msgstr "Adresa URL oznámení IPN pro platební bránu nebyla nastavena"
+
+msgid "IPN redirect URL for payment gateway was not set"
+msgstr "Adresa URL přesměrování IPN pro platební bránu nebyla nastavena"
+
+msgid "Payment adapter class did not implement configuration options method"
+msgstr "Třída platebního adaptéru neimplementovala metodu možností konfigurace"

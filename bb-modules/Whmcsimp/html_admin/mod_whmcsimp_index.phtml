@@ -1,0 +1,352 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% block meta_title %}{% trans 'WHMCS Migration Module' %}{% endblock %}
+
+{% set active_menu = 'whmcsimp' %}
+
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'WHMCS Migration Module' %}</li>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-xl-12">
+    <!-- div -->
+    <div class="card mg-b-20" id="tabs-style2">
+        <div class="card-body">
+            <div class="main-content-label mg-b-5">
+                WHMCS Parameters
+            </div>
+            <p class="mg-b-20">It is Very Easy to Customize and it uses in your website apllication.</p>
+            <div class="text-wrap">
+                <div class="example">
+                    <div class="panel panel-primary tabs-style-2">
+                        <div class=" tab-menu-heading">
+                            <div class="tabs-menu1">
+                                <!-- Tabs -->
+                                <ul class="nav panel-tabs main-nav-line">
+                                    <li><a href="#tabconfig" class="nav-link active" data-bs-toggle="tab">Connection data with whmcs</a></li>
+                                    <li><a href="#tabprocess" class="nav-link" data-bs-toggle="tab">Process Data Transfer</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-body tabs-menu-body main-content-body-right border">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tabconfig">
+                                    <form method="post" action="" class="" id="formConfApi">
+                                        <div class="help">
+                                            <h3>{% trans 'Connection data for the whmcs api' %}</h3>
+                                            <p>{% trans 'For the connection to be successful, remember to authorize in the Whmcs security options' %}</p>
+                                        </div>
+                                        <fieldset>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="rowElem noborder">
+                                                        <div class="col-md-4">
+                                                            <label class="form-label mg-b-0">Url Whmcs:</label>
+                                                        </div>
+                                                        <div class="formRight">
+                                                            <input type="text"  class="form-control" name="url" id="url"  value="{{params.url}}" placeholder="{% trans 'https://mydomain/whmcs/' %}"/>
+                                                        </div>
+                                                        <div class="fix"></div>
+                                                    </div>
+                                                    <div class="rowElem">
+                                                        <div class="col-md-4">
+                                                            <label class="form-label mg-b-0">Api Identifier Whmcs:</label>
+                                                        </div>
+                                                        <div class="formRight">
+                                                            <input type="text"  class="form-control" name="identifier" id="identifier" value="{{params.identifier}}" placeholder="{% trans ' ' %}"/>
+                                                        </div>
+                                                        <div class="fix"></div>
+                                                    </div>
+                                                    <div class="rowElem">
+                                                        <div class="col-md-4">
+                                                            <label class="form-label mg-b-0">Api Secret Whmcs:</label>
+                                                        </div>
+                                                        <div class="formRight">
+                                                            <input type="text" class="form-control" name="secret" id="secret" value="{{params.secret}}" placeholder="{% trans ' ' %}"/>
+                                                        </div>
+                                                        <div class="fix"></div>
+                                                    </div>
+                                                    <input type="button" value="{% trans 'Update' %}" id="btnUpdateConfig"  class="btn btn-primary btn-sm mb-1 submitForm" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="p-5 w-40 mg-l-10 mb-2 bg-gray-100 bd ">
+                                                        <h4 class="tx-15 text-uppercase">To connect Whmcs to Billing</h4>
+                                                        <p class="m-b-5">
+                                                            <ul>
+                                                            <li style="margin-top:5px">- Go to Whmcs -> settings -> General Settings -> Security -> Whitelisted IPs and add your server ip if different from whmcs.</li>
+
+                                                            <li style="margin-top:5px">- Go to Whmcs -> Settings -> Manage API Credentials and Generate a token with all the following permissions (Billing->all, Client->all, Orders->all, Products->all, Servers->all, Support->all , System->all, Ticketc->all).</li>
+
+                                                            <li style="margin-top:5px">- Add the custamApi.php file to the root of your whmcs <a href="/custamApi.zip"><span class="badge badge-pill bg-primary me-1 my-2"><i class="fe fe-download" data-bs-toggle="tooltip" title="" data-bs-original-title="download" aria-label="download"></i>custamApi.zip</span></a> a la raiz de su whmcs.</li>
+                                                            <li style="margin-top:5px">- Generate api token and copy api Identifier and Api Secret.</li>
+
+
+                                                            </ul>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="tabprocess">
+                                    <div class="row row-sm">
+                                        <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
+                                            <div class="card  box-shadow-0">
+                                                <div class="card-header">
+                                                    <h4 class="card-title mb-1">Information to Migrate</h4>
+                                                    <p class="mb-2">Mark the information you wish to migrate from your whmcs.</p>
+                                                </div>
+                                                <div class="card-body pt-0">
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group mb-0 justify-content-end">
+                                                            <div class="checkbox">
+                                                                <div class="custom-checkbox custom-control">
+                                                                    <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="customers-check" onclick="return dataCheck('customers-check')">
+                                                                    <label for="customers-check" class="custom-control-label mt-1">All client accounts</label>
+                                                                    <label for="" class="mt-1" style="margin-left:30px" id="div-customers-check"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="card-body pt-0">
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group mb-0 justify-content-end">
+                                                            <div class="checkbox">
+                                                                <div class="custom-checkbox custom-control">
+                                                                    <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="products-check" onclick="return dataCheck('products-check')">
+                                                                    <label for="products-check" class="custom-control-label mt-1">All product / Services / Categories / Servers / Packages / Prices</label>
+                                                                    <label for="" class="mt-1" style="margin-left:30px" id="div-products-check"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <div class="card-body pt-0">
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group mb-0 justify-content-end">
+                                                            <div class="checkbox">
+                                                                <div class="custom-checkbox custom-control">
+                                                                    <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="customer_products" onclick="return dataCheck('customer_products')">
+                                                                    <label for="customer_products" class="custom-control-label mt-1">Customer products</label>
+                                                                    <label for="" class="mt-1" style="margin-left:30px" id="div-customer_products"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="card-body pt-0">
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group mb-0 justify-content-end">
+                                                            <div class="checkbox">
+                                                                <div class="custom-checkbox custom-control">
+                                                                    <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="allOrden" onclick="return dataCheck('allOrden')">
+                                                                    <label for="allOrden" class="custom-control-label mt-1">All orders</label>
+                                                                    <label for="" class="mt-1" style="margin-left:30px" id="div-allOrden"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <div class="card-body pt-0">
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group mb-0 justify-content-end">
+                                                            <div class="checkbox">
+                                                                <div class="custom-checkbox custom-control">
+                                                                    <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="allinvoices" onclick="return dataCheck('allinvoices')">
+                                                                    <label for="allinvoices" class="custom-control-label mt-1">All invoices</label>
+                                                                    <label for="" class="mt-1" style="margin-left:30px" id="div-allinvoices"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="card-body pt-0">
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group mb-0 justify-content-end">
+                                                            <div class="checkbox">
+                                                                <div class="custom-checkbox custom-control">
+                                                                    <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="alltickets" onclick="return dataCheck('alltickets')">
+                                                                    <label for="alltickets" class="custom-control-label mt-1">All support tickets / Departments / Staff</label>
+                                                                    <label for="" class="mt-1" style="margin-left:30px" id="div-alltickets"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
+                                            <div class="card  box-shadow-0 ">
+                                                <div class="card-header">
+                                                    <h4 class="card-title mb-1">Migrate</h4>
+                                                    <p class="mb-2">Click on migrate now to start the process</p>
+                                                </div>
+                                                <div class="card-body pt-0">
+                                                    <form>
+                                                        <div class="col-md-12 text-center" style="margin-top:50px">
+                                                            <button type="button" class="btn btn-primary mt-12 mb-0 disabled" id="btnMigrateNow" disabled>Migrate now...!</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="widget">
+
+
+
+
+</div>
+
+<div class="modal fade" id="modalalertProd" tabindex="-1" role="dialog" aria-labelledby="modalalertProdTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function dataCheck(div){
+        if($("#"+div).is(':checked')) {
+
+            if(div == 'customer_products'){/* $("#modalalertProd").modal();*/ alert('In order to import your customer\'s products you must complete the configuration of each of the products manually');}
+            $("#div-"+div).html('<i class="fas fa-circle-notch fa-spin"></i>');
+                const params = 'acc='+div;
+                $.ajax({
+                    type: "POST",
+                    url: "{{ 'api/admin/whmcsimp/get_something'|link }}",
+                    data: params,
+                    dataType: 'json',
+                    error: function(jqXHR, textStatus, e) {
+                        alert(e);
+                    },
+                    success: function(data) {
+                        if(data.error) {
+                            alert(data.error.message);
+                        } else {
+                            if(div=='alltickets'){
+                                var resp = data.result.totalresults;
+                                var file = (data.result.file != '')?' ('+data.result.file+')':'';
+                                $("#div-"+div).html('<span class="badge badge-pill bg-info me-1">'+resp+'</span> Items to Migrate  '+file);
+                            }else{
+                                $("#div-"+div).html('<span class="badge badge-pill bg-info me-1">'+data.result+'</span> Items to Migrate');
+                            }
+                            activeButon();
+                        }
+                    }
+                });
+        }else{
+            $("#div-"+div).html('');
+            activeButon();
+        }
+    }
+    function activeButon(){
+        var checked = $(".custom-control-input:checked").length;
+        if(checked > 0){
+            $("#btnMigrateNow").attr("disabled",false);
+            $("#btnMigrateNow").removeClass("disabled");
+        }else{
+            $("#btnMigrateNow").attr("disabled",true);
+            $("#btnMigrateNow").addClass("disabled");
+        }
+    }
+    $("#btnUpdateConfig").click(function(){
+        const params = 'acc=save_data&'+$("#formConfApi").serialize();
+        $.ajax({
+            type: "POST",
+            url: "{{ 'api/admin/whmcsimp/get_something'|link }}",
+            data: params,
+            dataType: 'json',
+            error: function(jqXHR, textStatus, e) {
+                alert(e);
+            },
+            success: function(data) {
+                return false;
+            }
+        });
+        return false;
+    });
+    $("#btnMigrateNow").click(function (){
+        var process = '';
+        $('input[type=checkbox]:checked').each(function() {
+            process += $(this).prop("id")+':'
+        });
+        $("#btnMigrateNow").attr("disabled",true);
+        $("#btnMigrateNow").addClass("disabled");
+        var text = $("#btnMigrateNow").text();
+        $("#btnMigrateNow").html("<i class=\"fas fa-circle-notch fa-spin\"></i>  "+text);
+        const params = 'acc=process&data='+process;
+        $.ajax({
+            type: "POST",
+            url: "{{ 'api/admin/whmcsimp/get_something'|link }}",
+            data: params,
+            dataType: 'json',
+            error: function(jqXHR, textStatus, e) {
+                alert(e);
+            },
+            success: function(data) {
+                $("#btnMigrateNow").attr("disabled",false);
+                $("#btnMigrateNow").removeClass("disabled");
+                $("#btnMigrateNow").html(text);
+                console.log(data);
+                return false;
+            }
+        });
+        return false;
+    });
+    $(document).ready(function() {
+        const params = 'acc=getConfigData';
+        $.ajax({
+            type: "POST",
+            url: "{{ 'api/admin/whmcsimp/get_something'|link }}",
+            data: params,
+            dataType: 'json',
+            error: function(jqXHR, textStatus, e) {
+                alert(e);
+            },
+            success: function(data) {
+                console.log(data);
+                var obj = data.result;
+                $("#formConfApi #url").val(obj.url);
+                $("#formConfApi #identifier").val(obj.identifier);
+                $("#formConfApi #secret").val(obj.secret);
+            }
+        });
+    });
+</script>
+{% endblock %}

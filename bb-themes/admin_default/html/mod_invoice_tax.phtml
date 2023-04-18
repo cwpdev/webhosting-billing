@@ -1,0 +1,160 @@
+{% extends "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}Tax{% endblock %}
+{% set active_menu = 'system' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu2">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Tax rules' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-new">{% trans 'New tax rule' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-settings">{% trans 'Tax settings' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-eu-vat">{% trans 'EU VAT' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-index">
+
+                        <table class="table table-bordered table-striped" id="tableTax">
+                            <thead>
+                                <tr>
+                                    <th style="width: 2%"><input type="checkbox" class="batch-delete-master-checkbox"/></th>
+                                    <th>{% trans 'Name' %}</th>
+                                    <th>{% trans 'Country' %}</th>
+                                    <th>{% trans 'State/Region' %}</th>
+                                    <th>{% trans 'Tax rate' %}</th>
+                                    <th>{% trans 'Actions' %}</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for tax in admin.invoice_tax_get_list({"per_page":100}).list %}
+                            <tr>
+                                <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ tax.id }}"/></td>
+                                <td>{{ tax.name }}</td>
+                                <td>
+                                    {% if tax.country %}
+                                    {{ guest.system_countries[tax.country] }}
+                                    {% else %}
+                                    {% trans 'Applies to any country' %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if tax.state %}
+                                    {{ tax.state }}
+                                    {% else %}
+                                    {% trans 'Applies to any state' %}
+                                    {% endif %}
+                                </td>
+                                <td>{{ tax.taxrate }}%</td>
+                                <td class="actions" style="">
+                                    <a class="btn btn-sm  bg-info-transparent text-info" href="{{ 'invoice/tax'|alink}}/{{ tax.id }}"><i class="fe fe-edit"></i></a>
+                                    <a class="btn btn-sm bg-danger-transparent  text-danger bb-rm-tr api-link" data-api-reload="1" data-api-confirm="Are you sure?" href="{{ 'api/admin/invoice/tax_delete'|link({'id' : tax.id}) }}"><i class="fe fe-trash"></i></a>
+                                </td>
+
+                            </tr>
+                            </tbody>
+                            {% endfor %}
+
+                        </table>
+                        {% include "partial_batch_delete.phtml" with {'action' : 'admin/invoice/batch_delete_tax'} %}
+
+                     </div>
+
+                    <div class="tab-pane " id="tab-settings">
+                        <form method="post" action="{{ 'api/admin/system/update_params'|link }}" class="save api-form" data-api-msg="Tax settings updated">
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Enable tax support' %}:</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                     <input type="radio" name="tax_enabled" value="1"{% if admin.system_param({"key":"tax_enabled"}) %} checked="checked"{% endif %} /><span>{% trans 'Yes' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="tax_enabled" value="0"{% if not admin.system_param({"key":"tax_enabled"}) %} checked="checked"{% endif %} /><span>{% trans 'No' %}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                   </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update' %} </button>
+
+                        </form>
+                    </div>
+
+                    <div class="tab-pane " id="tab-eu-vat">
+
+                        <div class="help">
+                            <h3>{% trans 'Automatic VAT Tax Rules Setup' %}</h3>
+                            <p>{% trans 'If you would like WebHosting Billing to automatically setup the EU VAT tax rules for you for all EU Member States then simply enter your VAT Label & local VAT rate below and click the submit button. <strong>This action will delete any existing tax rules</strong> and configure the VAT rates for all EU countries.' %}</p>
+                        </div>
+                        <br/>
+                        <div class="aligncenter">
+                            <a href="{{ 'api/admin/invoice/tax_setup_eu'|link}}" title="" class="btn bg-info-transparent text-info btn-block api-link" data-api-reload="1" data-api-confirm="It will overwrite your existing VAT rules. Are you sure?"><i class="fe fe-download"></i> <span>Generate VAT rates</span></a>
+                        </div>
+                        <br/>
+                    </div>
+
+                    <div class="tab-pane " id="tab-new">
+
+                        <form method="post" action="{{ 'api/admin/invoice/tax_create'|link }}" class="save api-form" data-api-reload="1">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Tax title' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="name" value="{{request.name}}" required="required" placeholder="{% trans 'sales Tax' %}"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Tax rate' %}:</label>
+                                    <div class="formRight">
+                                        <div class="row">
+                                            <div class="col-md-2"><input type="text" class="form-control" name="taxrate" value="{{request.taxrate}}" required="required" placeholder="{% trans '18' %}" style="width: 100%"/></div>
+                                            <div class="col-md-1 pt-2"> %</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Country' %}:</label>
+                                    <div class="formRight">
+                                        {{ mf.selectbox('country', guest.system_countries, request.country, 0, 'Apply to all countries') }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'State' %}:</label>
+                                    <div class="formRight">
+                                        {# mf.selectbox('state', guest.system_states, request.state, 0, 'Apply to all states') #}
+                                        <input type="text" class="form-control" name="state" value="{{ request.state }}" placeholder="{% trans 'Leave empty to apply to all states' %}"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Create' %} </button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#tableTax").DataTable();
+    });
+</script>
+{% endblock %}

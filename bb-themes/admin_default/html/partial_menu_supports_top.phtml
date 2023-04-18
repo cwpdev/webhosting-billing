@@ -1,0 +1,23 @@
+<ul class="menu_body">
+    {% if admin.system_is_allowed({"mod":"support"}) %}
+    <li><a href="{{ 'support?&status=open'|alink }}" title="">{% trans 'Client Tickets' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"support"}) %}
+    <li><a href="{{ 'support?&show_filter=1'|alink }}" title="">{% trans 'Advanced Ticket Search' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"support"}) %}
+    <li><a href="{{ 'support?&show_filter=1'|alink }}" title="">{% trans 'New Category' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"support"}) %}
+    <li><a href="{{ 'public-tickets?&status=open'|alink }}" title="">{% trans 'Public Tickets' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"support"}) %}
+    <li><a href="{{ 'canned-responses'|alink }}" title="">{% trans 'Canned Responses' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"support"}) %}
+    <li><a href="{{ 'forum'|alink }}" title="">{% trans 'Forum' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"support"}) %}
+    <li><a href="{{ 'news'|alink }}" title="">{% trans 'Announcements' %}</a></li>
+    {% endif %}
+</ul>

@@ -1,0 +1,152 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Invoice settings' %}{% endblock %}
+{% set active_menu = 'system' %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'Invoice settings' %}</li>
+
+{% endblock %}
+
+{% block content %}
+
+
+        {% set params = admin.system_get_params %}
+    <form method="post" action="{{ 'api/admin/system/update_params'|link }}" class="api-form" data-api-msg="Settings updated">
+        <div class="card">
+            <div class="card-body mt-0">
+                <h5 class="iCog">{% trans 'Invoice settings' %}</h5>
+                <div class="rowElem noborder">
+                    <label>{% trans 'Number of days to generate new invoice before order expiration' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control" name="invoice_issue_days_before_expire" value="{{params.invoice_issue_days_before_expire}}"/>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Invoice due days' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control" name="invoice_due_days" value="{{params.invoice_due_days}}"/>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Auto invoice approval' %}</label>
+                    <div class="formRight">
+                        <div class="row pt-3">
+                            <div class="col-md-3">
+                                <label class="rdiobox">
+                                    <input type="radio" name="invoice_auto_approval" value="1" {% if params.invoice_auto_approval == "1" %}checked="checked"{% endif %}/><span>{% trans 'Yes' %}</span>
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="rdiobox">
+                                    <input type="radio" name="invoice_auto_approval" value="0" {% if params.invoice_auto_approval == "0" %}checked="checked"{% endif %}/><span>{% trans 'No' %}</span>
+                                </label>
+                            </div>
+                     </div>
+                    <div class="fix"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="card">
+            <div class="card-body mt-0">
+            <h5>{% trans 'Proforma Invoicing / Sequential Invoice Numbering' %}</h5>
+
+        <div class="rowElem">
+            <label>{% trans 'Remove unpaid invoices after x days. Set 0 to keep invoices forever' %}</label>
+            <div class="formRight">
+                <input type="text" class="form-control" name="remove_after_days" value="{{params.remove_after_days | default(0)}}"/>
+            </div>
+            <div class="fix"></div>
+        </div>
+
+        <div class="rowElem">
+            <label>{% trans 'Proforma invoice prefix/series' %}</label>
+            <div class="formRight">
+                <input type="text" class="form-control" name="invoice_series" value="{{params.invoice_series}}"/>
+            </div>
+            <div class="fix"></div>
+        </div>
+
+        <div class="rowElem">
+            <label>{% trans 'Paid invoice prefix/series' %}</label>
+            <div class="formRight">
+                <input type="text" class="form-control" name="invoice_series_paid" value="{{params.invoice_series_paid}}"/>
+            </div>
+            <div class="fix"></div>
+        </div>
+
+        <div class="rowElem">
+            <label>{% trans 'Next paid invoice number' %}</label>
+            <div class="formRight">
+                <input type="text" class="form-control" name="invoice_starting_number" value="{{params.invoice_starting_number}}"/>
+            </div>
+            <div class="fix"></div>
+        </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body mt-0">
+
+            <h5>{% trans 'Refunds settings' %}</h5>
+        <div class="rowElem">
+            <label>{% trans 'Refunds logic' %}</label>
+            <div class="formRight">
+                <div class="row pt-3">
+                    <div class="col-md-12">
+                        <label class="rdiobox">
+                            <input type="radio" name="invoice_refund_logic" value="negative_invoice" {% if params.invoice_refund_logic == "1" %}checked="checked"{% endif %}/><span> Negative invoice. Generate refund invoice continuing paid invoices numbering</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row pt-3">
+                    <div class="col-md-12">
+                        <label class="rdiobox">
+                            <input type="radio" name="invoice_refund_logic" value="credit_note" {% if params.invoice_refund_logic == "credit_note" %}checked="checked"{% endif %}/><span> Credit note. Generate credit note with unique numbering</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row pt-3">
+                    <div class="col-md-12">
+                        <label class="rdiobox">
+                            <input type="radio" name="invoice_refund_logic" value="manual" {% if params.invoice_refund_logic == "manual" %}checked="checked"{% endif %}/><span> Manual. No actions performed</span>
+                        </label>
+                    </div>
+                </div>
+             </div>
+            <div class="fix"></div>
+        </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body mt-0">
+                <h5>{% trans 'Add funds settings' %}</h5>
+                <div class="rowElem">
+                    <label>{% trans 'Minimum amount for add funds invoice' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control" name="funds_min_amount" value="{{params.funds_min_amount}}" placeholder="{% trans 'Unlimited' %}"/>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Maximum amount for add funds invoice' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control" name="funds_max_amount" value="{{params.funds_max_amount}}" placeholder="{% trans 'Unlimited' %}"/>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <button type="submit" value="" class="btn btn-primary  submitForm" ><i class="fe fe-save"></i> {% trans 'Update settings' %}</button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% block meta_title %}{{ forum.title }}{% endblock %}
+
+{% block content_before %}
+		<!-- Page Heading/Breadcrumbs -->
+        <div class="left-content">
+            <span class="main-content-title mg-b-0 mg-b-lg-1">{{ forum.title }}</span>
+        </div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item tx-15"><a href="{{ 'forum'|link }}">{% trans 'Forum' %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><b>{{ forum.title }}</b></li>
+        </ol>
+        <!-- /.row -->
+{% endblock %}
+{% block content %}
+
+        {% set topics = guest.forum_get_topic_list({"forum_id":forum.id, "per_page":20,"page":request.page}) %}
+        {% for i, topic in topics.list %}
+        <div class="card">
+            <div class="card-body">
+                <a href="{{ '/forum'|link }}/{{forum.slug}}/{{topic.slug}}" class="list-group-item {% if topic.status == "locked" %} disabled{% endif %}">
+                <h4 class="list-group-item-heading">
+                    {% if topic.status == "locked" %}<i class="fa fa-lock"></i> {% endif %}
+                    <strong>{{topic.title}}</strong>
+                    <small class="pull-right"><strong>{{ topic.stats.posts_count }} {% trans 'Replies' %}</strong> - {{ topic.stats.views_count }} {% trans 'Views' %}</small>
+                </h4>
+                <p class="list-group-item-text">
+                    {% trans 'Last post' %}: {{ topic.last.created_at|timeago }} {% trans 'ago' %} {% trans 'by' %} <img src="{{ topic.last.author.email|gravatar }}?size=15" alt="{{ topic.last.author.name }}"> {{ topic.last.author.name }}
+                </p>
+                </a>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="card bd-0 mg-b-20">
+            <div class="card-body bd bd-info text-center rounded">
+                <div class="info-widget">
+                    <i class="si si-info mg-b-20 tx-50 text-info"></i>
+                    <h3 class="mt-3 text-info">info!</h3>
+                    <p class="mt-3 mb-0">{% trans 'The list is empty' %}</p>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    {% include "partial_pagination.phtml" with {'list': topics} %}
+
+    <p class="text-center">
+        <a class="btn btn-light" href="{{ '/forum'|link }}"><i class="fa fa-arrow-left"></i> {% trans 'Forums' %}</a>
+        {% if client %}
+        <a class="btn btn-primary" role="button" data-bs-toggle="collapse" href="#new-topic" aria-expanded="false" aria-controls="new-topic">{% trans 'New topic' %}</a>
+        {% else %}
+        <a class="btn btn-primary" href="" data-bs-toggle="modal" data-bs-target="#login">{% trans 'Login' %}</a>
+        {% endif %}
+    </p>
+
+	<div class="collapse well" id="new-topic">
+        <div class="card">
+            <div class="card-body">
+		<h4>{% trans 'Start new topic in' %} "{{ forum.title }}"</h4>
+		<form method="post" action="" class="api_form" data-api-url="client/forum/start_topic" data-api-tocreated="{{ 'forum'|link }}/{{ forum.slug }}">
+			<div class="control-group form-group">
+                <div class="controls">
+                    <label class="form-label">{% trans 'Topic title' %}:</label>
+                    <input type="text" class="form-control" name="topic" value="{{ request.topic }}" required="required">
+                </div>
+            </div>
+			<div class="control-group form-group">
+				<div class="controls">
+					<label class="form-label">{% trans 'Message' %}:</label>
+					<textarea rows="10" cols="100" class="form-control" name="message" style="resize:none" data-provide="markdown" data-iconlibrary="fa" required="required">{{ request.message }}</textarea>
+				</div>
+			</div>
+			<input type="hidden" name="return" value="slug">
+            <input type="hidden" name="forum_id" value="{{ forum.id }}">
+			<input class="btn btn-primary" type="submit" value="{% trans 'Create new topic' %}">
+		</form>
+            </div>
+        </div>
+	</div>
+
+{% endblock %}

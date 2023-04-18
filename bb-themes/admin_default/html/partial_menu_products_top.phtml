@@ -1,0 +1,26 @@
+<ul class="menu_body">
+    {% if admin.system_is_allowed({"mod":"product"}) %}
+    <li><a href="{{ 'product#tab-new'|alink }}" title="">{% trans 'New Product' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"product"}) %}
+    <li><a href="{{ 'product'|alink }}" title="">{% trans 'Overview Products' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"product"}) %}
+    <li><a href="{{ 'product?&show_filter=1'|alink }}" title="">{% trans 'New Category' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"product"}) %}
+    <li><a href="{{ 'product/subscriptions'|alink }}" title="">{% trans 'Manager Categories' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"product"}) %}
+    <li><a href="{{ 'product/subscriptions'|alink }}" title="">{% trans 'New Addon' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"product"}) %}
+    <li><a href="{{ 'product/subscriptions'|alink }}" title="">{% trans 'List Addon' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"product"}) %}
+    <li><a href="{{ 'product/subscriptions'|alink }}" title="">{% trans 'New Promo' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"product"}) %}
+    <li><a href="{{ 'product/subscriptions'|alink }}" title="">{% trans 'List Promo' %}</a></li>
+    {% endif %}
+</ul>

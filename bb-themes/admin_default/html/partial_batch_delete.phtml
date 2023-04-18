@@ -1,0 +1,34 @@
+<!--<a class="btn14 bb-rm-tr api-link" id="batch-delete-selected-btn" style="margin: 10px"><img src="images/icons/dark/trash.png" alt="" >
+    {% trans 'Delete selected' %}
+</a>-->
+<div class="col-md-12 text-center">
+    <button class="btn bg-danger-transparent text-danger btn-sm mt-1" id="batch-delete-selected-btn"><i class="fe fe-trash"></i> {% trans 'Delete selected' %}</button>
+</div>
+    <script type="text/javascript">
+    $(function () {
+        $('#batch-delete-selected-btn').click(function () {
+            if ($('input.batch-delete-checkbox:checked').length) {
+                jConfirm('Are you sure?', 'Confirm Batch Delete', function (r) {
+                    if (r) {
+                        var ids = $('input.batch-delete-checkbox:checked').map(function () {
+                            return $(this).attr("data-item-id");
+                        }).get();
+                        bb.post(
+                            '{{ action }}',
+                            {ids: ids},
+                            function (result) {
+                                bb.reload();
+                            })
+                    }
+                });
+            } else {
+                jAlert('You need to select at least one item to delete');
+            }
+
+        });
+
+        $('input.batch-delete-master-checkbox').click(function () {
+            $('input.batch-delete-checkbox').prop('checked', this.checked);
+        });
+    });
+</script>

@@ -1,0 +1,116 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set active_menu = 'system' %}
+{% block meta_title %}Payment gateways{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu2">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Payment gateways' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-new">{% trans 'New payment gateway' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-index">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td>{% trans 'Title' %}</td>
+                                <td>{% trans 'Code' %}</td>
+                                <td>{% trans 'Enabled' %}</td>
+                                <td>{% trans 'Allow one time payments' %}</td>
+                                <td>{% trans 'Allow subscriptions' %}</td>
+                                <td style="width: 18%">&nbsp;</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for gateway in admin.invoice_gateway_get_list({"per_page":100000}|merge(request)).list %}
+                        <tr>
+                            <td>{{ gateway.title }}</td>
+                            <td>{{ gateway.code }}</td>
+                            <td>{{ mf.q(gateway.enabled) }}</td>
+                            <td>{{ mf.q(gateway.allow_single) }}</td>
+                            <td>{{ mf.q(gateway.allow_recurrent) }}</td>
+                            <td class="actions">
+                                <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/invoice/gateway'|alink }}/{{gateway.id}}"><i class="fe fe-edit"></i></a>
+                                <a class="btn btn-sm bg-success-transparent  text-success api-link" href="{{ 'api/admin/invoice/gateway_copy'|link({'id' : gateway.id}) }}" data-api-redirect="{{ 'invoice/gateways'|alink }}" title="Copy"><i class="fe fe-copy"></i></a>
+                                <a class="btn btn-sm bg-danger-transparent  text-danger bb-rm-tr api-link" data-api-confirm="Are you sure?" data-api-redirect="{{ 'invoice/gateways'|alink }}" href="{{ 'api/admin/invoice/gateway_delete'|link({'id' : gateway.id}) }}"><i class="fe fe-trash"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                        {% else %}
+                        <tbody>
+                            <tr>
+                                <td colspan="5">
+                                    {% trans 'The list is empty' %}
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+
+                <div class="tab-pane " id="tab-new">
+                    {% include "partial_extensions.phtml" with {'type': 'payment-gateway', 'header':"List of payment gateways on extensions site"} only %}
+                    <div class="body">
+                        <h5 class="pt10">{% trans 'Adding new payment gateway' %}</h5>
+                        <p>{% trans 'Although WebHosting Billing ships with most popular payment gateways, you can install other gateways.' %}</p>
+                        <p>{% trans 'Follow these instructions to install new payment gateway.' %}</p>
+                        <div class="pt20 list arrowGrey">
+                            <ul>
+                                <li>{% trans 'Check for payment gateway at' %} <a href="http://extensions.boxbilling.com/" target="_blank">WebHosting Billing extensions site</a> {% trans 'for more payment gateways' %}</li>
+                                <li>{% trans 'Download payment gateway extension file and place it to' %}<strong>{{ constant('BB_PATH_LIBRARY') }}/Payment/Adapter</strong></li>
+                                <li>{% trans 'After file is uploaded in place, reload this page.' %}</li>
+                                <li>{% trans 'Select uploaded file name and click on install.' %}</li>
+                                <li>{% trans 'Payment gateway will be installed in WebHosting Billing and can be configured in \"Payment gateways\" tab.' %}</li>
+                                <li>{% trans 'For developers. Read' %} <a href="http://docs.boxbilling.com/en/latest/reference/extension.html#payment-gateway" target="_blank">WebHosting Billing documentation</a> {% trans 'to learn how to create your own payment gateway and share it with community' %}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+            {% if admin.invoice_gateway_get_available|length > 0 %}
+            <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans 'Code' %}</th>
+                    <th style="width: 5%">{% trans 'Install' %}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for gtw in admin.invoice_gateway_get_available %}
+            <tr>
+                <td>{{ gtw }}</td>
+                <td class="actions">
+                    <a class="btn btn-sm bg-warning-transparent text-warning api-link" href="{{ 'api/admin/invoice/gateway_install'|link({'code' : gtw}) }}" data-api-redirect="{{ 'invoice/gateways'|alink }}" title="Install"><i class="fe fe-settings"></i></a>
+                </td>
+            </tr>
+            </tbody>
+
+            {% else %}
+            <tbody>
+                <tr>
+                    <td colspan="5">
+                        {% trans 'All payment gateways installed' %}
+                    </td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+                {% endif %}
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

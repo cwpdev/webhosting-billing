@@ -1,0 +1,385 @@
+{% set company  = guest.system_company %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block meta_title %}{% endblock %} {{ settings.meta_title }}</title>
+
+    <meta property="bb:url" content="{{ constant('BB_URL') }}"/>
+    <meta property="bb:client_area" content="{{ '/'|link }}"/>
+
+    <meta name="description" content="{% block meta_description %}{{ settings.meta_description }}{% endblock %}" />
+    <meta name="keywords" content="{% block meta_keywords %}{{ settings.meta_keywords }}{% endblock %}" />
+    <meta name="robots" content="{% if settings.meta_robots|default %}{{ settings.meta_robots }}{% else %}index, follow{% endif %}" />
+    <meta name="author" content="{{ settings.meta_author }}">
+
+
+    <link rel="shortcut icon" href="{{ 'favicon.ico' | asset_url }}" />
+
+
+    <!-- Icons css -->
+    <link href="{{ 'css/icons.css'  | asset_url}}" rel="stylesheet">
+
+    <!--  bootstrap css-->
+    <!--  bootstrap css-->
+    <link href="{{ 'plugins/bootstrap/css/bootstrap.min.css'  | asset_url }}" rel="stylesheet" />
+    <!--- Internal Sweet-Alert css-->
+    <link href="{{ 'plugins/sweet-alert/sweetalert.css'  | asset_url }}" rel="stylesheet">
+    <!-- style css -->
+    <link href="{{ 'css/style.css'  | asset_url }}" rel="stylesheet">
+
+    {% if settings.inject_css|default %}
+    <!-- Custom CSS -->
+    <style>
+        {{ settings.inject_css|raw }}
+    </style>
+    {% endif %}
+
+    <!-- Custom Fonts -->
+    <link href="{{ 'font-awesome/css/font-awesome.min.css' | asset_url }}" rel="stylesheet" type="text/css">
+
+    <!-- jQuery <script src="{{ 'js/jquery.js' | asset_url }}"></script>-->
+    <script src="{{ 'plugins/jquery/jquery.min.js' | asset_url }}"></script>
+
+    <!-- BoxBilling -->
+    <script src="{{ 'js/bb-jquery.js' | asset_url }}"></script>
+
+
+
+    {% if settings.inject_javascript|default %}
+    <!-- Custom Javascript -->
+    <script>
+        {{ settings.inject_javascript|raw }}
+    </script>
+    {% endif %}
+
+    {% block js %}{% endblock %}
+
+    {% block opengraph %}{% endblock %}
+    {% block head %}{% endblock %}
+</head>
+
+<body class="ltr main-body app horizontal">
+<div class="horizontalMenucontainer">
+{% if guest.extension_is_on({"mod":"cookieconsent"}) %}
+{% include 'mod_cookieconsent_index.phtml' ignore missing%}
+{% endif %}
+<!-- Page -->
+<div class="page">
+
+    <div>
+        <div class="main-header sticky nav nav-item hor-header" style="margin-bottom: -63.2px;">
+            <div class="main-container container">
+                <div class="main-header-left ">
+                    <div class="logo-horizontal">
+                    <a href="{{''|link }}" class="header-logo" >
+                        {% if company.logo_url %}<h4><a href="{{ ''|link }}"><img src="{{company.logo_url}}" alt="{{company.name}}" class="img-responsive center-block" /></a></h4>
+                        {% else %}<h4><a href="{{ ''|link }}"><img src=" {{ 'images/logo.png' | asset_url }}" alt="{{company.name}}" class="img-responsive center-block" /></a></h4>
+                        {% endif %}
+                    </a>
+                    </div>
+                </div>
+                <div class="main-header-right ">
+                    <div class="mb-0 navbar navbar-expand-lg navbar-nav-right responsive-navbar navbar-dark p-0">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+                            <ul class="nav nav-item header-icons navbar-nav-right ms-auto">
+                                <li class="dropdown nav-item">
+                                    <a class="new nav-link" data-bs-target="#country-selector" data-bs-toggle="modal" href=""><svg class="header-icon-svgs" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm7.931 9h-2.764a14.67 14.67 0 0 0-1.792-6.243A8.013 8.013 0 0 1 19.931 11zM12.53 4.027c1.035 1.364 2.427 3.78 2.627 6.973H9.03c.139-2.596.994-5.028 2.451-6.974.172-.01.344-.026.519-.026.179 0 .354.016.53.027zm-3.842.7C7.704 6.618 7.136 8.762 7.03 11H4.069a8.013 8.013 0 0 1 4.619-6.273zM4.069 13h2.974c.136 2.379.665 4.478 1.556 6.23A8.01 8.01 0 0 1 4.069 13zm7.381 6.973C10.049 18.275 9.222 15.896 9.041 13h6.113c-.208 2.773-1.117 5.196-2.603 6.972-.182.012-.364.028-.551.028-.186 0-.367-.016-.55-.027zm4.011-.772c.955-1.794 1.538-3.901 1.691-6.201h2.778a8.005 8.005 0 0 1-4.469 6.201z"/></svg></a>
+                                </li>
+                                <li class="dropdown nav-item">
+                                    <a  class="new nav-link theme-layout nav-link-bg layout-setting"  href="{{ 'cart'|link }}" title="{% trans 'Shopping cart' %}"><i class="header-icon-svgs fe fe-shopping-cart"></i></a>
+                                </li>
+                                {% if client %}
+                                {% set profile = client.client_get %}
+                                 <li class="dropdown nav-item"><a href="{{ ''|link }}" title="{% trans 'Dashboard' %}"  class="new nav-link theme-layout nav-link-bg layout-setting"><i class="fe fe-home header-icon-svgs"></i></a></li>
+                                 <li class="dropdown main-profile-menu nav nav-item nav-link ps-lg-2">
+                                    <a class="new nav-link profile-user" href="javascript:void(0)"  data-bs-toggle="dropdown"><i class="fe fe-user header-icon-svgs "></i></a>
+                                    <div class="dropdown-menu">
+                                        <div class="menu-header-content p-3 border-bottom">
+                                            <div class="d-flex wd-100p">
+                                                <div class="main-img-user"><img src="{{ profile.email|gravatar }}" alt="Gravatar" /></div>
+                                                <div class="ms-3 my-auto">
+                                                    <h6 class="tx-15 font-weight-semibold mb-0"> {{ (profile.first_name ~ " " ~ profile.last_name) }}</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="dropdown-item" href="{{ 'client/me'|link }}" title="{% trans 'Profile' %}"><i class="far fa-user-circle"></i>{% trans 'Manage profile' %}</a>
+                                        {% if settings.show_client_emails %} <a class="dropdown-item" href="{{ 'email'|link }}" title="{% trans 'Emails'%}"><i class="far fa-envelope "></i>{% trans 'Emails'%}</a>{% endif %}
+                                        {% if settings.show_client_balance %}<a class="dropdown-item" href="{{ 'client/balance'|link }}"><i class="fa fa-bank"></i> {% trans 'Balance' %}: {{ profile.balance | money(profile.currency) }}</a>{% endif %}
+                                        <a class="dropdown-item" href="{{ 'client/logout'|link }}" title="{% trans 'Sign out' %}"><i class="far fa-arrow-alt-circle-left"></i>{% trans 'Sign out' %}</a>
+                                    </div>
+                                </li>
+                                {% else %}
+                                <li class="dropdown nav-item"><a href="" data-bs-toggle="modal" data-bs-target="#login" title="{% trans 'Sig in' %}" class="new nav-link theme-layout nav-link-bg layout-setting"><i class="fe fe-log-in  header-icon-svgs"></i></a></li>
+                                <li class="dropdown nav-item"><a href="{{ 'login'|link({'register' : 1}) }}" title="{% trans 'Register' %}" class="new nav-link theme-layout nav-link-bg layout-setting"><i class="fe fe-user-plus header-icon-svgs"></i></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="jumps-prevent" style="padding-top: 63.2px;"></div>
+        <div class="sticky">
+            <aside class="app-sidebar ps ps--active-y horizontal-main">
+                <div class="main-sidemenu container">
+                    <!--<div class="slide-left disabled" id="slide-left"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"/></svg></div>-->
+                    {% include "partial_menu.phtml" %}
+
+                    <!-- <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"><path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"/></svg></div>-->
+                </div>
+            </aside>
+        </div>
+        <!-- main-sidebar -->
+    </div><!-- container -->
+    <!-- main-content -->
+    <div class="main-content horizontal-content">
+        <!-- container -->
+        <div class="main-container container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                {% block content_banner %}{% endblock %}
+                <div class="col-sm-12">
+                </div>
+                <div class="col-sm-12">
+                        {% if request._url != '/' and request._url != '' %}
+                            <div class="">
+                                <div class="h-100">
+                        {% endif %}
+                                    <div class="breadcrumb-header justify-content-between">
+                                        <div class="left-content">
+                                            {% block content_before %}{% endblock %}
+                                        </div>
+                                    </div>
+                                    {% include "partial_message.phtml" %}
+                        {% block content %}{% endblock %}
+                        {% if request._url != '/' and request._url != '' %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% block content_after %}{% endblock %}
+
+                        {% if not client %}
+                        <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="{% trans 'Login to client area' %}">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" id="_login_container_">
+                                    <!--<form action="" method="post" class="api_form" data-api-url="{{ 'api/guest/client/login'|link }}" data-api-reload="1">-->
+                                    <form action="" method="post" class="api_form" data-api-url="{{ 'api/guest/client/login'|link }}" data-api-jsonp="clientLoginSuccessCheck">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="myModalLabel">{% trans 'Login to client area' %}</h6>
+                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% set params = guest.sociallogin_get_config() %}
+                                            {% if params.sing_in_google_enable == true %}
+                                                <div class="signin-with-container">
+                                                    <a href="{{params.auth_url}}"><img src="{{ 'images/g-signin.png' | asset_url }}"></a>
+                                                </div>
+                                                <span class="login-separator">or</span>
+                                            {% endif %}
+                                            <div class="control-group form-group">
+                                                <div class="controls">
+                                                    <label class="form-label">{% trans 'Email address' %}:</label>
+                                                    <input type="email" class="form-control" name="email" value="{{ request.email }}" required="required" placeholder="{% trans 'Email address' %}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group form-group">
+                                                <div class="controls">
+                                                    <label class="form-label">{% trans 'Password' %}:</label>
+                                                    <input type="password" class="form-control" name="password" value="" required="required">
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="remember" value="1" />
+                                            <div class="text-end">
+                                                <a class="text-primary" href="{{ 'reset-password'|link }}"><i class="fe fe-lock"></i> {% trans 'Reset password' %}</a>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+
+                                            <a class="btn btn-success" href="{{ '/login'|link({'register' : 1}) }}"><i class="fe fe-user-plus"></i> {% trans 'Create account' %}</a>
+
+                                            <button class="btn btn-primary btn-form-submit" type="submit" value=""><i class="fe fe-log-in"></i> {% trans 'Sign in' %}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-content" id="_2fa_login_container_">
+                                    <form class="mainForm api-form" data-api-url="{{ 'api/guest/client/check_2fa'|link }}" method="post" data-api-jsonp="clientLoginSuccessCheck">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="myModalLabel">{% trans 'Login to client area' %}</h6>
+                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>To secure your account, please complete the following verification</p>
+                                            <div class="form-group">
+                                                <label>Security verifications</label>
+                                                <input class="form-control" id="_sfa_auth_field_" required maxlength="6" type="text" name="code_2fa" value="" placeholder="******">
+                                            </div>
+                                            <p>Enter the 6 digit code from Google Authenticator.</p>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary btn-block btn-form-submit"><i class="fas fa-arrow-alt-circle-right"></i> Esnter</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.container -->
+            <noscript>NOTE: Many features on BoxBilling require Javascript and cookies. You can enable both via your browser's preference settings.</noscript>
+
+            </div>
+
+        </div>
+    {% if settings.show_page_footer %}
+    <!-- Footer -->
+    <hr>
+    <div class="main-footer">
+        <div class="col-md-12 col-sm-12 text-center">
+            <div class="container-fluid pd-t-0-f ht-100p">
+                <p>
+                    {% if settings.footer_signature|default %}{{ settings.footer_signature|raw }}
+                    {% else %}{{ company.name }} - © {{ now|date('Y') }} {{ company.signature }}
+                    {% endif %}
+                </p>
+                <ul class="list-inline">
+                    {% if guest.extension_is_on({"mod":'branding'}) or settings.footer_branding_enabled %}
+                    <li><a href="https://github.com/boxbilling/boxbilling" title="Billing Software" target="_blank">{% trans 'Powered by the BoxBilling Community' %}</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+    </div>
+</div>
+<!-- Country-selector modal-->
+<div class="modal fade" id="country-selector">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom">
+                <h6 class="modal-title">Choose your Language</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <ul class="row p-3 countri">
+                    {% for lang in guest.extension_languages %}
+                        <li class="col-lg-6 mb-2">
+                            <a href="javascript:void(0)" onclick="bb.LanguageSelector('{{lang.locale}}')" class="btn btn-country btn-lg btn-block">
+                                <span class="country-selector"><img alt="" src="https://cwp-billing.studio4host.com/bb-themes/cwpclient/assets/images/{{lang.locale}}.svg" class="me-3 language"></span>{{lang.title}}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% if not client %}
+<style>
+    #_sfa_auth_field_{
+        text-align: center;
+        font-size: 25px;
+        letter-spacing: 1rem;
+        padding-top: 10px;
+    }
+    .alert-recover-pass{
+        margin-bottom: 0px;
+    }
+    .alert-recover-pass h5{
+        font-size: 1rem;
+    }
+    #_2fa_login_container_{
+        display: none;
+    }
+    .login-separator::before,
+    .login-separator::after {
+        display: inline-block;
+        content: "";
+        border-top: 2px solid #cdcecf;
+        width: 40%;
+        margin: 0 1rem;
+        transform: translateY(-0.2rem);
+    }
+    .signin-with-container{
+        text-align: center;
+        margin-bottom: 1rem;
+        cursor: pointer;
+    }
+    .signin-with-container img{
+        width: 15rem;
+    }
+</style>
+<script>
+    $(document).ready(function(){
+        $("#login").on('hidden.bs.modal', function(){
+            $('#_2fa_login_container_').hide();
+            $('#_login_container_').show();
+        });
+    });
+    function clientLoginSuccessCheck(response){
+        if(response.hasOwnProperty('twofactor_enabled') && response.twofactor_enabled === true){
+            $('#_login_container_').slideUp('fast', function(){
+                $('#_2fa_login_container_').slideDown('fast');
+            });
+        }else if(response.hasOwnProperty('twofactor_succeed') && response.twofactor_succeed === true){
+            bb.reload();
+        }else{
+            bb.reload();
+        }
+    }
+</script>
+{% endif %}
+<style>
+    .countri li{
+        list-style-type: none;
+    }
+    .card {
+        box-shadow: 1px 1px 7px rgba(172, 170, 170, 0.47);
+    }
+</style>
+<!-- Country-selector modal-->
+
+<!-- Data table css -->
+<link href="{{ 'plugins/datatable/css/dataTables.bootstrap5.css' | asset_url }}" rel="stylesheet" />
+<link href="{{ 'plugins/datatable/css/buttons.bootstrap5.min.css' | asset_url }}"  rel="stylesheet">
+<link href="{{ 'plugins/datatable/responsive.bootstrap5.css' | asset_url }}" rel="stylesheet" />
+
+<!--Internal  Sweet-Alert js-->
+<script src="{{ 'plugins/sweet-alert/sweetalert.min.js' | asset_url }}"></script>
+<script src="{{ 'plugins/sweet-alert/jquery.sweet-alert.js' | asset_url }}"></script>
+
+<script src="{{ 'plugins/datatable/js/jquery.dataTables.min.js' | asset_url }}"></script>
+<script src="{{ 'plugins/datatable/js/dataTables.bootstrap5.js' | asset_url }}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ 'plugins/bootstrap/js/popper.min.js' | asset_url }}"></script>
+<script src="{{ 'plugins/bootstrap/js/bootstrap.js' | asset_url }}"></script>
+
+<!-- Bootstrap Markdown Editor -->
+<script src="{{ 'js/bootstrap-markdown.js' | asset_url }}"></script>
+<script src="{{ 'js/to-markdown.js' | asset_url }}"></script>
+<script src="{{ 'js/markdown.js' | asset_url }}"></script>
+<script src="{{ 'js/circle-progress.min.js' | asset_url }}"></script>
+<!-- Bootbox Alerts JavaScript -->
+<script src="{{ 'js/bootbox.min.js' | asset_url }}"></script>
+<!-- Ionicons js -->
+<script src="{{ 'plugins/ionicons/ionicons.js' | asset_url }}"></script>
+<!-- Moment js -->
+<script src="{{ 'plugins/moment/moment.js' | asset_url }}"></script>
+<!-- custom js -->
+<script src="{{ 'js/index.js'  | asset_url }}"></script>
+<!-- custom js -->
+<script src="{{ 'js/custom.js'  | asset_url }}"></script>
+</div>
+</body>
+</html>

@@ -1,0 +1,229 @@
+{% import "macro_functions.phtml" as mf %}
+{% set server = service.server %}
+{% set hp = service.hosting_plan %}
+
+<div class="help">
+    <h2>{% trans 'Details' %}</h2>
+</div>
+<table class="tableStatic wide">
+    <tbody>
+    <tr class="noborder">
+        <td style="width: 30%;">{% trans 'Status' %}:</td>
+        <td>{{mf.status_name(order.status)}}</td>
+    </tr>
+
+    <tr>
+        <td>{% trans 'Domain' %}:</td>
+        <td>
+            <a target="_blank" href="http://{{ service.domain }}">{{ service.domain }}</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>{% trans 'Server Name' %}:</td>
+        <td><a href="{{ 'servicehosting/server'|alink }}/{{ server.id }}">{{ server.name }}</a></td>
+    </tr>
+
+    <tr>
+        <td>{% trans 'Hosting plan' %}:</td>
+        <td><a href="{{ 'servicehosting/plan'|alink }}/{{ hp.id }}">{{ hp.name }}</a></td>
+    </tr>
+
+    <tr>
+        <td>{% trans 'Server IP' %}:</td>
+        <td>{{ server.ip }}</td>
+    </tr>
+
+    <tr>
+        <td>{% trans 'Account IP' %}:</td>
+        <td>{{ service.ip }}</td>
+    </tr>
+
+    <tr>
+        <td>{% trans 'Username' %}:</td>
+        <td>{{ service.username }}</td>
+    </tr>
+
+    <tr>
+        <td>{% trans 'Nameserver 1' %}:</td>
+        <td>{{ server.ns1 }}</td>
+    </tr>
+
+    <tr>
+        <td>{% trans 'Nameserver 2' %}:</td>
+        <td>{{ server.ns2 }}</td>
+    </tr>
+
+    {% if server.ns3 %}
+    <tr>
+        <td>{% trans 'Nameserver 3' %}:</td>
+        <td>{{ server.ns3 }}</td>
+    </tr>
+    {% endif %}
+
+    {% if server.ns4 %}
+    <tr>
+        <td>{% trans 'Nameserver 4' %}:</td>
+        <td>{{ server.ns4 }}</td>
+    </tr>
+    {% endif %}
+
+    <tr>
+        <td>{% trans 'Bandwidth' %}:</td>
+        <td>{{ hp.bandwidth }} MB / {% trans 'per month' %}</td>
+    </tr>
+    <tr>
+        <td>{% trans 'Disk quota' %}:</td>
+        <td>{{ hp.quota }} MB</td>
+    </tr>
+
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="2">
+            <div class="aligncenter">
+                {{ order_actions }}
+                <a class="btn btn-sm  bg-primary-transparent text-primary mr10" href="{{ server.cpanel_url }}" target="_blank"><i class="fe fe-monitor"></i><!--<img src="images/icons/middlenav/linux.png" alt=""><span>{% trans 'Jump to cPanel' %}</span>--></a>
+                {% if service.reseller %}
+                <a class="btn btn-sm  bg-primary-transparent text-primary  mr10" href="{{ server.reseller_cpanel_url }}" target="_blank"><i class="fe fe-monitor"></i><!--<img src="images/icons/middlenav/linux.png" alt=""><span>{% trans 'Reseller control panel' %}</span>--></a>
+                {% endif %}
+                <a href="{{ 'api/admin/servicehosting/sync'|link({'order_id' : order.id }) }}" data-api-confirm="Are you sure?" data-api-msg="Account was synced" class="btn btn-sm bg-primary-transparent text-primary  mr10 api-link"><i class="fe fe-refresh-ccw"></i><!--<img src="images/icons/middlenav/transfer.png" alt=""><span>Sync with server</span>--></a>
+            </div>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+
+
+<div class="panel panel-primary tabs-style-2" style="margin-top:30px">
+    <div class=" tab-menu-heading">
+        <div class="tabs-menu1">
+            <ul class="nav panel-tabs main-nav-line">
+                <li><a href="#tab-hostingplan" class="nav-link active" data-bs-toggle="tab">{% trans 'Change hosting plan' %}</a></li>
+                <li><a href="#tab-password" class="nav-link" data-bs-toggle="tab">{% trans 'Change account password' %}</a></li>
+                <li><a href="#tab-ip" class="nav-link" data-bs-toggle="tab">{% trans 'Change IP' %}</a></li>
+                <li><a href="#tab-user" class="nav-link" data-bs-toggle="tab">{% trans 'Change username' %}</a></li>
+                <li><a href="#tab-domain" class="nav-link" data-bs-toggle="tab">{% trans 'Change domain' %}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body tabs-menu-body main-content-body-right border">
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab-hostingplan">
+                <div class="help">
+                    <h3>{% trans 'Change hosting plan' %}</h3>
+                </div>
+                <form action="{{ 'api/admin/servicehosting/change_plan'|link }}" method="post" class="api-form save" data-api-msg="{% trans 'Hosting plan changed' %}">
+                    <fieldset>
+                        <div class="rowElem noborder">
+                            <label>{% trans 'New hosting plan' %}:</label>
+                            <div class="formRight">
+                                {{ mf.selectbox('plan_id', admin.servicehosting_hp_get_pairs, hp.id, 1) }}
+                            </div>
+                            <div class="fix"></div>
+                        </div>
+
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Change' %}</button>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="tab-pane " id="tab-password">
+                <div class="help">
+                    <h3>{% trans 'Change account password' %}</h3>
+                </div>
+
+                <form action="{{ 'api/admin/servicehosting/change_password'|link }}" method="post" class="api-form save" data-api-msg="{% trans 'Account password changed' %}">
+                    <fieldset>
+                        <div class="rowElem noborder">
+                            <label>{% trans 'Password' %}:</label>
+                            <div class="formRight">
+                                <input type="password"  class="form-control" name="password" required="required"/>
+                            </div>
+                            <div class="fix"></div>
+                        </div>
+                        <div class="rowElem">
+                            <label>{% trans 'Password Confirm' %}:</label>
+                            <div class="formRight">
+                                <input type="password"  class="form-control" name="password_confirm"  required="required"/>
+                            </div>
+                            <div class="fix"></div>
+                        </div>
+
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <button type="submit" value="" class="btn btn-primary submitForm btn-form-submit"> <i class="fe fe-save"></i> {% trans 'Change' %}</button>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="tab-pane " id="tab-ip">
+                <div class="help">
+                    <h3>{% trans 'Change IP' %}</h3>
+                </div>
+
+                <form method="post" action="{{ 'api/admin/servicehosting/change_ip'|link }}" class="api-form save" data-api-msg="{% trans 'Account IP changed' %}">
+                    <fieldset>
+                        <div class="rowElem">
+                            <label>{% trans 'IP' %}: </label>
+                            <div class="formRight">
+                                <input type="text" class="form-control"  name="ip" value="{{ request.ip|default(service.ip) }}" required="required">
+                            </div>
+                            <div class="fix"></div>
+                        </div>
+
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <input class="btn btn-primary submitForm" type="submit" value="{% trans 'Change' %}">
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="tab-pane " id="tab-user">
+                <div class="help">
+                    <h3>{% trans 'Change username' %}</h3>
+                </div>
+
+                <form method="post" action="{{ 'api/admin/servicehosting/change_username'|link }}" class="api-form save" data-api-msg="{% trans 'Account username changed' %}">
+                    <fieldset>
+                        <div class="rowElem">
+                            <label>{% trans 'Username' %}: </label>
+                            <div class="formRight">
+                                <input type="text" class="form-control"  name="username" value="{{ request.username|default(service.username) }}" required="required">
+                            </div>
+                            <div class="fix"></div>
+                        </div>
+
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <input class="btn btn-primary submitForm" type="submit" value="{% trans 'Change' %}">
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="tab-pane " id="tab-domain">
+                <div class="help">
+                    <h3>{% trans 'Change domain' %}</h3>
+                </div>
+                <form method="post" action="{{ 'api/admin/servicehosting/change_domain'|link }}" class="api-form save" data-api-msg="{% trans 'Account domain changed' %}">
+                    <fieldset>
+                        <div class="rowElem">
+                            <label>{% trans 'Domain' %}: </label>
+                            <div class="formRight moreFields">
+                                <ul>
+                                    <li style="width: 200px"><input type="text" class="form-control"  name="sld" value="{{ request.domain|default(service.sld) }}" required="required"></li>
+                                    <li class="sep">-</li>
+                                    <li style="width: 100px"><input type="text" class="form-control"  name="tld" value="{{ request.domain|default(service.tld) }}" required="required"></li>
+                                </ul>
+                            </div>
+
+                            <div class="fix"></div>
+                        </div>
+
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <input class="btn btn-primary submitForm" type="submit" value="{% trans 'Change' %}">
+                    </fieldset>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

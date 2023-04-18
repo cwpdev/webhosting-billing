@@ -1,0 +1,179 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Subscriptions' %}{% endblock %}
+{% set active_menu = 'invoice' %}
+{% block breadcrumbs %}
+
+<li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+<li class="breadcrumb-item active">{% trans 'Subscriptions' %}</li>
+
+{% endblock %}
+{% block content %}
+
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Subscriptions' %}</a></li>
+                        <li><a  class="nav-link" data-bs-toggle="tab" href="#tab-new">{% trans 'New subscription' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-index">
+
+                        <table class="table table-bordered table-striped" id="tableInvoice">
+                            <thead>
+                                <tr>
+                                    <td style="width: 2%"><input type="checkbox" class="batch-delete-master-checkbox"/></td>
+                                    <th >{% trans 'ID' %}</th>
+                                    <th>{% trans 'Status' %}</th>
+                                    <th>{% trans 'Gateway' %}</th>
+                                    <th>{% trans 'Amount' %}</th>
+                                    <th width="13%">&nbsp;</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% set subscriptions = admin.invoice_subscription_get_list({"per_page":1000000, "page":request.page}|merge(request)) %}
+                                {% for i, subscription in subscriptions.list %}
+                                <tr>
+                                    <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ subscription.id }}"/></td>
+                                    <td ><a href="{{ 'client/manage'|alink }}/{{ subscription.client.id }}"><img src="{{ subscription.client.email|gravatar }}?size=20" class="avatar-md rounded-circle shadow" alt="{{ subscription.client.email }}" title="{{subscription.client.first_name}} {{subscription.client.last_name}}"/></a>
+                                        {{ subscription.sid }}</td>
+                                    <td>{{ mf.status_name(subscription.status) }}</td>
+                                    <td>{{ subscription.gateway.title }}</td>
+                                    <td>{{ mf.currency_format( subscription.amount, subscription.currency) }} {{ mf.period_name(subscription.period) }}</td>
+                                    <td class="actions">
+                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ 'invoice/subscription'|alink }}/{{ subscription.id }}"><i class="fe fe-edit"></i></a>
+                                        <a class="btn btn-sm  bg-danger-transparent text-danger  bb-rm-tr api-link" href="{{ 'api/admin/invoice/subscription_delete'|link({'id' : subscription.id}) }}" data-api-confirm="Are you sure?" data-api-reload="1"><i class="fe fe-trash"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                            {% include "partial_batch_delete.phtml" with {'action' : 'admin/invoice/batch_delete_subscription'} %}
+
+                    </div>
+
+                    <div class="tab-pane" id="tab-new">
+
+                        <form method="post" action="{{ 'api/admin/invoice/subscription_create'|link }}" class="save api-form" data-api-reload="1">
+
+                            <div class="rowElem noborder">
+                                <label>{% trans 'Client' %}</label>
+                                <div class="formRight">
+                                    <input type="text" class="form-control"  id="client_selector" placeholder="{% trans 'Start typing clients name, email or ID' %}"/>
+                                    <input type="hidden" name="client_id" value="{{ request.client_id }}" id="client_id"/>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Payment Gateway' %}:</label>
+                                <div class="formRight">
+                                    {{ mf.selectbox('gateway_id', admin.invoice_gateway_get_pairs, request.gateway_id, 0, 'Select payment gateway') }}
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Subscription ID on payment gateway' %}:</label>
+                                <div class="formRight">
+                                    <input type="text" class="form-control"  name="sid" value="{{request.sid}}" required="required" placeholder=""/>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Status' %}:</label>
+                                <div class="formRight">
+                                    <div class="row pt-3">
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="status" value="active" checked="checked"/> <span>{% trans 'Active' %}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="status" value="canceled" /> <span>{% trans 'Canceled' %}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Period' %}:</label>
+                                <div class="formRight">
+                                    {{ mf.selectbox('period', guest.system_periods, request.period, 1, 'Select period') }}
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+
+                            <div class="rowElem">
+                                <label>{% trans 'Amount' %}:</label>
+                                <div class="formRight">
+                                    <input type="text" class="form-control"  name="amount" value="{{request.amount}}" required="required" placeholder=""/>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+
+                            <div class="rowElem">
+                                <label>{% trans 'Currency' %}</label>
+                                <div class="formRight">
+                                    {{ mf.selectbox('currency', guest.currency_get_pairs, request.currency, 1, 'Select currency') }}
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+
+                            <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Create' %}</button>
+
+                    </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block js%}
+<script type="text/javascript">
+$(function() {
+    $("#tableInvoice").DataTable();
+	$('#client_selector').autocomplete({
+        source: function( request, response ) {
+            $.ajax({
+                url: bb.restUrl('admin/client/get_pairs'),
+                dataType: "json",
+                data: {
+                    per_page: 10,
+                    search: request.term
+                },
+                success: function( data ) {
+                    response( $.map( data.result, function( name, id) {
+                        return {
+                            label: name.full_name,
+                            value: id
+                        }
+                    }));
+                }
+            });
+        },
+        minLength: 1,
+        select: function( event, ui ) {
+            $("#client_selector").val(ui.item.label);
+            $("#client_id").val(ui.item.value);
+            return false;
+        }
+    });
+
+});
+
+</script>
+{% endblock %}

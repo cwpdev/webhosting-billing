@@ -1,0 +1,71 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% import "macro_functions.phtml" as mf %}
+
+{% block meta_title %}{% trans 'My Products & Services' %}{% endblock %}
+
+{% block content_before %}
+		<!-- Page Heading/Breadcrumbs -->
+<div class="left-content">
+    <span class="main-content-title mg-b-0 mg-b-lg-1">{% trans 'Ordered Services' %}</span>
+</div>
+        <!-- /.row -->
+{% endblock %}
+{% block content %}
+<div class="text-end mb-2 col-md-12">
+  <a class="btn btn-sm btn-success" href="{{ 'order'|link }}"><i class="fa fa-shopping-cart"></i> {% trans 'New order' %}</a>
+</div>
+<table class="table table-bordered table-striped" id="tableOrder">
+    <thead>
+            <tr>
+                <th>
+                    {% trans 'Services' %}
+                </th>
+                <th>
+                    {% trans 'Period' %}
+                </th>
+                <th>
+                    {% trans 'Status' %}
+                </th>
+            </tr>
+    </thead>
+    <tbody>
+        {% set orders = client.order_get_list({"per_page":1000000, "page":request.page, "hide_addons":1}) %}
+        {% for i, order in orders.list %}
+        <tr>
+            <td>
+                <a href="{{ '/order/service/manage'|link }}/{{order.id}}">
+                    <span class="font-weight-bold">{{order.title}}</span> - {{order.config.domain.owndomain_sld}}.{{order.config.domain.owndomain_tld}}
+                </a>
+            </td>
+            <td>
+                {{  order.total | money(order.currency) }} {% if order.period%}{{ order.period | period_title }}{% endif %}
+                {% if order.expires_at %}
+                - <i class="font-weight-semibold">{% trans 'Expires at' %}: {{order.expires_at|date('Y-m-d h:i')}}</i>
+                {% endif %}
+            </td>
+            <td>
+                <span class="pull-right badge {% if order.status == "active" %}badge-success{% elseif order.status == "pending_setup" %}badge-warning{% elseif order.status == "failed_setup" %}badge-info{% else %}badge-danger{% endif %}">{{ mf.status_name(order.status) }}</span>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">
+        {% trans 'The list is empty' %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+        <div class="list-group">
+
+        </div>
+
+
+<script>
+    $(document).ready(function(){
+        $("#tableOrder").DataTable();
+    });
+</script>
+
+{% endblock %}

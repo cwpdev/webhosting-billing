@@ -1,0 +1,35 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}Cookie consent settings{% endblock %}
+{% set active_menu = 'extensions' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+       <h5>{% trans 'Edit cookie consent message text' %}</h5>
+        <div class="alert alert-info mb-2" role="alert">
+            <h4 class="alert-heading"><i class="fe fe-check-circle me-2 tx-20"></i>Info!</h4>
+            <p>{% trans 'Here you can specify message which will be shown to user. It will be shown until user will click <strong>Close &times;</strong> button, however it will not be intrusive and will not disturb to perform any actions.' %}</p>
+            <p>{% trans 'If there is a need to change the way notification looks or is being displayed, you can do it by editing' %} <strong>src/bb-modules/Cookieconsent/html_client/mod_cookieconsent_index.phtml</strong></p>
+
+        </div>
+
+
+        {% set params = admin.extension_config_get({"ext":"mod_cookieconsent"}) %}
+            <div class="tab_content nopadding" id="tab-new">
+                <form method="post" action="{{ 'api/admin/extension/config_save'|link }}" class="api-form" data-api-msg="{% trans 'Configuration updated' %}">
+
+                        <div class="rowElem noborder">
+                            <div class="formBottom">
+                                <textarea cols="5" rows="10" class="form-control" name="message" placeholder="{% trans 'Add note or todo task' %}" >{% if params.message %}{{params.message}}{% else %}This website uses cookies. By continuing to use this website, you consent to our use of these cookies.{% endif %}</textarea>
+                            </div>
+                            <div class="fix"></div>
+                        </div>
+                        <input type="hidden" name="ext" value="mod_cookieconsent" />
+                    <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+
+                </form>
+            </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,349 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Support settings' %}{% endblock %}
+{% set active_menu = 'system' %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %} </a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'Support settings' %}</li>
+
+{% endblock %}
+
+{% block content %}
+<div class="card mg-b-20" id="tabs-style2">
+    <!--<div class="card-body">-->
+    <div class="text-wrap">
+        <div class="example">
+            <div class="panel panel-primary tabs-style-2">
+                <div class=" tab-menu-heading">
+                    <div class="tabs-menu1">
+                        <!-- Tabs -->
+                        <ul class="nav panel-tabs main-nav-line">
+                            <li><a href="#tab-helpdesks" class="nav-link active" data-bs-toggle="tab">{% trans 'Help desks' %}</a></li>
+                            <li><a href="#tab-new-helpdesk" class="nav-link" data-bs-toggle="tab">{% trans 'New help desk' %}</a></li>
+                            <li><a href="#tab-index" class="nav-link" data-bs-toggle="tab">{% trans 'Settings' %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body tabs-menu-body main-content-body-right border">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab-helpdesks">
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap border-bottom" id="table_staff">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 40%">{% trans 'Title' %}</th>
+                                        <th>{% trans 'Email' %}</th>
+                                        <th>{% trans 'Close tickets after' %}</th>
+                                        <th style="width: 13%">&nbsp;</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for helpdesk in admin.support_helpdesk_get_list({"per_page":10000, "page":request.page}|merge(request)).list %}
+                                    <tr>
+                                        <td>{{ helpdesk.name }}</td>
+                                        <td>{{ helpdesk.email }}</td>
+                                        <td>{{ helpdesk.close_after }} hour(s)</td>
+                                        <td class="actions">
+                                            <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/support/helpdesk'|alink }}/{{helpdesk.id}}"><i class="fe fe-edit"></i></a>
+                                            <a class="btn btn-sm  bg-danger-transparent text-danger  bb-rm-tr api-link" data-api-confirm="Are you sure?" data-api-redirect="{{ 'extension/settings/support'|alink }}" href="{{ 'api/admin/support/helpdesk_delete'|link({'id' : helpdesk.id}) }}"><i class="fe fe-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+                                    {% else %}
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="4">
+                                            {% trans 'The list is empty' %}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab-new-helpdesk">
+                            <div class="example2">
+                                <form method="post" action="{{ 'api/admin/support/helpdesk_create'|link }}" class="save api-form" data-api-redirect="{{ 'extension/settings/support'|alink }}">
+                                    <div class="panel panel-primary tabs-style-2">
+                                        <div class=" tab-menu-heading">
+                                            <div class="tabs-menu1">
+                                                <ul class="nav panel-tabs main-nav-line">
+                                                    <li><a href="#tab-index2" class="nav-link active" data-bs-toggle="tab">{% trans 'Support help desk' %}</a></li>
+                                                    <li><a href="#tab-new" class="nav-link" data-bs-toggle="tab">Assigned Admin Users</a></li>
+                                                    <li><a href="#tab-groups" class="nav-link" data-bs-toggle="tab">POP3 Importing</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body tabs-menu-body main-content-body-right border">
+                                            <div class="tab-content">
+                                                <div class="tab-pane  active" id="tab-index2">
+                                                    <fieldset>
+                                                        <div class="rowElem noborder">
+                                                            <label>{% trans 'Title' %}</label>
+                                                            <div class="formRight noborder">
+                                                                <input type="text" class="form-control" name="name" value="{{ helpdesk.name }}" required="required"/>
+                                                            </div>
+                                                            <div class="fix"></div>
+                                                        </div>
+                                                        <div class="rowElem">
+                                                            <label>{% trans 'Email' %}</label>
+                                                            <div class="formRight">
+                                                                <input type="text" class="form-control"  name="email" value="{{ helpdesk.email }}" required="required"/>
+                                                            </div>
+                                                            <div class="fix"></div>
+                                                        </div>
+                                                        <div class="rowElem">
+                                                            <label>{% trans 'Signature' %}</label>
+                                                            <div class="formRight">
+                                                                <textarea name="signature" class="form-control"  rows="3">{{ helpdesk.signature }}</textarea>
+                                                            </div>
+                                                            <div class="fix"></div>
+                                                        </div>
+                                                        <div class="rowElem">
+                                                            <label>{% trans 'Close after' %}</label>
+                                                            <div class="formRight">
+                                                                <input type="text"  class="form-control"  name="close_after" value="{{ helpdesk.close_after|default('48') }}" required="required"/>
+                                                            </div>
+                                                            <div class="fix"></div>
+                                                        </div>
+                                                        <div class="rowElem">
+                                                            <label>{% trans 'Can reopen' %}</label>
+                                                            <div class="formRight">
+                                                                <div class="row pt-3">
+                                                                    <div class="col-md-3">
+                                                                        <label class="rdiobox">
+                                                                            <input type="radio" name="can_reopen" value="1" {% if helpdesk.can_reopen == '1' %} checked="checked"{% endif %} /><span>{% trans 'Yes' %}</span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label class="rdiobox">
+                                                                            <input type="radio" name="can_reopen" value="0" {% if helpdesk.can_reopen == '0' %} checked="checked"{% endif %} /><span>{% trans 'No' %}</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="fix"></div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="tab-pane" id="tab-new">
+                                                    >>> {{staffs}}
+                                                    {% for user in staffs %}
+                                                    <li>{{ user }}</li>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="tab-pane" id="tab-groups">
+                                                    <div class="row">
+                                                        <div style="margin-top:20px;"><label><b>{% trans 'POP3 Importing Configuration' %}</b>{% trans ' (Only required if using POP3 import method)' %}</label></div>
+                                                    </div>
+                                                    <div class="row" style="margin-top:20px;margin-left: 5px">
+                                                        <div class="">
+                                                            <label style="margin-top:7px">{% trans 'Hostname' %}</label>
+                                                        </div>
+                                                        <div class="">
+                                                            <input type="text" class="form-control" name="pipe_hostname" value="{{ helpdesk.pipe_hostname }}"/>
+                                                        </div>
+                                                        <div class="">
+                                                            <label style="margin-top:7px">{% trans 'POP3 Port' %}</label>
+                                                        </div>
+                                                        <div class="">
+                                                            <input type="text" class="form-control" name="pipe_port" value="{{ helpdesk.pipe_port }}" />
+                                                        </div>
+                                                        <div class="">
+                                                            <label style="margin-top:7px">{% trans 'User Login' %}</label>
+                                                        </div>
+                                                        <div class="">
+                                                            <input type="text" class="form-control" name="pipe_user" value="{{ helpdesk.pipe_user }}"/>
+                                                        </div>
+                                                        <div class="">
+                                                            <label style="margin-top:7px">{% trans 'Pass' %}</label>
+                                                        </div>
+                                                        <div class="">
+                                                            <input type="text" class="form-control" name="pipe_pass" value="{{ helpdesk.pipe_pass }}"/>
+                                                        </div>
+                                                        <div class="fix"></div>
+                                                    </div>
+                                                    <div class="row" style="margin-top:20px;margin-left: 5px">
+                                                        <label style="margin-top:15px">{% trans 'Delete Mail after creating the Ticket' %}</label>
+                                                        <div class="col-md-4">
+                                                            <div class="row pt-3">
+                                                                <div class="col-md-3">
+                                                                    <label class="rdiobox">
+                                                                        <input type="radio" name="pipe_delete_email" value="1" {% if helpdesk.pipe_delete_email == '1' %} checked="checked"{% endif %}><span>Yes</span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label class="rdiobox">
+                                                                        <input type="radio" name="pipe_delete_email" value="0" {% if not helpdesk.pipe_delete_email == '0' %} checked="checked"{% endif %}><span>No</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-top:20px;margin-left: 5px">
+                                                        <label style="margin-top:15px">{% trans 'Active' %}</label>
+                                                        <div class="col-md-4">
+                                                            <div class="row pt-3">
+                                                                <div class="col-md-3">
+                                                                    <label class="rdiobox">
+                                                                        <input type="radio" name="pipe_status" value="1" {% if helpdesk.pipe_status == '1' %} checked="checked"{% endif %}><span>Yes</span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label class="rdiobox">
+                                                                        <input type="radio" name="pipe_status" value="0" {% if not helpdesk.pipe_status == '0' %} checked="checked"{% endif %}><span>No</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:10px">
+                                        <input type="submit" value="{% trans 'Create' %}" class="btn btn-primary  submitForm" />
+                                        <input type="hidden" name="id" value="{{ helpdesk.id }}"/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab-index">
+                            {% set params = admin.extension_config_get({"ext":"mod_support"}) %}
+                            <form method="post" action="{{ 'api/admin/extension/config_save'|link }}" class="api-form" data-api-msg="{% trans 'Configuration updated' %}">
+
+                                <fieldset>
+                                    <h5>{% trans 'Auto responder settings' %}</h5>
+                                    <div class="rowElem noborder">
+                                        <label>{% trans 'Enable auto responder' %}</label>
+                                        <div class="formRight">
+                                            <div class="row pt-3">
+                                                <div class="col-md-3">
+                                                    <label class="rdiobox">
+                                                        <input type="radio" name="autorespond_enable" value="1" {% if params.autorespond_enable == "1" %}checked="checked"{% endif %}/><span>{% trans 'Yes' %}</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="rdiobox">
+                                                        <input type="radio" name="autorespond_enable" value="0" {% if not params.autorespond_enable %}checked="checked"{% endif %}/><span>{% trans 'No' %}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div id="autorespond_enable" {% if not params.autorespond_enable %}style="display:none;"{% endif %}>
+                                        <div class="rowElem">
+                                            <label class="">{% trans 'Auto respond message' %}</label>
+                                            <div class="formRight">
+                                                <select name="autorespond_message_id" class="form-control" style="width: 250px;">
+                                                    {% for response in admin.support_canned_get_list({"per_page":90}).list %}
+                                                    <option value="{{ response.id }}" {% if params.autorespond_message_id == response.id %}selected="selected"{% endif %}>{{ response.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="fix"></div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <h5>{% trans 'Delay message - selected canned response message will be added to default reply message' %}</h5>
+                                    <div class="rowElem noborder">
+                                        <label>{% trans 'Enable delay message' %}</label>
+                                        <div class="formRight">
+                                            <div class="row pt-3">
+                                                <div class="col-md-3">
+                                                    <label class="rdiobox">
+                                                        <input type="radio" name="delay_enable" value="1" {% if params.delay_enable == "1" %}checked="checked"{% endif %}/><span>{% trans 'Yes' %}</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="rdiobox">
+                                                        <input type="radio" name="delay_enable" value="0" {% if not params.delay_enable %}checked="checked"{% endif %}/><span>{% trans 'No' %}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div id="delay_enable" {% if not params.delay_enable %}style="display:none;"{% endif %}>
+                                        <div class="rowElem">
+                                            <label class="">{% trans 'Delay hours' %}</label>
+                                            <div class="formRight">
+                                                <input type="text" class="form-control" name="delay_hours" value="{{ params.delay_hours|default(24) }}" style="width: 40px;" placeholder="24"/>
+                                            </div>
+                                            <div class="fix"></div>
+                                        </div>
+
+                                        <div class="rowElem">
+                                            <label class="">{% trans 'Delay reply' %}</label>
+                                            <div class="formRight">
+                                                <select name="delay_message_id"  class="form-control" style="width: 250px;">
+                                                    {% for response in admin.support_canned_get_list({"per_page":90}).list %}
+                                                    <option value="{{ response.id }}" {% if params.delay_message_id == response.id %}selected="selected"{% endif %}>{{ response.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="fix"></div>
+                                        </div>
+                                    </div>
+
+                                    <h5>{% trans 'Wait time - how many hours user needs to wait until consequent ticket submission' %}</h5>
+                                    <div class="rowElem noborder">
+                                        <label>{% trans 'Wait time in hours' %}</label>
+                                        <div class="formRight">
+                                            <input type="text" class="form-control" name="wait_hours"  value="{{ params.wait_hours }}" />
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <input type="submit" value="{% trans 'Update' %}" class="btn btn-primary  submitForm" />
+                                    <input type="hidden" name="ext" value="mod_support" />
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+
+$(function() {
+    $('input[name=autorespond_enable]').click(function(){
+        if($(this).val() == 1) {
+            $('#autorespond_enable').slideDown();
+        } else {
+            $('#autorespond_enable').slideUp();
+        }
+    });
+
+    $('input[name=delay_enable]').click(function(){
+        if($(this).val() == 1) {
+            $('#delay_enable').slideDown();
+        } else {
+            $('#delay_enable').slideUp();
+        }
+    });
+    $("#table_staff").dataTable( {
+        "searching": true
+    } );
+});
+
+</script>
+{% endblock %}

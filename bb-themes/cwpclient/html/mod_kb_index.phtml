@@ -1,0 +1,57 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% block meta_title %}{%trans 'Knowledge base'%}{% endblock %}
+
+    {% if request.q %}
+        {% set kbcategories = guest.kb_category_get_list({"q": request.q}) %}
+    {% else %}
+        {% set kbcategories = guest.kb_category_get_list %}
+    {% endif %}
+
+{% block content_before %}
+		<!-- Page Heading/Breadcrumbs -->
+<div class="left-content">
+    <span class="main-content-title mg-b-0 mg-b-lg-1">{% trans 'Knowledge base' %}</span>
+    <small class="d-block tx-12 mb-0 text-muted">{{category.description }}</small>
+</div>
+        <!-- /.row -->
+{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+				{% for i, category in kbcategories.list %}
+				<h2 id="category-{{category.id}}">
+                    <a href="{{ 'kb'|link }}/{{ category.slug }}">{{category.title}}</a>
+                </h2>
+                <hr>
+                <div class="list-group">
+					{% for i, article in category.articles %}
+						<a href="{{ '/kb'|link }}/{{article.category.slug}}/{{article.slug}}" class="list-group-item">{{article.title}}</a>
+					{% endfor %}
+				</div>
+
+                <hr>
+				{% else %}
+					<p>
+						{% trans 'Try using other keyword. No matches not for keyword:' %}
+						<b>{{ request.q }}</b>
+					</p>
+				{% endfor %}
+    </div>
+</div>
+        <div class="card">
+            <div class="card-body">
+			<div class="well">
+                <h4>{% trans 'What are you looking for?' %}</h4>
+				<form method="get" action="{{ 'kb'|link }}">
+                    <div class="input-group">
+						<input name="q" type="text" class="form-control" value="{{ request.q }}" placeholder="{% trans 'What are you looking for?' %}">
+                        <span class="input-group-btn">
+                            <button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+				</form>
+            </div>
+    </div>
+</div>
+{% endblock %}

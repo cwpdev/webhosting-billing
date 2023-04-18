@@ -1,0 +1,117 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set active_menu = 'support' %}
+{% block meta_title %}{% trans 'News' %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu2">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'News and announcements' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-new">{% trans 'New announcement' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-index">
+
+
+                    <table id="tableNews" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <td style="width: 2%"><input type="checkbox" class="batch-delete-master-checkbox"/></td>
+                                <td>{% trans 'Title' %}</td>
+                                <td>{% trans 'Active' %}</td>
+                                <td>{% trans 'Date' %}</td>
+                                <td style="width: 13%">&nbsp;</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% set posts = admin.news_get_list({"per_page":1000000, "page":request.page}|merge(request)) %}
+                        {% for i, post in posts.list %}
+                        <tr>
+                            <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ post.id }}"/></td>
+                            <td>{{ post.id }} - {{ post.title }}</td>
+                            <td>{{ mf.status_name(post.status) }}</td>
+                            <td>{{ post.created_at|bb_datetime }}</td>
+                            <td class="actions">
+                                <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/news/post'|alink }}/{{post.id}}"><i class="fe fe-edit"></i></a>
+                                <a class="btn btn-sm bg-danger-transparent  text-danger  api-link" data-api-confirm="Are you sure?" href="{{ 'api/admin/news/delete'|link({'id' : post.id}) }}" data-api-redirect="{{ 'news'|alink }}"><i class="fe fe-trash"></i></a>
+                            </td>
+                        </tr>
+
+                        {% else %}
+                            <tr>
+                                <td colspan="5">
+                                    {% trans 'The list is empty' %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% include "partial_batch_delete.phtml" with {'action' : 'admin/news/batch_delete'} %}
+
+                    </div>
+
+                    <div class="tab-pane" id="tab-new">
+
+            <form method="post" action="{{ 'api/admin/news/create'|link }}" class="api-form" data-api-redirect="{{ 'news'|alink }}">
+
+                    <div class="rowElem noborder">
+                        <label>{% trans 'Title' %}:</label>
+                        <div class="formRight">
+                            <input type="text" class="form-control" name="title" value="{{request.title}}" required="required" placeholder=""/>
+                        </div>
+                        <div class="fix"></div>
+                    </div>
+                    <div class="rowElem">
+                        <label>{% trans 'Status' %}:</label>
+                        <div class="formRight">
+                            <div class="row pt-3">
+                                <div class="col-md-3">
+                                    <label class="rdiobox">
+                                        <input type="radio" name="status" value="draft"checked="checked"/><span>{% trans 'Draft' %}</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="rdiobox">
+                                        <input type="radio" name="status" value="active"/><span>{% trans 'Active' %}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fix"></div>
+                    </div>
+                    <div class="rowElem">
+                        <label>{% trans 'Content' %}</label>
+                        <div class="formRight">
+                            <p>If the text is very long you can use <strong>&lt;!--more--&gt;</strong> tag. Inserting this tag within the post will create and excerpt of text (before the tag) to be displayed in posts list. Users will be able to see whole content when they click on "Read more" button.</p>
+                            <br/>
+                            <textarea class="form-control"  name="content" cols="5" rows="10" class="bb-textarea">{{ request.content }}</textarea>
+                        </div>
+                        <div class="fix"></div>
+                    </div>
+                <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Create' %}</button>
+
+            </form>
+        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+       $("#tableNews").DataTable();
+    });
+</script>
+{% endblock %}
+
+{% block head %}{{ mf.bb_editor('.bb-textarea') }}{% endblock %}

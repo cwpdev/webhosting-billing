@@ -1,0 +1,58 @@
+{% import "macro_functions.phtml" as mf %}
+<div class="rowElem">
+    <label>{% trans 'Domain action' %}:</label>
+    <div class="formRight domain-action-select">
+        <div class="row pt-3">
+            <div class="col-md-3">
+                <label class="rdiobox">
+                    <input type="radio" name="config[action]" value="register" checked="checked"/><span> Register</span>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label class="rdiobox">
+                    <input type="radio" name="config[action]" value="transfer" /><span> Transfer</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="fix"></div>
+</div>
+
+<div class="rowElem domain-action domain-register">
+    <label>{% trans 'Register domain' %}:</label>
+    <div class="formRight">
+        <div class="row">
+            <div class="col-md-4"><input type="text" class="form-control" name="config[register_sld]" value="{{ request.register_sld }}" placeholder="{% trans 'Domain name to register' %}"></div>
+                <div class="col-md-2">{{ mf.selectboxtld('config[register_tld]', guest.serviceDomain_tlds({"allow_register":1})) }}</div>
+                    <div class="col-md-2"><input type="text" class="form-control" name="config[register_years]" value="1" placeholder="{% trans 'Years' %}"></div>
+        </div>
+    </div>
+    <div class="fix"></div>
+</div>
+
+<div class="rowElem domain-action domain-transfer" style="display: none;">
+    <label>{% trans 'Transfer domain' %}:</label>
+    <div class="formRight">
+        <div class="row">
+            <div class="col-md-4"><input type="text" class="form-control" name="config[transfer_sld]" value="{{ request.transfer_sld }}"  placeholder="{% trans 'Domain name to transfer' %}"></div>
+            <div class="col-md-4">{{ mf.selectboxtld('config[transfer_tld]', guest.serviceDomain_tlds({"allow_transfer":1})) }}</div>
+            <div class="col-md-4"><input type="text" class="form-control" name="config[transfer_code]" value="{{ request.transfer_code }}" placeholder="{% trans 'Domain transfer code' %}"></div>
+        </div>
+    </div>
+    <div class="fix"></div>
+</div>
+
+<script type="text/javascript">
+$(function() {
+
+    $('.domain-action-select input').bind('click', function (){
+        $('.domain-action').hide();
+        if($(this).val() == 'register') {
+            $('.domain-action.domain-register').show();
+        } else {
+            $('.domain-action.domain-transfer').show();
+        }
+    });
+
+});
+</script>

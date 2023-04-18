@@ -1,0 +1,185 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Support tickets' %}{% endblock %}
+
+{% block content_before %}
+		<!-- Page Heading/Breadcrumbs -->
+
+<div class="left-content">
+    <span class="main-content-title mg-b-0 mg-b-lg-1">{% trans 'Support tickets' %}</span>
+    <div class="text-black">{% trans 'Need an answer? We are here to help' %}</div>
+</div>
+
+
+        <!-- /.row -->
+{% endblock %}
+{% block content %}
+<div class="card">
+
+    <div class="card-body">
+        <div class="pull-right">
+            {% include "partial_pagination.phtml" with {'list': tickets} %}
+            <p>
+                {% if guest.extension_is_on({"mod":'kb'}) %}<a class="btn text-white  btn-sm  btn-success" data-bs-toggle="collapse" data-bs-target="#kb" aria-expanded="false" aria-controls="kb">{% trans 'Knowledge Base' %}</a>{% endif %}
+                <a class="btn btn-sm btn-primary text-white " data-bs-toggle="modal" data-bs-target="#tickets">{% trans 'Submit new ticket' %}</a>
+            </p>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover mb-0 text-md-nowrap">
+                <thead>
+                <tr>
+                    <th>{% trans 'Help desk' %}</th>
+                    <th>{% trans 'Subject' %}</th>
+                    <th>{% trans 'Date' %}</th>
+                    <th>{% trans 'Status' %}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set tickets = client.support_ticket_get_list({"per_page":10, "page":request.page}) %}
+                {% for i, ticket in tickets.list %}
+                <tr>
+                    <td>
+                        <a href="{{ 'support/ticket'|link }}/{{ticket.id}}">
+                        {{ticket.helpdesk.name}}
+                        </a>
+
+                    </td>
+                    <td><strong>{{ticket.subject}}</strong></td>
+                    <td>{% trans 'Last post' %} {{ ticket.updated_at|timeago }} {% trans 'ago' %}</td>
+                    <td class="text-center"><span class="badge {% if ticket.status == "open" %}bg-danger{% elseif ticket.status == "on_hold" %}bg-warning{% elseif ticket.status == "closed" %}bg-success{% else %}bg-light{% endif %}">{{ mf.status_name(ticket.status) }}</span>
+                    </td>
+                    <td> <a href="{{ 'support/ticket'|link }}/{{ticket.id}}" class="pull-right btn btn-sm bg-info-transparent text-info"><i class="fe fe-eye"></i></a></td>
+                </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-5 pull-right">
+            {% include "partial_pagination.phtml" with {'list': tickets} %}
+            <p>
+                {% if guest.extension_is_on({"mod":'kb'}) %}<a class="btn text-white  btn-sm  btn-success" data-bs-toggle="collapse" data-bs-target="#kb" aria-expanded="false" aria-controls="kb">{% trans 'Knowledge Base' %}</a>{% endif %}
+                <a class="btn text-white btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#tickets">{% trans 'Submit new ticket' %}</a>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+
+
+	{% if guest.extension_is_on({"mod":'kb'}) %}
+	<div class="collapse well" id="kb">
+		<h4>{% trans 'Knowledge Base' %}</h4>
+		<div class="input-group">
+			<input type="text" class="form-control">
+			<span class="input-group-btn"><button class="btn btn-light" type="button"><i class="fa fa-search"></i></button></span>
+		</div>
+		<hr>
+		<div class="list-group panel" id="kb">
+		{% for i, category in guest.kb_category_get_list.list %}
+			<a href="#category-{{category.id}}" class="list-group-item text-center" data-bs-toggle="collapse" data-parent="#kb"><strong>{{category.title}}</strong></a>
+			<div class="collapse" id="category-{{category.id}}">
+			{% for i, article in category.articles %}
+				<a href="{{ '/kb'|link }}/{{article.category.slug}}/{{article.slug}}" class="list-group-item">{{article.title}}</a>
+			{% endfor %}
+			</div>
+		{% endfor %}
+		</div>
+    </div>
+	{% endif %}
+
+	<div class="modal fade" id="tickets" tabindex="-1" role="dialog" aria-labelledby="{% trans 'Open new support ticket regarding this order' %}">
+		<form method="post" action="" data-with-files="true" class="api_form" data-api-url="client/support/ticket_create" data-api-tocreated="{{ 'support/ticket'|link }}">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="myModalLabel">{% trans 'Submit new support ticket' %}</h6>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                    </div>
+                    <div class="modal-body">
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label class="form-label">{% trans 'Department' %}:</label>
+                                    {{ mf.selectbox('support_helpdesk_id', client.support_helpdesk_get_pairs, request.support_helpdesk_id, 1) }}
+                                </div> 
+                            </div>
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label class="form-label">{% trans 'Related Services' %}:</label>
+                                    <select class="form-control" name="id_product_client" id="id_product_client" required="required">
+                                        <option value="">None service selected</option>
+                                        {% for service in client.order_get_logged_client_service_orders() %}
+                                            {% set order_domain = client.order_get_domain_associated(service.config) %}
+                                            <option value="{{service.id}}">{{service.title}} ({{service.status}}) {{order_domain}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label class="form-label">{% trans 'Subject' %}:</label>
+                                    <input type="text" class="form-control" name="subject" value="" required="required">
+                                </div>
+                            </div>
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label class="form-label">{% trans 'Reason' %}:</label>
+                                    <textarea rows="10" cols="100" class="form-control" name="content" maxlength="999" style="resize:none" required="required" data-provide="markdown" data-iconlibrary="fa">{{ request.content|e }}</textarea>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div id="_support_ticket_files_container_" class="">
+                                    
+                                </div>
+                                <span class="btn btn-primary" onclick="addAttachmentClick()" id="_btn_add_attachment_tickets_"><i class="fa fa-paperclip"></i> Add attachment</span>
+                                <span tabindex="-1" id="_focus_add_attachment_tickets_"></span>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            <button class="btn btn-danger btn-form-submit" type="submit" ><i class="fa fa-floppy-o"></i> {% trans 'Submit' %}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+{% block js%}
+<link href="{{ 'plugins/select2/css/select2.min.css' | asset_url }}" rel="stylesheet">
+<link href="{{ 'css/cwp-support.css' | asset_url }}" rel="stylesheet">
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#id_product_client').select2({
+        dropdownParent: $('#tickets')
+    });
+    $("#tickets").on('hidden.bs.modal', function(){
+        $('#_support_ticket_files_container_').html('');
+    });
+});
+let index_attachment = 0;
+function addAttachmentClick(){
+    if($('#_support_ticket_files_container_').find('.support-ticket-attachment-item').length < 5){
+        index_attachment++;
+        $('#_support_ticket_files_container_').append('<div class="support-ticket-attachment-item">' +
+                                                        '<input type="file" name="message_image_' + index_attachment + '" id="message_image_' + index_attachment + '" class="form-control">' +
+                                                        '<span onclick="removeTicketAttachment(this)" class="btn btn-warning" data-container="#_support_ticket_files_container_" data-toggle="tooltip" data-placement="top" title="Remove attachment."><i class="fa fa-trash"></i></span>' + 
+                                                    '</div>');
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#_focus_add_attachment_tickets_").focus();
+    }
+}
+function removeTicketAttachment(elem) {
+    $(elem).tooltip( 'hide' );
+    $(elem).closest('.support-ticket-attachment-item').slideUp('fast', function(){
+        $(this).remove();
+    });
+}
+</script>
+{% endblock %}
+{% block js_files%} 
+<script src="{{ 'plugins/select2/js/select2.min.js' | asset_url }}"></script>
+{% endblock %}

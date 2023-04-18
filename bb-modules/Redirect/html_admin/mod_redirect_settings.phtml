@@ -1,0 +1,91 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Redirects' %}{% endblock %}
+{% set active_menu = 'system' %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'Redirects' %}</li>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Redirect' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-new">{% trans 'New Redirect' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-index">
+
+                        <table class="table table-bordered table-striped" id="tableRedirect">
+                <thead>
+                    <tr>
+                        <td style="width: 40%">{% trans 'From' %}</td>
+                        <td>{% trans 'To' %}</td>
+                        <td width="13%">&nbsp;</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% set redirects = admin.redirect_get_list({"per_page":1000000, "page":request.page}|merge(request)) %}
+                {% for r in redirects %}
+                <tr>
+                    <td><a href="{{ r.path | link }}" target="_blank">{{ r.path | link }}</a></td>
+                    <td>{% if '://' in r.target %}<a href="{{ r.target }}" target="_blank">{{ r.target }}</a>{% else %}<a href="{{ r.target | link }}" target="_blank">{{ r.target | link }}</a>{% endif %}</td>
+                    <td class="actions">
+                        <a class="btn btn-sm bg-danger-transparent  text-danger  bb-rm-tr api-link" href="{{ 'api/admin/redirect/delete'|link({'id' : r.id}) }}" data-api-confirm="Are you sure?" data-api-reload="1"><i class='fe fe-trash'></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+                    </div>
+                    <div class="tab-pane" id="tab-new">
+                            <h5 class="mb-2">{% trans 'Create new redirect' %}</h5>
+
+                        <form method="post" action="{{ 'api/admin/redirect/create'|link }}" class="save api-form" data-api-reload="1">
+
+                                <div class="row mt-2">
+                                    <div class="col-md-3">
+                                        {{ '' | link }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="path" value="" required="required" placeholder="old-link" />
+                                    </div>
+                                    <div class="col-md-1">
+                                            &rarr;
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="target" value="" required="required" placeholder="http://www.google.com/ or /order" />
+                                    </div>
+                                    <div class="col-md-12 mt-4">
+                                        <button type="submit" value="" class="btn btn-primary  submitForm" ><i class="fe fe-save"></i> {% trans 'Add' %}</button>
+                                    </div>
+                                </div>
+                            </form>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#tableRedirect").DataTable();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,302 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Email' %}{% endblock %}
+
+{% block breadcrumbs %}
+
+        <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+        <li class="breadcrumb-item tx-15"><a  href="{{  'system'|alink }}">{% trans 'Settings' %}</a></li>
+        <li class="breadcrumb-item active">{% trans 'Email' %}</li>
+
+{% endblock %}
+
+
+{% set active_menu = 'system' %}
+{% block content %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Email templates' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-new">{% trans 'New template' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-email">{% trans 'Email settings' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active"  id="tab-index">
+                        <div class="text-end">
+                            <div class="aligncenter">
+                                <a href="{{ 'api/admin/email/batch_template_generate'|link}}" title="" class="btn bg-info-transparent text-info api-link" data-api-reload="1"><i class="fe fe-copy"></i> <span>Generate templates</span></a>
+                                <a href="{{ 'api/admin/email/batch_template_enable'|link}}" title="" class="btn bg-success-transparent text-success api-link" data-api-msg="All email templates enabled"><i class="fe fe-play-circle"></i> <span>Enable all</span></a>
+                                <a href="{{ 'api/admin/email/batch_template_disable'|link}}" title="" class="btn bg-danger-transparent text-danger api-link" data-api-msg="All email templates disabled"><i class="fe fe-pause-circle"></i> <span>Disable all</span></a>
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-striped" id="tableEmails">
+                            <thead>
+                                <tr>
+                                    <td style="width: 50%">{% trans 'Title' %}</td>
+                                    <td>{% trans 'Extension' %}</td>
+                                    <td>{% trans 'Code' %}</td>
+                                    <td>{% trans 'Enabled' %}</td>
+                                    <td width="13%">&nbsp;</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% set templates = admin.email_template_get_list({"per_page":1000000, "page":request.page}|merge(request)) %}
+                            {% for i, template in templates.list %}
+                            <tr>
+                                <td>{{ template.subject }}</td>
+                                <td>{{ template.category }}</td>
+                                <td>{{ template.action_code }}</td>
+                                <td>{{ mf.q(template.enabled) }}</td>
+                                <td class="actions">
+                                    <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/email/template'|alink }}/{{template.id}}"><i class="fe fe-edit"></i></a>
+                                    <a class="btn btn-sm bg-danger-transparent  text-danger  bb-rm-tr api-link" href="{{ 'api/admin/email/template_delete'|link({'id' : template.id}) }}" data-api-confirm="Are you sure?" data-api-reload="1"><i class='fe fe-trash'></i></a>
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    {% set params = admin.extension_config_get({"ext":"mod_email"}) %}
+                    <div id="tab-email" class="tab-pane">
+                        <div class="help">
+                            <h3>{% trans 'Configure email options' %}</h3>
+                            <p>{% trans 'WebHosting Billing sends emails using <em>sendmail</em> by default or you can configure your own SMTP server' %}</p>
+                        </div>
+
+                        <form method="post" action="{{ 'api/admin/extension/config_save'|link }}" class="api-form" data-api-msg="Email settings updated">
+                            <div class="rowElem noborder">
+                                <label class="topLabel">Queue options</label>
+                                <div class="formBottom" id="mailer">
+                                    <label>{% trans %}Send emails per cron run (0 = unlimited){% endtrans %}</label><input type="text" class="form-control" name="queue_once" placeholder="0" value="{{ params.queue_once }}"/>
+                                    <label>{% trans %}Max email sending time in minutes (0 = unlimited, default 5 min.){% endtrans %}</label><input type="text" class="form-control" name="time_limit" placeholder="5" value="{% if params.time_limit %}{{ params.time_limit }}{% else %}5{% endif %}"/>
+                                    <label>{% trans %}Cancel sending email after unsuccessful tries (0 = do not cancel){% endtrans %}</label><input type="text" class="form-control" name="cancel_after" placeholder="0" value="{{ params.cancel_after }}"/>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem noborder">
+                                <label class="">{% trans %}Log sent emails to database{% endtrans %}</label>
+                                <div class="formRight" id="mailer">
+                                    <div class="row pt-3">
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="log_enabled" value="1" {% if params.log_enabled %}checked="checked"{% endif %}/><span> {% trans 'Yes' %}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="log_enabled" value="0" {% if not params.log_enabled %}checked="checked"{% endif %} /><span> {% trans 'No' %}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label class="">{% trans %}Email transport{% endtrans %}</label>
+                                <div class="formRight" id="mailer">
+                                    <div class="row pt-3">
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="mailer" value="sendmail" {% if params.mailer == 'sendmail' or not params.mailer %}checked="checked"{% endif %}/><span> {% trans 'SendMail' %}</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="mailer" value="smtp" {% if params.mailer == 'smtp'%}checked="checked"{% endif %} /><span> {% trans 'SMTP' %}</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="mailer" value="sendgrid" {% if params.mailer == 'sendgrid'%}checked="checked"{% endif %} /><span> {% trans 'SendGrid' %}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                  </div>
+                                <div class="fix"></div>
+                            </div>
+                                <fieldset class="sendgrid" {% if params.mailer != 'sendgrid'%}style="display:none;"{% endif %} >
+                                    <div class="rowElem">
+                                        <label class="topLabel">{% trans %}SendGrid Username{% endtrans %}</label>
+                                        <div class="formBottom">
+                                            <input type="text" class="form-control" name="sendgrid_username" value="{{params.sendgrid_username}}" placeholder="username"/>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+                                    <div class="rowElem">
+                                    <label class="topLabel">{% trans %}SendGrid Password{% endtrans %}</label>
+                                    <div class="formBottom">
+                                        <input type="password" name="sendgrid_password" value="{{params.sendgrid_password}}" placeholder="password"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                </fieldset>
+                            </div>
+                            <!--<button class="smtp" {% if params.mailer != 'smtp'%}style="display:none;"{% endif %} >sssss</button>-->
+                                <div class="rowElem">
+                                    <label class="topLabel">{% trans %}SMTP Hostname{% endtrans %}</label>
+                                    <div class="formBottom">
+                                        <input type="text" class="form-control" name="smtp_host" value="{{params.smtp_host}}" placeholder="smtp.gmail.com"/>
+                                    </div>
+                                    <div class="fix"></div>
+
+                                    <div class="rowElem">
+                                    <label class="topLabel">{% trans %}SMTP Port{% endtrans %}</label>
+                                    <div class="formBottom">
+                                        <input type="text" class="form-control" name="smtp_port" value="{{params.smtp_port}}" placeholder="587"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                    <div class="rowElem">
+                                    <label class="topLabel">{% trans %}SMTP Username{% endtrans %}</label>
+                                    <div class="formBottom">
+                                        <input type="text" class="form-control" name="smtp_username" value="{{params.smtp_username}}" placeholder="my.email@gmail.com"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                    <div class="rowElem">
+                                    <label class="topLabel">{% trans %}SMTP Password{% endtrans %}</label>
+                                    <div class="formBottom">
+                                        <input type="password" class="form-control" name="smtp_password" value="{{params.smtp_password}}" placeholder="******"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                    <div class="rowElem">
+                                        <label class="">{% trans %}SMTP Security{% endtrans %}</label>
+                                        <div class="formRight">
+                                            <div class="row pt-3">
+                                                <div class="col-md-3">
+                                                    <label class="rdiobox">
+                                                        <input type="radio" name="smtp_security" value=""{% if not params.smtp_security %}checked="checked"{% endif %}/> <span>None</span>
+                                                    </label>
+                                                </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="rdiobox">
+                                                        <input type="radio" name="smtp_security" value="ssl"{% if params.smtp_security == 'ssl' %}checked="checked"{% endif %}/> <span>SSL</span>
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="rdiobox">
+                                                            <input type="radio" name="smtp_security" value="tls"{% if params.smtp_security == 'tls' %}checked="checked"{% endif %}/> <span>TLS</span>
+                                                        </label>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                <div class="rowElem">
+                                <button type="submit" value="{% trans 'Update email settings' %}" class="btn btn-primary  submitForm" ><i class="fe fe-save"></i> {% trans 'Update email settings' %}</button>
+                                <button type="button" value="" class="btn btn-info leftBtn" id="emailTest"><i class="fe fe-send"></i> {% trans 'Send test email to staff members' %}</button>
+                                <input type="hidden" name="ext" value="mod_email"/>
+                            </div>
+
+
+
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="tab-new">
+                        <div class="help">
+                            <h3>{% trans 'Where I can use new email template?' %}</h3>
+                            <p>{% trans 'Newly created email templates can be used in custom event hooks.' %}</p>
+                        </div>
+
+                        <form method="post" action="{{ 'api/admin/email/template_create'|link }}" class="save api-form" data-api-reload="1">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Enabled' %}:</label>
+                                    <div class="formRight noborder">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="enabled" value="1"/><span> {% trans 'Yes' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="enabled" value="0" checked="checked"/><span> {% trans 'No' %}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Category' %}</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="category" value="{{ requests.category }}" required="required" placeholder="General"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Action code' %}</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="action_code" value="{{ requests.action_code }}" required="required"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Subject' %}</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="subject" value="{{ requests.subject }}" required="required"/>
+                                    </div>
+
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Content' %}</label>
+                                    <div class="formRight">
+                                        <textarea name="content" class="form-control" cols="5" rows="10">{{ requests.content }}</textarea>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <button type="submit" value="" class="btn btn-primary  submitForm" ><i class="fe fe-save"></i> {% trans 'Create' %}</button>
+
+                        </form>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(function() {
+    $(document).ready(function(){
+        $("#tableEmails").DataTable();
+    });
+    $('#emailTest').click(function(){
+        bb.post('admin/email/send_test', null, function(result){
+            bb.msg('Email was successfully sent');
+        });
+        return false;
+    });
+	$("#mailer input").click( function() {
+        if($(this).val() == 'smtp') {
+            $('fieldset.smtp').slideDown();
+        } else {
+            $('fieldset.smtp').slideUp();
+        }
+	});
+});
+</script>
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Transactions' %}{% endblock %}
+{% set active_menu = 'invoice' %}
+
+
+{% block top_content %}
+{% if request.show_filter %}
+<div class="card">
+    <div class="card-body">
+        <h5>{% trans 'Filter transactions' %}</h5>
+        <form method="get" action="" class="mainForm">
+            <input type="hidden" name="_url" value="{{ request._url }}" />
+
+                <div class="rowElem noborder">
+                    <label>{% trans 'ID' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control" name="id" value="{{ request.id }}">
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'ID on payment gateway' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control" name="txn_id" value="{{ request.txn_id }}">
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Invoice Id' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control" name="invoice_id" value="{{ request.invoice_id }}">
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Currency' %}</label>
+                    <div class="formRight">
+                        {{ mf.selectbox('currency', guest.currency_get_pairs, request.currency, 0, 'All currencies') }}
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Status' %}</label>
+                        <div class="formRight">
+                            {{ mf.selectbox('status', admin.invoice_transaction_get_statuses_pairs, request.status, 0, 'All statuses') }}
+                        </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Payment Gateway' %}:</label>
+                    <div class="formRight">
+                        {{ mf.selectbox('gateway_id', admin.invoice_gateway_get_pairs, request.gateway_id, 0, 'All payment gateways') }}
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Received at' %}</label>
+                    <div class="formRight moreFields">
+                        <ul>
+                            <li style="width: 100px"><input type="text" class="form-control" name="date_from" value="{% if request.date_from %}{{ request.date_from|date('Y-m-d') }}{%endif%}" placeholder="{{ now|date('Y-m-d') }}" class="datepicker"/></li>
+                            <li class="sep">-</li>
+                            <li style="width: 100px"><input type="text" class="form-control" name="date_to" value="{% if request.date_to %}{{ request.date_to|date('Y-m-d') }}{%endif%}" placeholder="{{ now|date('Y-m-d') }}" class="datepicker"/></li>
+                        </ul>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <input type="hidden" name="show_filter" value="1" />
+            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-search"></i> {% trans 'Filter' %}</button>
+
+        </form>
+    </div>
+</div>
+{% else %}
+{% set statuses = admin.invoice_transaction_get_statuses %}
+<!--<div class="stats">
+    <ul>
+        <li><a href="{{ 'invoice/transactions'|alink({'status' : 'processed'}) }}" class="count green" title="">{{ statuses.processed }}</a><span>{% trans 'Processed' %}</span></li>
+        <li><a href="{{ 'invoice/transactions'|alink({'status' : 'approved'}) }}" class="count blue" title="">{{ statuses.approved }}</a><span>{% trans 'Approved' %}</span></li>
+        <li><a href="{{ 'invoice/transactions'|alink({'status' : 'error'}) }}" class="count red" title="">{{ statuses.error }}</a><span>{% trans 'Error' %}</span></li>
+        <li class="last"><a href="{{ 'invoice/transactions'|alink }}" class="count grey" title="">{{ statuses.received + statuses.approved + statuses.processed + statuses.error }}</a><span>{% trans 'Total' %}</span></li>
+    </ul>
+    <div class="fix"></div>
+</div>-->
+
+<div class="row">
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-alert-circle project bg-danger-transparent mx-auto text-danger "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Error' %}</h6>
+                <h3 class="font-weight-semibold">{{ statuses.error }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-users project bg-info-transparent mx-auto text-info "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Processed' %}</h6>
+                <h3 class="font-weight-semibold">{{ statuses.processed }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-check-circle project bg-success-transparent mx-auto text-success "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Approved' %}</h6>
+                <h3 class="font-weight-semibold">{{ statuses.approved }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-trending-up project bg-warning-transparent mx-auto text-warning "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Total' %}</h6>
+                <h3 class="font-weight-semibold">{{ statuses.received + statuses.approved + statuses.processed + statuses.error }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered table-striped mb-1" id="tableTransaction">
+        <thead>
+            <tr>
+                <td style="width: 2%"><input type="checkbox" class="batch-delete-master-checkbox"/></td>
+                <td width="5%">{% trans 'Invoice' %}</td>
+                <td>{% trans 'Type' %}</td>
+                <td>{% trans 'Status' %}</td>
+                <td>{% trans 'Gateway' %}</td>
+                <td>{% trans 'Amount' %}</td>
+                <td>{% trans 'Date' %}</td>
+                <td width="18%">&nbsp;</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% set transactions = admin.invoice_transaction_get_list({"per_page":100000, "page":request.page}|merge(request)) %}
+            {% for i, tx in transactions.list %}
+            <tr>
+                <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ tx.id }}"/></td>
+                <td>{% if tx.invoice_id %}<a href="{{ 'invoice/manage'|alink }}/{{tx.invoice_id}}">#{{ tx.invoice_id }}</a>{%else%}n/a{% endif %}</td>
+                <td>{{mf.status_name(tx.type|default('-')) }}</td>
+                <td>{% if tx.error %}<a href="#" onclick="bb.msg('{{ tx.error }}','{{ tx.error_code }}'); return false;">{{ tx.error_code }}</a>{% else %}{{mf.status_name(tx.status) }}{% endif %}</td>
+                <td>{{tx.gateway}}</td>
+                <td>{{ mf.currency_format( tx.amount, tx.currency) }}</td>
+                <td>{{tx.created_at|date('Y-m-d H:i')}}</td>
+                <td class="actions">
+                    <a class="btn btn-sm  bg-info-transparent text-info" href="{{ 'invoice/transaction'|alink }}/{{ tx.id }}"><i class="fe fe-edit"></i></a>
+                    <a class="btn btn-sm  bg-success-transparent text-success  api-link" href="{{ 'api/admin/invoice/transaction_process'|link({'id' : tx.id}) }}" data-api-msg="Processed" title="Process again"><i class="fe fe-repeat"></i></a>
+                    <a class="btn btn-sm  bg-danger-transparent text-danger  bb-rm-tr api-link" href="{{ 'api/admin/invoice/transaction_delete'|link({'id' : tx.id}) }}" data-api-confirm="Are you sure?" data-api-reload="1"><i class="fe fe-trash"></i></a>
+                </td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    {% include "partial_batch_delete.phtml" with {'action':'admin/invoice/batch_delete_transaction'} %}
+</div>
+
+<script>
+    $(document).ready(function(){
+       $("#tableTransaction").DataTable();
+    });
+</script>
+{% endblock %}

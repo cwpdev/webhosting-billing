@@ -1,0 +1,77 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{{ product.title }}{% endblock %}
+
+{% set periods = guest.system_periods %}
+{% set pricing = product.pricing %}
+
+{% block content_before %}
+		<!-- Page Heading/Breadcrumbs -->
+<div class="left-content">
+    <span class="main-content-title mg-b-0 mg-b-lg-1">{% trans 'Configure' %}</span>
+    <small class="d-block tx-12 mb-0 text-muted">{{ product.title }}</small>
+    {% include "partial_steps.phtml" with {'selected': 2, 'product': product} %}
+</div>
+
+{% endblock %}
+{% block content %}
+
+                <form method="post" action="" class="api_form" data-api-url="guest/cart/add_item" data-api-redirect="{{ 'cart'|link }}">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!-- Content Row -->
+                                    <h5 class="display-6">{{ product.title }}</h5>
+                                    <p class="tx-15">{{ product.description|bbmd }}
+                                    {% if product.form_id and guest.extension_is_on({"mod":"formbuilder"}) %}
+                                    {% include 'mod_formbuilder_build.phtml' with product %}
+                                    {% endif %}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                {% include 'partial_currency.phtml' %}
+                                <hr>
+                                {% include 'partial_pricing.phtml' with {'product': product} %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            {% include 'partial_addons.phtml' with {'product': product} %}
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" value="{{ product.id }}" />
+                </form>
+
+
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(function() {
+
+    if($(".addons").length && $(".addons").is(':hidden')) {
+        $('#order-button').one('click', function(){
+            $(this).hide();
+            $('.addons').slideDown('fast');
+            return false;
+        });
+    }
+
+    $('#period-selector').on('change', function() {
+        $('.period').hide();
+        $('.period.' + $(this).val()).show();
+    });
+
+    $('.addon-period-selector').change(function(){
+        var r = $(this).attr('rel');
+        $('#' + r + ' span').hide();
+        $('#' + r + ' span.' + $(this).val()).fadeIn();
+    }).trigger('change');
+});
+</script>
+{% endblock %}

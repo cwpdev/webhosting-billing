@@ -1,0 +1,103 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}Public tickets{% endblock %}
+{% set active_menu = 'support' %}
+{% block content %}
+{% set statuses = admin.support_public_ticket_get_statuses %}
+<div class="row">
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-alert-circle project bg-danger-transparent mx-auto text-danger "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Tickets waiting for staff reply' %}</h6>
+                <h3 class="font-weight-semibold"><a href="{{ 'support/public-tickets'|alink({'status' : 'open'}) }}">{{ statuses.open }}</a></h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-users project bg-info-transparent mx-auto text-info "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Tickets waiting for client reply' %}</h6>
+                <h3 class="font-weight-semibold"><a href="{{ 'support/public-tickets'|alink({'status' : 'on_hold'}) }}">{{ statuses.on_hold }}</a></h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-check-circle project bg-success-transparent mx-auto text-success "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Solved tickets' %}</h6>
+                <h3 class="font-weight-semibold"><a href="{{ 'support/public-tickets'|alink({'status' : 'closed'}) }}">{{ statuses.closed }}</a></h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="fe fe-trending-up project bg-warning-transparent mx-auto text-warning "></i>
+                </div>
+                <h6 class="mb-1 text-muted">{% trans 'Total' %}</h6>
+                <h3 class="font-weight-semibold"><a href="{{ 'support/public-tickets'|alink }}">{{ statuses.open + statuses.on_hold + statuses.closed }}</a></h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="iFrames">{% trans 'Public tickets' %}</h5>
+
+
+<table class="table table-bordered table-striped" id="tabletickets">
+    <thead>
+        <tr>
+            <td style="width: 2%"><input type="checkbox" class="batch-delete-master-checkbox"/></td>
+            <td style="width: 50%">{% trans 'Subject' %}</td>
+            <td>{% trans 'Email' %}</td>
+            <td>{% trans 'Status' %}</td>
+            <td>{% trans 'Date' %}</td>
+            <td style="width: 5%">&nbsp;</td>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% set tickets = admin.support_public_ticket_get_list({"per_page":100000, "page":request.page}|merge(request)) %}
+    {% for i, ticket in tickets.list %}
+    <tr>
+        <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ ticket.id }}"/></td>
+        <td><a href="{{ '/support/public-ticket'|alink }}/{{ticket.id}}">#{{ ticket.id }} - {{ ticket.subject }} ({{ ticket.messages|length}})</a></td>
+        <td>{{ ticket.author_email }}</td>
+        {% if ticket.status == 'open'%}
+        <td><span class="badge badge-pill bg-danger-transparent text-danger me-1 my-2">{{ mf.status_name(ticket.status) }}</span></td>
+        {% elseif ticket.status == 'on_hold' %}
+        <td><span class="badge badge-pill bg-warning-transparent text-warning me-1 my-2">{{ mf.status_name(ticket.status) }}</span></td>
+        {% elseif ticket.status == 'closed' %}
+        <td><span class="badge badge-pill bg-success-transparent text-success me-1 my-2">{{ mf.status_name(ticket.status) }}</span></td>
+        {% endif %}
+        <td>{{ ticket.updated_at|date('Y-m-d') }}</td>
+        <td class="actions">
+            <a class="btn btn-sm bg-info-transparent text-info" href="{{ '/support/public-ticket'|alink }}/{{ticket.id}}"><i class="fe fe-edit"></i></a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% include "partial_batch_delete.phtml" with {'action':'admin/support/batch_delete_public'} %}
+
+</div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#tabletickets").DataTable();
+    });
+</script>
+{% endblock %}

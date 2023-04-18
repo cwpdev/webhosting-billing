@@ -1,0 +1,37 @@
+{% extends "layout_default.phtml" %}
+
+{% block meta_title %}{% trans 'Staff Group management' %}{% endblock %}
+{% set active_menu = 'system' %}
+
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a href="{{ 'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a href="{{ 'extension/settings/staff'|alink }}">{% trans 'Staff' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a href="{{ 'extension/settings/staff'|alink }}#tab-groups">{% trans 'Groups' %}</a></li>
+    <li class="breadcrumb-item active">{{group.name}}</li>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body mt-0">
+        <form method="post" action="{{ 'api/admin/staff/group_update'|link }}" class="api-form" data-api-msg="{% trans 'Staff group updated' %}">
+
+                <div class="rowElem noborder">
+                    <label for="name">{% trans 'Name' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control"  name="name" value="{{group.name}}" required="required"/>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+                <input type="hidden" name="id" value="{{ group.id }}">
+                <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

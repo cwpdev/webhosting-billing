@@ -1,0 +1,49 @@
+{% extends "layout_default.phtml" %}
+{% set active_menu = 'support' %}
+{% block meta_title %}{{ category.title}}{% endblock %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'kb'|alink }}">{% trans 'Knowledge Base' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'kb'|alink }}#tab-categories">{% trans 'Categories' %}</a></li>
+    <li class="breadcrumb-item active">{{ category.title}}</li>
+
+{% endblock %}
+
+{% block content %}
+<div class="card">
+<div class="card-body">
+    <form method="post" action="{{ 'api/admin/kb/category_update'|link }}" class="save api-form" data-api-msg="{% trans 'Category updated' %}">
+
+            <div class="rowElem noborder">
+                <label>{% trans 'Title' %}:</label>
+                <div class="formRight">
+                    <input type="text" class="form-control" name="title" value="{{ category.title }}" required="required"/>
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Slug' %}:</label>
+                <div class="formRight">
+                    <input type="text" class="form-control" name="slug" value="{{ category.slug }}" required="required"/>
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Description' %}:</label>
+                <div class="formRight">
+                    <textarea name="description" class="form-control" cols="5" rows="20">{{ category.description }}</textarea>
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+            <input type="hidden" name="id" value="{{ category.id }}"/>
+
+    </form>
+</div>
+</div>
+{% endblock %}

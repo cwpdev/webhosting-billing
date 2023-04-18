@@ -1,0 +1,12 @@
+{
+    "id":           "reminders",
+	"type":         "mod",
+    "name":         "Reminders",
+    "description":  "You can configure the time interval with which you want to notify the next expiration of the services to your client by emial, Telegram, Whatsapp",
+    "icon_url":     "icon.png",
+    "homepage_url": "http://github.com/boxbilling/",
+    "author":       "Jose Manuel Nunez",
+    "author_url":   "http://extensions.boxbilling.com/",
+    "license":      "GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html",
+    "version":      "0.0.1"
+}

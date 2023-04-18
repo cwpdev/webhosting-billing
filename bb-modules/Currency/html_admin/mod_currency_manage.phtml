@@ -1,0 +1,82 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set active_menu = 'system' %}
+{% block meta_title %}{% trans 'Currency management' %}{% endblock %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a href="{{ 'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a href="{{ 'extension/settings/currency'|alink }}">{% trans 'Currency settings' %}</a></li>
+    <li class="breadcrumb-item active">{{currency.code}}</li>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <h5>{% trans 'Edit currency information' %} {{currency.code}}</h5>
+        <form method="post" action="{{ 'api/admin/currency/update'|link }}" class="save api-form" data-api-msg="Currency updated">
+        <fieldset>
+            <div class="rowElem noborder">
+                <label>{% trans 'Title' %}:</label>
+                <div class="formRight">
+                    <input type="text" class="form-control" name="title" value="{{currency.title}}" required="required">
+                </div>
+                <div class="fix"></div>
+            </div>
+            <div class="rowElem">
+                <label>{% trans 'Conversion rate' %}:</label>
+                <div class="formRight">
+                    <input type="text" class="form-control" name="conversion_rate" value="{{currency.conversion_rate}}" required="required">
+                </div>
+                <div class="fix"></div>
+            </div>
+            <div class="rowElem">
+                <label>{% trans 'Format' %}:</label>
+                <div class="formRight">
+                    <input type="text" class="form-control" name="format" value="{{currency.format}}" required="required" placeholder="$ {{price|raw}}">
+                </div>
+                <div class="fix"></div>
+            </div>
+            <div class="rowElem">
+                <label>{% trans 'Price format' %}:</label>
+                <div class="formRight">
+                    <div class="row pt-3">
+                        <div class="col-md-2">
+                            <label class="rdiobox">
+                                <input type="radio" name="price_format" value="1" {% if currency.price_format == 1 %}checked="checked"{% endif %}> <span>1234.56</span>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="rdiobox">
+                                <input type="radio" name="price_format" value="2" {% if currency.price_format == 2 %}checked="checked"{% endif %}> <span>1,234.56</span>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="rdiobox">
+                                <input type="radio" name="price_format" value="3" {% if currency.price_format == 3 %}checked="checked"{% endif %}> <span>1.234,56</span>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="rdiobox">
+                                <input type="radio" name="price_format" value="4" {% if currency.price_format == 4 %}checked="checked"{% endif %}> <span>1,234</span>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="rdiobox">
+                                <input type="radio" name="price_format" value="5" {% if currency.price_format == 5 %}checked="checked"{% endif %}> <span>1234</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="fix"></div>
+            </div>
+            <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+            <input type="hidden" name="code" value="{{currency.code}}"/>
+        </fieldset>
+    </form>
+    </div>
+</div>
+{% endblock %}

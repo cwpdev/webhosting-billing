@@ -1,0 +1,174 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{{ticket.subject}}{% endblock %}
+{% set profile = client.client_get %}
+
+{% block content_before %}
+		<!-- Page Heading/Breadcrumbs -->
+        <div class="left-content">
+            <span class="main-content-title mg-b-0 mg-b-lg-1">{{ ticket.subject }}</span>
+                            <small class="d-block tx-12 mb-0 text-muted">{{ticket.helpdesk.name}}</small>
+        </div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item tx-15"><a href="{{ '/support'|link }}">{% trans 'Support tickets' %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><b>{{ ticket.subject }}</b></li>
+        </ol>
+
+        <!-- /.row -->
+{% endblock %}
+{% block content %}
+		{% trans 'Status' %}: <span class="badge {% if ticket.status == "open" %}bg-danger{% elseif ticket.status == "on_hold" %}bg-warning{% elseif ticket.status == "closed" %}bg-success{% else %}bg-default{% endif %}">{{ mf.status_name(ticket.status) }}</span>
+        &nbsp; {{ticket.created_at|date('Y-m-d h:i')}}
+			{% if ticket.rel_type == 'order' and ticket.rel_id %}<strong>{% trans 'Related to' %}:</strong> <a href="{{ 'order/service/manage'|link }}/{{ ticket.rel_id }}">{% trans 'Service #' %} {{ ticket.rel_id }}</a>{% endif %}
+                <div class="pull-right">
+                    <a class="btn btn-light" href="{{ '/support'|link }}"><i class="fa fa-arrow-left"></i> {% trans 'Tickets list' %}</a>
+                    {% if ticket.status != 'closed' %}
+                    <a class="btn btn-success api" type="button" href="{{ 'api/client/support/ticket_close'|link({'id' : ticket.id}) }}" data-api-redirect="{{ 'support'|link }}" ><i class="fa fa-times"></i> {% trans 'Close ticket' %}</a>
+                    {% endif %}
+                </div>
+
+		<hr>
+
+<div class="">
+    <ul class="notification">
+
+    {% for i, message in ticket.messages %}
+        <li>
+            <div class="notification-time">
+                <span class="time">{{ message.created_at | split(' ')[0] }}</span>
+                <span class="date">{{ message.created_at | split(' ')[1] }}</span>
+
+            </div>
+            <div class="notification-icon">
+                <a href="javascript:void(0);"></a>
+            </div>
+            <div class="notification-body">
+                <div class="media mt-0 ticket-message-container">
+                    <div class="main-img-user avatar-md main-avatar me-3 shadow">
+                        <img  class="rounded-circle gravatar" src="{{ message.author.email|gravatar }}?size=20" alt="{{ message.author.name }}" />
+                    </div>
+                    <div class="media-body">
+                        <div class="d-flex align-items-center">
+                            <div class="mt-0">
+                                <h5 class="mb-1 tx-15 font-weight-semibold text-dark">{{ message.author.name }}</h5>
+                                <p class="mb-0 tx-13 mb-0 text-muted">{{ message.content|bbmd }}</p>
+                                {% if message.attachment|length > 0 %}
+                                    <div class="ticket-message-attachments-container">
+                                        {% for attachment in message.attachment %}
+                                            <a href="/bb-data/uploads/{{ attachment.f}}" target="_blank">
+                                            {% if attachment.e == 'jpg' or attachment.e == 'png' or attachment.e == 'gif'%}
+                                                <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                            {% elseif attachment.e == 'doc' or attachment.e == 'docx' %}
+                                                <i class="fa fa-file-word-o" aria-hidden="true"></i>
+                                            {% elseif attachment.e == 'pdf' %}
+                                                <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                            {% else %}
+                                                <i class="fa fa-file-text" aria-hidden="true"></i>
+                                            {% endif %}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+       <!-- <div class="card">
+            <div class="card-body">
+				<div class="col-sm-12{% if message.author.name != (profile.first_name ~ " " ~ profile.last_name) %} col-sm-offset-2{% endif %}">
+					<div class="panel {% if message.author.name != (profile.first_name ~ " " ~ profile.last_name) %}panel-success{% else %}panel-default{% endif %}">
+						<div class="panel-heading">
+							<img src="{{ message.author.email|gravatar }}?size=20" alt="{{ message.author.name }}" class="gravatar"/>
+							{{ message.author.name }}
+							<small class="pull-right">{{ message.created_at }}</small>
+						</div>
+						<div class="panel-body">
+							{{ message.content|bbmd }}
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>-->
+				{% endfor %}
+        </ul>
+				{% if ticket.status != "closed" %}
+            <div class="card">
+                <div class="card-body">
+					<div class="col-sm-12">
+						<form method="post" data-with-files="true" action="" class="api_form" data-api-url="{{ 'api/client/support/ticket_reply'|link }}" data-api-reload="1">
+							<div class="control-group form-group">
+								<div class="controls">
+									<textarea rows="10" cols="100" class="form-control" name="content" maxlength="999" style="resize:none" required="required" data-provide="markdown" data-iconlibrary="fa"></textarea>
+								</div>
+							</div>
+                            <div id="_support_ticket_files_container_" class="support-ticket-files-container-small">
+                                    
+                            </div>
+							<input type="hidden" name="id" value="{{ ticket.id }}">
+                            <span class="btn btn-success" onclick="addAttachmentClick()">
+                                <i class="fa fa-paperclip" aria-hidden="true"></i> Add attachment
+                            </span>
+                            <button class="btn btn-primary btn-form-submit" type="submit">
+                                <i class="fa fa-reply" aria-hidden="true"></i> {% trans 'Post' %}
+                            </button>
+						</form>
+					</div>
+				</div>
+				</div>
+				{% else %}
+    <div class="row">
+    <div class="col-md-4 ">
+    </div>
+    <div class="col-md-4 ">
+        <div class="card bd-0 mg-b-20">
+            <div class="card-body text-success bg-success-transparent br-5  bd bd-success">
+                <div class="main-error-wrapper">
+                    <i class="si si-check mg-b-20 tx-50"></i>
+                    <h4 class="mg-b-20">{{ mf.status_name(ticket.status) }}</h4>
+                    <a class="btn btn-outline-success btn-sm" href="">{{ ticket.updated_at|timeago }} {% trans 'ago' %}</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+				{% endif %}
+			</div>
+		</div>
+    </div>
+		<hr />
+
+
+		<div class="pull-right">
+			<a class="btn btn-light" href="{{ '/support'|link }}"><i class="fa fa-arrow-left"></i> {% trans 'Tickets list' %}</a>
+			{% if ticket.status != 'closed' %}
+			<a class="btn btn-success api" type="button" href="{{ 'api/client/support/ticket_close'|link({'id' : ticket.id}) }}" data-api-redirect="{{ 'support'|link }}" ><i class="fa fa-times"></i> {% trans 'Close ticket' %}</a>
+			{% endif %}
+		</div>
+
+{% endblock %}
+{% block js%}
+<link href="{{ 'css/cwp-support.css' | asset_url }}" rel="stylesheet">
+<script type="text/javascript">
+let index_attachment = 0;
+function addAttachmentClick(){
+    if($('#_support_ticket_files_container_').find('.support-ticket-attachment-item').length < 5){
+        index_attachment++;
+        $('#_support_ticket_files_container_').append('<div class="support-ticket-attachment-item">' +
+                                                        '<input type="file" name="message_image_' + index_attachment + '" id="message_image_' + index_attachment + '" class="form-control">' +
+                                                        '<span onclick="removeTicketAttachment(this)" class="btn btn-warning" data-container="#_support_ticket_files_container_" data-toggle="tooltip" data-placement="top" title="Remove attachment."><i class="fa fa-trash"></i></span>' + 
+                                                    '</div>');
+        $('[data-toggle="tooltip"]').tooltip();
+        //$("#_focus_add_attachment_tickets_").focus();
+    }
+}
+function removeTicketAttachment(elem) {
+    $(elem).tooltip( 'hide' );
+    $(elem).closest('.support-ticket-attachment-item').slideUp('fast', function(){
+        $(this).remove();
+    });
+}
+</script>
+{% endblock %}

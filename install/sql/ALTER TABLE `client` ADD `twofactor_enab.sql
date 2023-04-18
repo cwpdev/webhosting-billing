@@ -1,0 +1,4 @@
+ALTER TABLE `client` ADD  `twofactor_enabled` tinyint(1) DEFAULT '0' AFTER  `api_token`;
+ALTER TABLE `client` ADD  `twofactor_secret` VARCHAR( 255 ) NULL DEFAULT NULL AFTER  `api_token`;
+
+{"id":"social_login","type":"mod","name":"SocialLogin","description":"Login with social networks","homepage_url":"https://control-webpanel.com/","author":"Centos Web Panel","author_url":"https://control-webpanel.com/","license":"https://control-webpanel.com/","version":"1.0.0","icon_url":null,"download_url":null,"project_url":"https://control-webpanel.com/","minimum_boxbilling_version":null,"maximum_boxbilling_version":null}

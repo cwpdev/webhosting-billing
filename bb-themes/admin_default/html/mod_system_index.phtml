@@ -1,0 +1,39 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Settings' %}{% endblock %}
+{% set active_menu = 'system' %}
+{% set params = admin.system_get_params %}
+{% block content %}
+
+
+            <div class="row">
+
+                    {% for ext in admin.extension_get_list({"active":1, "has_settings":1}|merge(request)) %}
+                        <div class="col-xl-3 col-md-6 col-lg-6 col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="plan-card text-center">
+                                        <i class="fas fa-box plan-icon text-primary"></i>
+
+                                        <h5 class="mb-2 mt-2"><a href="{{ 'extension/settings'|alink }}/{{ext.id}}">{{ ext.name }}</a></h5>
+
+                                        <a class="btn btn-block bg-info-transparent text-info" href="{{ 'extension/settings'|alink }}/{{ext.id}}"><i class="fe fe-play-circle" title="{% trans 'Module settings' %}"></i> {% trans 'Module settings' %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+            </div>
+
+<script>
+    $(document).ready(function(){
+        $("#tableSystem").DataTable({
+            "paging":   false,
+            "ordering": false,
+            "info":     false
+        });
+    });
+</script>
+{% endblock %}

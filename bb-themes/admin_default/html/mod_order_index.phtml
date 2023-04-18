@@ -1,0 +1,416 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% set active_menu = 'order' %}
+{% import "macro_functions.phtml" as mf %}
+
+{% block meta_title %}{% trans 'Orders' %}{% endblock %}
+{% block top_content %}
+{% if request.show_filter %}
+
+{% else %}
+{% set count_orders = admin.order_get_statuses %}
+<!--<div class="stats">
+    <ul>
+        <li><a href="{{ 'order'|alink({'status' : 'pending_setup'}) }}" class="count green" title="">{{ count_orders.pending_setup }}</a><span>{% trans 'Pending setup' %}</span></li>
+        <li><a href="{{ 'order'|alink({'status' : 'active'}) }}" class="count blue" title="">{{ count_orders.active }}</a><span>{% trans 'Active' %}</span></li>
+        <li><a href="{{ 'order'|alink({'status' : 'suspended'}) }}" class="count red" title="">{{ count_orders.suspended }}</a><span>{% trans 'Suspended' %}</span></li>
+        <li class="last"><a href="{{ 'order'|alink }}" class="count grey" title="">{{ count_orders.total }} </a><span>{% trans 'Total' %}</span></li>
+    </ul>
+    <div class="fix"></div>
+</div>-->
+<div class="card mg-b-20" id="tabs-style2">
+    <div class="card-body">
+        <div class="row index1">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xxl-3">
+                <div class="row border-end bd-xs-e-0 p-3">
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                        <div class="circle-icon bg-warning text-center align-self-center overflow-hidden shadow">
+                            <a href="{{ 'order'|alink({'status' : 'pending_setup'}) }}" title="">
+                                <i class="fe fe-alert-circle tx-15 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-9 py-0">
+                        <div class="pt-4 pb-3">
+                            <div class="d-flex">
+                                <h6 class="mb-2 tx-12">{% trans 'Pending setup' %}</h6>
+                                <span class="badge bg-success-transparent text-success font-weight-semibold ms-auto rounded-pill lh-maincard px-2 my-auto"><i class="fa fa-caret-up me-1"></i>{{porc_act|number_format(2, '.', ',')}}%</span>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <a href="{{ 'order'|alink({'status' : 'pending_setup'}) }}" title="">
+                                        <h4 class="tx-18 font-weight-semibold mb-0">{{ count_orders.pending_setup }}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xxl-3">
+                <div class="row border-end bd-md-e-0 bd-xs-e-0 bd-lg-e-0 bd-xl-e-0  p-3">
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                        <div class="circle-icon bg-success text-center align-self-center overflow-hidden shadow">
+                            <a href="{{ 'order'|alink({'status' : 'suspended'}) }}" title="">
+                                <i class="fe fe-activity tx-15 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="pt-4 pb-3">
+                            <div class="d-flex">
+                                <h6 class="mb-2 tx-12">{% trans 'Active' %}</h6>
+                                <span class="badge bg-success-transparent text-success font-weight-semibold ms-auto rounded-pill lh-maincard px-2 my-auto"><i class="fa fa-caret-up me-1"></i>{{porc_susp|number_format(2, '.', ',')}}%</span>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <a href="{{ 'order'|alink({'status' : 'suspended'}) }}" title="">
+                                        <h4 class="tx-18 font-weight-semibold mb-0">{{ count_orders.active }}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xxl-3">
+                <div class="row border-end bd-xs-e-0  p-3">
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                        <div class="circle-icon bg-secondary text-center align-self-center overflow-hidden shadow">
+                            <a href="{{ 'order'|alink({'status' : 'suspended'}) }}"  title="">
+                                <i class="fe fe-clock tx-15 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="pt-4 pb-3">
+                            <div class="d-flex">
+                                <h6 class="mb-2 tx-12">{% trans 'Suspended' %}</h6>
+                                <span class="badge bg-success-transparent text-success font-weight-semibold ms-auto rounded-pill lh-maincard px-2 my-auto"><i class="fa fa-caret-up me-1"></i>{{porc_canc|number_format(2, '.', ',')}}%</span>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <a href="{{ 'order'|alink({'status' : 'suspended'}) }}"  title="">
+                                        <h4 class="tx-18 font-weight-semibold mb-0">{{ count_orders.suspended }}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xxl-3">
+                <div class="row  p-3">
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                        <div class="circle-icon bg-info text-center align-self-center overflow-hidden shadow">
+                            <a href="{{ 'order'|alink }}" title="">
+                                <i class="fe fe-bar-chart-2 tx-15 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="pt-4 pb-3">
+                            <div class="d-flex	">
+                                <h6 class="mb-2 tx-12">{% trans 'Total' %}</h6>
+
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <a href="{{ 'order'|alink }}" title="">
+                                        <h4 class="tx-18 font-weight-semibold mb-0">{{ count_orders.total }}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="card card-collapsed">
+    <div class="card-header  d-flex custom-card-header border-bottom-0 ">
+        <h5 >{% trans 'Filter orders' %}</h5>
+        <div class="card-options">
+            <a href="javascript:void(0);" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-down"></i></a>
+        </div>
+    </div>
+    <div class="card-body">
+
+        <form method="get" action="" class="">
+            <input type="hidden" name="_url" value="{{ request._url }}" />
+
+            <div class="rowElem noborder">
+                <label>{% trans 'ID' %}</label>
+                <div class="formRight">
+                    <input type="text" class="form-control" name="id" value="{{ request.id }}">
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Title' %}</label>
+                <div class="formRight">
+                    <input type="text" class="form-control" name="title" value="{{ request.title }}">
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Status' %}</label>
+                <div class="formRight">
+                    {{ mf.selectbox('status', admin.order_get_status_pairs, request.status, 0, 'All statuses') }}
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Type' %}:</label>
+                <div class="formRight">
+                    {{ mf.selectbox('type', admin.product_get_types, request.type, 0, 'All types') }}
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Product' %}:</label>
+                <div class="formRight">
+                    {{ mf.selectbox('product_id', admin.product_get_pairs, request.product_id, 0, 'All products') }}
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Period' %}</label>
+                <div class="formRight">
+                    {{ mf.selectbox('period', guest.system_periods, request.period, 0, 'All periods') }}
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Invoice option' %}</label>
+                <div class="formRight">
+                    {{ mf.selectbox('invoice_option', admin.order_get_invoice_options, request.invoice_option, 0, 'All types') }}
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <div class="rowElem">
+                <label>{% trans 'Creation date' %}</label>
+                <div class="formRight moreFields">
+                    <ul>
+                        <li style="width: 100px"><input type="text" class="form-control" name="date_from" value="{% if request.date_from %}{{ request.date_from|date('Y-m-d') }}{%endif%}" placeholder="{{ now|date('Y-m-d') }}" class="datepicker"/></li>
+                        <li class="sep">-</li>
+                        <li style="width: 100px"><input type="text" class="form-control"  name="date_to" value="{% if request.date_to %}{{ request.date_to|date('Y-m-d') }}{%endif%}" placeholder="{{ now|date('Y-m-d') }}" class="datepicker"/></li>
+                    </ul>
+                </div>
+                <div class="fix"></div>
+            </div>
+
+            <input type="hidden" name="show_filter" value="1" />
+            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-search"></i> {% trans 'Filter' %}</button>
+
+        </form>
+        <div class="fix"></div>
+    </div>
+</div>
+<div class="card mg-b-20" id="tabs-style2">
+    <!--<div class="card-body">-->
+    <div class="text-wrap">
+        <div class="example">
+            <div class="panel panel-primary tabs-style-2">
+                <div class=" tab-menu-heading">
+                    <div class="tabs-menu1">
+                        <!-- Tabs -->
+                        <ul class="nav panel-tabs main-nav-line">
+                            <li><a href="#tab-index" class="nav-link active" data-bs-toggle="tab">{% trans 'Orders' %}</a></li>
+                            <li><a href="#tab-new" class="nav-link" data-bs-toggle="tab">{% trans 'New order' %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body tabs-menu-body main-content-body-right border">
+                    <div class="tab-content">
+                        <div class="tab-pane  active" id="tab-index">
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap border-bottom" id="table_ordens">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" class="batch-delete-master-checkbox"/></th>
+                                            <th>{% trans 'ID' %}</th>
+                                            <th>{% trans 'Client' %}</th>
+                                            <th>{% trans 'Domain/Server' %}</th>
+                                            <th>{% trans 'Amount' %}</th>
+                                            <th>{% trans 'Period' %}</th>
+                                            <th>{% trans 'Expiration' %}</th>
+                                            <th>{% trans 'Status' %}</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set orders = admin.order_get_list({"per_page":30000, "page":request.page}|merge(request)) %}
+                                    {% for i, order in orders.list %}
+                                    <tr>
+                                        <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ order.id }}"/></td>
+                                        <td>{{order.id}}</td>
+                                        <td class="truncate">
+                                            <span style="float: left;">
+                                                <a href="{{ 'client/manage'|alink }}/{{ order.client_id }}"><img src="{{ order.client.email|gravatar }}?size=20" alt="{{ order.client.email }}" /></a>
+                                            </span>
+                                                                <span style="margin-left: 10px;">
+                                                <a href="{{ 'client/manage'|alink }}/{{ order.client_id }}">{{order.client.first_name|truncate('1', null, '.')}} {{order.client.last_name}}</a>
+                                            </span>
+                                        </td>
+                                        <!--<td class="truncate">{{order.title }}</td>-->
+                                        <td class="truncate">
+                                            {{(order.service_data.sld and order.service_data.tld ? order.service_data.sld ~ order.service_data.tld : order.title)}}
+                                            {{(order.service_data.server.name ? ' / ' ~ order.service_data.server.name : '')}}
+                                        </td>
+                                        <td>{{ mf.currency_format( order.total, order.currency) }}</td>
+                                        <td>{{ mf.period_name(order.period) }}</td>
+                                        <td>{% if order.expires_at == '' %} - {% else %}{{ order.expires_at|date('l, d F Y') }} {% endif %}</td>
+                                        <td><span class="badge {% if order.status == 'active' %} bg-success-transparent text-success {% elseif order.status == 'suspended' %} bg-danger-transparent text-danger {% elseif order.status == 'Terminated' %} bg-info-transparent text-info {% else %} bg-warning-transparent text-warning {% endif %}">{{ mf.status_name(order.status) }}</span></td>
+                                        <td class="actions">
+                                            <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/order/manage'|alink }}/{{order.id}}"><i class="fe fe-edit"></i></a>
+                                            <a class="btn btn-sm  bg-danger-transparent text-danger  bb-rm-tr api-link" data-api-confirm="Are you sure?" href="{{ 'api/admin/order/delete'|link({'id' : order.id}) }}" data-api-redirect="{{ 'order'|alink }}"><i class="fe fe-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="8" class="text-center">{% trans 'The list is empty' %}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="tab-new">
+                            <form method="post" action="{{ 'order/new'|alink }}" class="">
+
+                                    <div class="rowElem noborder">
+                                        <label>{% trans 'Client' %}</label>
+                                        <div class="formRight">
+                                            {% if not request.client_id %}
+                                            <input type="text" class="form-control" id="client_selector" placeholder="{% trans 'Start typing clients name, email or ID' %}" required="required"/>
+                                            <input type="hidden" name="client_id" value="{{ request.client_id }}" id="client_id"/>
+                                            {% else %}
+                                            {% set client = admin.client_get({"id":request.client_id}) %}
+                                            {{ client.first_name }} {{ client.last_name }}
+                                            {% endif %}
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+                                    <div class="rowElem">
+                                        <label>{% trans 'Product' %}:</label>
+                                        <div class="formRight">
+                                            {% if not request.product_id %}
+                                            <input type="text" class="form-control" id="product_selector" placeholder="{% trans 'Start typing product name' %}" required="required"/>
+                                            <input type="hidden" name="product_id" value="" id="products_id"/>
+                                            {% else %}
+
+                                            {{ mf.selectbox('product_id', admin.product_get_pairs, request.product_id, 1) }}
+                                            {% endif %}
+                                           <!-- -->
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Continue' %}</button>
+                                    {% if request.client_id %}
+                                    <input type="hidden" name="client_id" value="{{ request.client_id}}" />
+                                    {% endif %}
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--</div>-->
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block head %}
+<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+{% endblock %}
+
+{% block js%}
+{% if not request.client_id %}
+<script type="text/javascript">
+$(function() {
+
+	$('#client_selector').autocomplete({
+        source: function( request, response ) {
+            $.ajax({
+                url: bb.restUrl('admin/client/get_pairs'),
+                dataType: "json",
+                data: {
+                    per_page: 10,
+                    search: request.term
+                },
+                success: function( data ) {
+                    response( $.map( data.result, function( name, id) {
+                        return {
+                            label: name.full_name,
+                            value: id
+                        }
+                    }));
+                }
+            });
+        },
+        minLength: 1,
+        select: function( event, ui ) {
+            $("#client_selector").val(ui.item.label);
+            $("#client_id").val(ui.item.value);
+            return false;
+        }
+    });
+
+    $('#product_selector').autocomplete({
+        source: function( request, response ) {
+            $.ajax({
+                url: bb.restUrl('admin/product/get_pairs'),
+                dataType: "json",
+                data: {
+                    per_page: 10,
+                    search: request.term
+                },
+                success: function( data ) {
+                    response( $.map( data.result, function( name, id) {
+                        return {
+                            label: name,
+                            value: id
+                        }
+                    }));
+                }
+            });
+        },
+        minLength: 1,
+        select: function( event, ui ) {
+            $("#product_selector").val(ui.item.label);
+            console.log(ui.item.value);
+            $("#products_id").val(ui.item.value);
+            return false;
+        }
+    });
+
+    $('#table_ordens').dataTable( {
+        "searching": true
+    } );
+});
+</script>
+{% endif %}
+{% endblock %}

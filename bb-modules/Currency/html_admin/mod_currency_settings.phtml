@@ -1,0 +1,197 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set active_menu = 'system' %}
+{% block meta_title %}{% trans 'Currency settings' %}{% endblock %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a href="{{ 'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'Currency settings' %}</li>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-currencies">{% trans 'Currencies' %}</a></li>
+                        <li><a  class="nav-link" data-bs-toggle="tab" href="#tab-new-currency">{% trans 'Add new currency' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-api-settings">{% trans 'Settings' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-converter">{% trans 'Converter' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active"  id="tab-currencies">
+
+                        <div class="help">
+                            <h5>{% trans 'Manage currencies' %}</h5>
+                            <p>{% trans 'Default currency is the one you manage all your prices in admin area. If your client in client area chooses other than default currency, prices will be recalculated according to conversion rate. You can have only one default currency. You can not add same currency once again. Changing default currency is not recommended when active orders are available. Nothing is recalculated on default currency change. Your income is calculated in default currency. Changing default currency after you have paid invoices will distort income statistics. Currency rates are taken from European Central Bank and currencylayer.' %}</p>
+                        </div>
+                        <div class="text-end col-md-12">
+                            <a href="{{'api/admin/currency/update_rates'|link}}" data-api-redirect="{{'extension/settings/currency'|alink}}" class="btn bg-success-transparent text-success api-link"><i class="fe fe-repeat"></i> <span>{% trans 'Update Rates' %}</span></a>
+                        </div>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{% trans 'ISO code' %}</th>
+                                    <th>{% trans 'Title' %}</th>
+                                    <th>{% trans 'Conversion rate' %}</th>
+                                    <th>{% trans 'Example price' %}</th>
+                                    <th style="width:17%">&nbsp;</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for currency in admin.currency_get_list.list %}
+                              <tr>
+                                  <td>{% if currency.default %}<strong>{{ currency.code }}</strong>{% else %}{{ currency.code }}{% endif %}</td>
+                                  <td>{{ currency.title }}</td>
+                                  <td>{{ currency.conversion_rate }}</td>
+                                  <td>{{ mf.currency_format(1) }} = {{ mf.currency(1, currency.code) }}</td>
+                                  <td class="actions">
+                                      <a class="btn btn-sm bg-info-transparent text-info" href="{{ '/currency/manage'|alink }}/{{currency.code}}"><i class="fe fe-edit"></i></a>
+                                      <a class="btn btn-sm bg-danger-transparent text-danger bb-rm-tr api-link" data-api-redirect="{{'extension/settings/currency'|alink}}" data-api-confirm="Are you sure?" href="{{'api/admin/currency/delete'|link({'code' : currency.code})}}"><i class='fe fe-trash'></i></a>
+                                      {% if not currency.default %}
+                                      <a class="btn btn-sm bg-warning-transparent text-warning api-link" data-api-redirect="{{'extension/settings/currency'|alink}}" href="{{'api/admin/currency/set_default' | link({'code' : currency.code})}}" title="Set as default" class="rightDir"><i class="fe fe-star" alt=""></a>
+                                      {% endif %}
+                                  </td>
+                              </tr>
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tab-pane" id="tab-new-currency">
+
+                        <form method="post" action="{{ 'api/admin/currency/create'|link }}" class="save api-form" data-api-redirect="{{ 'extension/settings/currency'|alink }}">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Code' %}:</label>
+                                    <div class="formRight">
+                                        {{ mf.selectbox('code', admin.currency_get_pairs, 'USD', 1) }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Title' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="title" value="" required="required">
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Conversion rate' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="conversion_rate" value="1" required="required">
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Format' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="format" value="$ {{'{{price}}'}}" required="required">
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                            <button type="submit" value="" class="btn btn-primary  submitForm" ><i class="fe fe-save"></i> {% trans 'Add' %}</button>
+
+                        </form>
+
+
+                    </div>
+
+                    <div class="tab-pane" id="tab-api-settings">
+                        <div class="help">
+                            <h5>{% trans 'Adjust settings for currency rate updater' %}</h5>
+                            <p>BoxBilling uses data grabbed from <a href="https://www.ecb.europa.eu/home/html/index.en.html">European Central Bank</a> for conversions from Euro to other currencies, and <a href="https://currencylayer.com/">currencylayer</a> for conversations from US Dollar to other currencies.<br />If you choose Euro as your default currency, data from European Central Bank will be used, if you choose US Dollar, data from currencylayer will be used.<br />While European Central Bank decided to keep it's API free to everyone, you won't need an autorization key to use ECB's data. However, you'll need an API key to use currencylayer.<br />You can <a href="https://currencylayer.com/product">grab your API key</a> from currencylayer's website. BoxBilling doesn't make any profits from your purchases on currencylayer.com</p>
+                                <div class="alert alert-warning">
+                                <p><b>BoxBilling does not take any responsibilities for data grabbed from 3rd party sources, including European Central Bank and currencylayer.</b></p>
+                                </div>
+                        </div>
+                        <form method="post" action="{{ 'api/admin/currency/update_rate_settings'|link }}" class="save api-form" data-api-msg="Successfully updated settings">
+
+                            <div class="rowElem noborder">
+                                <label>{% trans 'API key for currencylayer' %}:</label>
+                                <div class="formRight">
+                                    <input type="text" class="form-control" name="currencylayer_key" value="{{admin.currency_get_key}}">
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Enable CRON jobs' %}:</label>
+
+                                <div class="formRight">
+                                    <div class="row pt-3">
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="crons_enabled" value="1" {% if admin.currency_is_cron_enabled == 1 %}checked="checked"{% endif %}><span> Enabled</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="crons_enabled" value="0" {% if admin.currency_is_cron_enabled == 0 %}checked="checked"{% endif %}><span> Disabled</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fix"></div>
+                                <div class="alert alert-info">
+                                    <p>If you enable this, conversion rates will be automatically updated whenever the CRON job fires up.</p>
+                                </div>
+
+                            </div>
+                            <button type="submit" value="" class="btn btn-primary  submitForm" ><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="tab-converter">
+
+                        <form method="post" action="" class="mainForm">
+
+                                <div class="rowElem">
+                                    <div class="moreFields">
+                                        <ul>
+                                            <li style="width: 100px"><input type="text" class="form-control" name="amount" value="" required="required" onkeyup="doConvert();" placeholder="{% trans 'Amount' %}"></li>
+                                            <li class="sep txt">{{ guest.currency_get.code }} = </li>
+                                            <li class="sep txt"></li>
+                                            <li style="width: 100px"><input type="text" class="form-control" id="converted_result" value="" placeholder="{% trans 'Result' %}" readonly="readonly"></li>
+                                            <li class="sep txt"></li>
+                                            <li style="width: 100px">{{ mf.selectbox('to', guest.currency_get_pairs) }}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                        </form>
+
+                    </div>
+                 </div>
+               </div>
+         </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    function doConvert() {
+        var price = $('input[name="amount"]').val();
+        var code = $('select[name="to"]').val();
+        bb.post('guest/currency/format', {price:price, code: code}, function(result){
+            $('#converted_result').val(result);
+        });
+        return false;
+    };
+</script>
+{% endblock %}

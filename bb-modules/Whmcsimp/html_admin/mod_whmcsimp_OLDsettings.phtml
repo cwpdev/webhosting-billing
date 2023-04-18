@@ -1,0 +1,60 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}WHMCS Migration Module{% endblock %}
+{% set active_menu = 'system' %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'WHMCS Migration Module' %}</li>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="widget">
+    <div class="head">
+        <h5 class="iCog">WHMCS Parameters</h5>
+    </div>
+
+{% set params = admin.extension_config_get({"ext":"mod_example"}) %}
+
+<form method="post" action="{{ 'api/admin/extension/config_save'|link }}" class="api-form" data-api-msg="{% trans 'Configuration updated' %}">
+
+    <div class="help">
+        <h3>{% trans 'Connection data for the whmcs api' %}</h3>
+        <p>{% trans 'For the connection to be successful, remember to authorize in the Whmcs security options' %}</p>
+    </div>
+
+    <fieldset>
+        <div class="rowElem noborder">
+            <label>Url Whmcs</label>
+            <div class="formRight">
+                <input type="text" name="urlwhmcs" value="{{params.custom_param}}" placeholder="{% trans 'Example custom value' %}"/>
+            </div>
+            <div class="fix"></div>
+        </div>
+
+        <div class="rowElem">
+            <label>Api Identifier Whmcs</label>
+            <div class="formRight">
+                <input type="text" name="api_identifier" value="{{params.public.param}}" placeholder="{% trans 'This setting will be accessible by Guest API' %}"/>
+            </div>
+            <div class="fix"></div>
+        </div>
+        <div class="rowElem">
+            <label>Api Secret Whmcs</label>
+            <div class="formRight">
+                <input type="text" name="api_secret" value="{{params.public.param}}" placeholder="{% trans 'This setting will be accessible by Guest API' %}"/>
+            </div>
+            <div class="fix"></div>
+        </div>
+
+        <input type="submit" value="{% trans 'Update' %}" class="btn btn-primary  submitForm" />
+        <input type="hidden" name="ext" value="mod_example" />
+    </fieldset>
+</form>
+</div>
+
+{% endblock %}

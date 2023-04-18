@@ -1,0 +1,100 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% block meta_title %}{% trans 'Client Area' %}{% endblock %}
+{% import "macro_functions.phtml" as mf %}
+
+{% block content %}
+<div class="dashboard">
+
+    <div class="grid_6 alpha">
+        <div class="box">
+            <h2 class="big-dark-icon i-order"><a href="{{ '/order'|link }}">{% trans 'Order' %}</a></h2>
+            <div class="block">
+                <p>{% trans 'Order products and services' %}</p>
+            </div>
+        </div>
+    </div>
+    {% if client %}
+    <div class="grid_6 omega">
+        <div class="box">
+            <h2 class="big-dark-icon i-profile"><a href="{{ 'client/me'|link }}">{% trans 'Profile' %}</a></h2>
+            <div class="block">
+                <p>{% trans 'Manage your profile and keep it up to date' %}</p>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="grid_6 omega">
+        <div class="box">
+            <h2 class="big-dark-icon i-profile"><a href="{{ '/login'|link({'register' : 1}) }}">{% trans 'Register' %}</a></h2>
+            <div class="block">
+                <p>{% trans 'Become a member and manage services' %}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="grid_6 alpha">
+        <div class="box">
+            <h2 class="big-dark-icon i-email"><a href="{{ '/support/contact-us'|link }}">{% trans 'Contact Us' %}</a></h2>
+            <div class="block">
+                <p>{% trans 'Contact us for more information' %}</p>
+            </div>
+        </div>
+    </div>
+
+    {% if guest.extension_is_on({"mod":"news"}) %}
+    <div class="grid_6 omega">
+        <div class="box">
+            <h2 class="big-dark-icon i-blog"><a href="{{ '/news'|link }}">{% trans 'Announcements' %}</a></h2>
+            <div class="block">
+                <p>{% trans 'Latest news & announcements' %}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if guest.extension_is_on({"mod":"kb"}) %}
+    <div class="grid_6 alpha">
+        <div class="box">
+            <h2 class="big-dark-icon i-kb"><a href="{{ '/kb'|link }}">{% trans 'Knowledge Base' %}</a></h2>
+            <div class="block">
+                <p>{% trans 'Browse our KB for answers and FAQs' %}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if guest.extension_is_on({"mod":"branding"}) %}
+    <div class="grid_6 omega">
+        <div class="box">
+            <h2 class="big-dark-icon i-boxbilling"><a href="https://github.com/boxbilling/boxbilling">{% trans 'Invoicing Software' %}</a></h2>
+            <div class="block">
+                <p>{% trans 'Powered by BoxBilling invoicing software' %}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="clear"></div>
+
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+$(function() {
+
+    $('#client-login').bind('submit',function(event){
+        bb.post(
+            'guest/client/login',
+            $(this).serialize(),
+            function(result) {
+                bb.redirect();
+            }
+        );
+        return false;
+    });
+
+});
+</script>
+{% endblock %}

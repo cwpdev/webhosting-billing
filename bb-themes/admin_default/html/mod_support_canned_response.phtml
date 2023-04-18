@@ -1,0 +1,63 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set active_menu = 'support' %}
+{% block meta_title %}{% trans 'Canned response' %}{% endblock %}
+
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'support'|alink }}">{% trans 'Support' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'support/canned-responses'|alink }}">{% trans 'Canned responses' %}</a></li>
+    <li class="breadcrumb-item active">{{response.title}}</li>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+
+    <form method="post" action="{{ 'api/admin/support/canned_update'|link }}" class="save api-form" data-api-redirect="{{ 'support/canned-responses'|alink }}">
+
+            <div class="rowElem noborder">
+                <label>{% trans 'Category' %}:</label>
+                <div class="formRight">
+                    {{ mf.selectbox('category_id', admin.support_canned_category_pairs, response.category.id, 1) }}
+                </div>
+                <div class="fix"></div>
+            </div>
+            <div class="rowElem">
+                <label>{% trans 'Title' %}:</label>
+                <div class="formRight">
+                    <input type="text" class='form-control' name="title" value="{{response.title}}" required="required" placeholder=""/>
+                </div>
+                <div class="fix"></div>
+            </div>
+            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+            <input type="hidden" name="id" value="{{ response.id }}"/>
+
+    </form>
+</div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <h5>{{response.title}}</h5>
+        <form method="post" action="{{ 'api/admin/support/canned_update'|link }}" class="save api-form" data-api-redirect="{{ 'support/canned-responses'|alink }}">
+
+                <textarea name="content" class='form-control' cols="5" rows="10" class="bb-textarea">{{ response.content }}</textarea>
+                <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                <input type="hidden" name="id" value="{{ response.id }}"/>
+
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block head %}{{ mf.bb_editor('.bb-textarea') }}{% endblock %}

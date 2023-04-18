@@ -1,0 +1,12 @@
+{
+    "id":           "whmcsimp",
+	"type":         "mod",
+    "name":         "Whmcsimp",
+    "description":  "Import data from Whmcs",
+    "icon_url":     "whmcs.png",
+    "homepage_url": "http://github.com/boxbilling/",
+    "author":       "Jose Manuel Nunez",
+    "author_url":   "http://extensions.boxbilling.com/",
+    "license":      "GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html",
+    "version":      "0.0.1"
+}

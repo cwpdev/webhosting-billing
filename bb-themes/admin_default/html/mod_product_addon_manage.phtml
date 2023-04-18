@@ -1,0 +1,95 @@
+{% extends "layout_default.phtml" %}
+{% set active_menu = 'products' %}
+{% block meta_title %}Product addon management{% endblock %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'product'|alink }}">{% trans 'Products' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'product/addons'|alink }}">{% trans 'Addons' %}</a></li>
+    <li class="breadcrumb-item active">{{product.title}}</li>
+
+{% endblock %}
+
+{% block content %}
+<div class="card">
+<div class="card-body">
+
+<form method="post" action="{{ 'api/admin/product/addon_update'|link }}" class="api-form save" data-api-msg="Addon updated">
+
+        <div class="rowElem">
+            <label>{% trans 'Status' %}:</label>
+            <div class="formRight">
+                <div class="row pt-3">
+                    <div class="col-md-3">
+                        <label class="rdiobox">
+                            <input type="radio" name="status" value="enabled"{% if product.status == 'enabled' %} checked="checked"{% endif %}/><span>Enabled</span>
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="rdiobox">
+                        <input type="radio" name="status" value="disabled"{% if product.status == 'disabled' %} checked="checked"{% endif %} /><span>Disabled</span>
+                        </label>
+                    </div>
+                </div>
+              </div>
+            <div class="fix"></div>
+        </div>
+        <div class="rowElem">
+            <label>{% trans 'Activation' %}:</label>
+            <div class="formRight">
+                <div class="row pt-3">
+                    <div class="col-md-3">
+                        <label class="rdiobox">
+                            <input type="radio" name="setup" value="after_order"{% if product.setup == 'after_order' %} checked="checked"{% endif %}/><span>After order is placed</span>
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="rdiobox">
+                            <input type="radio" name="setup" value="after_payment"{% if product.setup == 'after_payment' %} checked="checked"{% endif %} /><span>After payment is received</span>
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="rdiobox">
+                            <input type="radio" name="setup" value="manual"{% if product.setup == 'manual' %} checked="checked"{% endif %} /><span>Manual activation</span>
+                        </label>
+                    </div>
+                </div>
+             </div>
+            <div class="fix"></div>
+        </div>
+
+        <div class="rowElem">
+            <label>{% trans 'Icon' %}:</label>
+            <div class="formRight">
+                <input type="text" name="icon_url" class="form-control"  value="{{product.icon_url}}" placeholder=""/>
+            </div>
+            <div class="fix"></div>
+        </div>
+        <div class="rowElem">
+            <label>{% trans 'Title' %}:</label>
+            <div class="formRight">
+                <input type="text" name="title" class="form-control"  value="{{product.title}}" required="required" placeholder=""/>
+            </div>
+            <div class="fix"></div>
+        </div>
+        <div class="rowElem">
+            <label>{% trans 'Description' %}:</label>
+            <div class="formRight">
+                <textarea name="description" class="form-control" cols="5" rows="5">{{product.description}}</textarea>
+            </div>
+            <div class="fix"></div>
+        </div>
+
+        {% include "partial_pricing.phtml" with {'product': product} %}
+
+        <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+
+
+    <input type="hidden" name="id" value="{{ product.id }}" />
+</form>
+</div>
+</div>
+
+
+{% endblock %}

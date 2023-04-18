@@ -1,0 +1,622 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set service = admin.order_service({"id":order.id}) %}
+{% block meta_title %}
+{{ order.title }}{{(service.sld and service.tld ? ' - ' ~ service.sld ~ service.tld : '')}}
+{% endblock %}
+
+{% block breadcrumbs %}
+
+<li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+<li class="breadcrumb-item tx-15"><a  href="{{  'order'|alink }}">{% trans 'Orders' %}</a></li>
+<li class="breadcrumb-item active">{{ order.title }}</li>
+
+{% endblock %}
+
+{% set active_menu = 'order' %}
+
+{% set service_partial = "mod_service" ~ order.service_type ~ "_manage.phtml" %}
+{% if order.group_master == 1 %}
+    {% set addons = admin.order_addons({"id":order.id}) %}
+{% endif %}
+
+{% block content %}
+<div class="card">
+    <div class="text-wrap">
+        <div class="example">
+            <div class="panel panel-primary tabs-style-2">
+                <div class=" tab-menu-heading">
+                    <div class="tabs-menu1">
+                        <ul class="nav panel-tabs main-nav-line">
+                            <li><a href="#tab-info" class="nav-link active" data-bs-toggle="tab">{% trans 'Details' %}</a></li>
+                            <li><a href="#tab-manage" class="nav-link" data-bs-toggle="tab">{% trans 'Edit order' %}</a></li>
+                            {% if admin.system_template_exists({"file":service_partial}) %}
+                                <li><a href="#tab-service" class="nav-link" data-bs-toggle="tab">{% trans 'Service management' %}</a></li>
+                            {% endif %}
+                            <li><a href="#tab-invoices" class="nav-link" data-bs-toggle="tab">{% trans 'Invoices' %}</a></li>
+                            {% if addons|length > 0 %}
+                                <li><a href="#tab-addons" class="nav-link" data-bs-toggle="tab">{% trans 'Addons' %}</a></li>
+                            {% endif %}
+
+                            <li><a href="#tab-status" class="nav-link" data-bs-toggle="tab">{% trans 'History' %}</a></li>
+                            <li><a href="#tab-support" class="nav-link" data-bs-toggle="tab">{% trans 'Support' %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body tabs-menu-body main-content-body-right border">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab-info">
+                            <div class="help">
+                                <h2>{{ order.title }}</h2>
+                            </div>
+                            <div class="block">
+                                <table class="tableStatic wide">
+                                    <tbody>
+                                        <tr class="noborder">
+                                            <td><label>{% trans 'Order' %}</label></td>
+                                            <td>#{{ order.id }} ({{ order.service_type }})</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><label>{% trans 'Client' %}</label></td>
+                                            <td><a href="{{ 'client/manage'|alink }}/{{order.client.id}}">
+                                                    <span class="badge  bg-info-transparent text-dark ">{{ order.client.first_name }} {{ order.client.last_name }}</span></a></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><label>{% trans 'Title' %}</label></td>
+                                            <td><a href="{{ 'product/manage'|alink }}/{{ order.product_id }}"><strong>{{ order.title }}</strong></a></td>
+                                        </tr>
+                                        {% if service.server.name%}
+                                        <tr>
+                                            <td><label>Server name:</label></td>
+                                            <td>{{service.server.name}}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% if service.username%}
+                                        <tr>
+                                            <td><label>Username:</label></td>
+                                            <td>{{service.username}}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% if service.sld and service.tld%}
+                                        <tr>
+                                            <td><label>Domain:</label></td>
+                                            <td>{{service.sld}}{{service.tld}}</td>
+                                        </tr>
+                                        {% endif %}
+                                        <tr>
+                                            <td><label>{% trans 'Payment amount' %}</label></td>
+                                            <td>{{ mf.currency_format( order.total, order.currency) }} {% if order.period %}{{mf.period_name(order.period)}}{% endif %} {% if order.quantity > 1 %}({{ order.quantity }} x {{ mf.currency_format( order.price, order.currency) }}){% endif %}</td>
+                                        </tr>
+
+                                        {% if order.discount and order.discount > 0%}
+                                        <tr>
+                                            <td><label>{% trans 'Order discount' %}</label></td>
+                                            <td>-{{ mf.currency_format( order.discount, order.currency) }} </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><label>{% trans 'Payment amount after discount' %}</label></td>
+                                            <td>{{ mf.currency_format( order.total - order.discount, order.currency) }} </td>
+                                        </tr>
+                                        {% endif %}
+
+                                        <tr>
+                                            <td><label>{% trans 'Order status' %}</label></td>
+                                            <td>{% if order.status =='active' or order.status =='Active' %}
+                                                    <span class="badge bg-success-transparent text-success">
+                                                {% elseif order.status =='pending_setup' or order.status =='failed_setup' %}
+                                                    <span class="badge bg-warning-transparent text-warning">
+                                                {% else %}
+                                                       <span class="badge bg-danger-transparent text-danger">
+                                                {% endif %}
+                                                    {{mf.status_name(order.status)}}</span></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><label>{% trans 'Order created' %}</label></td>
+                                            <td>{{ order.created_at|date('l, d F Y') }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><label>{% trans 'Activated' %}{% if order.activated_at %} {{ order.activated_at|timeago }} ago{% endif %}</label></td>
+                                            <td>{% if order.activated_at %}{{ order.activated_at|date('l, d F Y')}} {% else %} - {% endif %}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><label>{% trans 'Renewal date' %} {% if order.expires_at %} in {{ order.expires_at|daysleft }} day(s) {% endif %}</label></td>
+                                            <td>{% if order.expires_at %}{{ order.expires_at|date('l, d F Y')}}{% else %}-{% endif %}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><label>{% trans 'Order notes' %}</label></td>
+                                            <td>{{ order.notes|bbmd }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><label>{% trans 'Order group ID' %}</label></td>
+                                            <td>{{ order.group_id|default('-') }}</td>
+                                        </tr>
+
+                                        {% if order.promo_id %}
+                                        <tr>
+                                            <td><label>{% trans 'Order promo code' %}</label></td>
+                                            <td>
+                                                {% set promo = admin.product_promo_get({"id":order.promo_id}) %}
+                                                {{ promo.code }}
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+
+                                        {% if order.active_tickets > 0 %}
+                                        <tr>
+                                            <td><label>{% trans 'Active support tickets' %}</label></td>
+                                            <td>
+                                                <div class="num"><a href="{{ 'support'|alink({'status' : 'open', 'order_id' : order.id}) }}" class="redNum">{{ order.active_tickets }}</a></div>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    </tbody>
+
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="aligncenter">
+                                                    {% set order_actions %}
+
+                                                    {% if order.status == 'pending_setup' or order.status == 'failed_setup' %}
+                                                        {% if order.service_type != 'hosting' %}
+                                                            <a href="{{ 'api/admin/order/activate'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" class="btn btn-sm bg-success-transparent text-success  mr10 api-link" data-api-reload="Order activated"><i class="fe fe-play" title="Activate"></i></a>
+                                                        {% else %}
+                                                            <a href="javascript:void(0)" onclick="showPickServerModal()" title=""  class="btn btn-sm bg-success-transparent text-success pick-order-server mr10"><i class="fe fe-play" title="Activate"></i></a>
+                                                        {% endif %}
+                                                    {% endif %}
+
+                                                    {% if order.status == 'active' %}
+                                                        {% set params = admin.extension_config_get({"ext":"mod_order"}) %}
+                                                            <a href="{{ 'api/admin/order/renew'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" class="btn btn-sm bg-success-transparent text-success  mr10 api-link" data-api-reload="Order renewed"><i class="fe fe-play" title="Renew"></i></a>
+                                                            {% if params.suspend_reason_list|trim == null %}
+                                                                <a href="{{ 'api/admin/order/suspend'|link({'id' : order.id}) }}" title="" class="btn btn-sm bg-primary-transparent text-primary mr10 api-link" data-api-prompt-key="reason" data-api-prompt="1" data-api-prompt-text="{% trans 'Reason of suspension' %}" data-api-prompt-title="{% trans 'Suspension reason' %}" data-api-reload="Order suspended"><i class="fe fe-refresh-ccw" title="Suspend"></i><!--<img src="images/icons/middlenav/stop.png" alt=""><span>Suspend</span>--></a>
+                                                            {% else %}
+                                                                <div id="suspend_popup" style="position: fixed; z-index: 99999; padding: 5px; margin: 0px; min-width: 310px; max-width: 310px; top: 30%; left: 45%; display: none;">
+                                                                    <h5 id="suspend_popup_title">{% trans 'Suspension reason' %}</h5>
+                                                                    <div id="suspend_popup_content" class="confirm">
+                                                                        <div id="suspend_popup_message">
+                                                                            <div>{% trans 'Reason of suspension' %}
+                                                                                {% for reason in params.suspend_reason_list|trim|split("\r\n") %}
+                                                                                <div class="item">
+                                                                                    <input type="radio" value="{{reason}}" name="reason"/> <label>{{reason}}</label>
+                                                                                </div>
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                        </div>
+                                                                        <div id="suspend_popup_panel">
+                                                                            <input type="button" class="blueBtn" value="&nbsp;{% trans 'Suspend' %}&nbsp;" id="popup_ok" onclick="return susp.suspendOrder('/api/admin/order/suspend?id={{order.id}}', 'reason');"/>
+                                                                            <input type="button" class="basicBtn" value="&nbsp;Cancel&nbsp;" id="popup_cancel" onclick="return susp.suspenderHide();"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <a href="#" title="" id="suspend_button" onclick="return susp.showSuspendPopup()" data-api-reload="Order suspended" class="btn btn-sm bg-primary-transparent text-primary mr10"><i class="fe fe-refresh-ccw" title="Suspend"></i><!--<img src="images/icons/middlenav/stop.png" alt=""><span>Suspend</span>--></a>
+                                                            {% endif %}
+                                                            <a href="{{ 'api/admin/order/cancel'|link({'id' : order.id}) }}" title="" class="btn btn-sm bg-warning-transparent text-warning mr10 api-link" data-api-prompt-key="reason" data-api-prompt="1" data-api-prompt-text="{% trans 'Reason of cancelation' %}" data-api-prompt-title="{% trans 'Cancelation reason' %}" data-api-reload="Order canceled"><i class="fe fe-x" title="Cancel"></i><!--<img src="images/icons/middlenav/close.png" alt=""><span>Cancel</span>--></a>
+                                                        {% endif %}
+                                                        {% if order.status == 'suspended' %}
+                                                            <a href="{{ 'api/admin/order/unsuspend'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" class="btn btn-sm bg-success-transparent text-success mr10 api-link" data-api-reload="Order activated"><i class="fe fe-play" title="Unsuspend"></i></a>
+                                                        {% endif %}
+
+                                                        {% if order.status == 'canceled' %}
+                                                            <a href="{{ 'api/admin/order/uncancel'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" class="btn btn-sm bg-success-transparent text-success  mr10 api-link" data-api-reload="Order activated"><i class="fe fe-play" title="Activate"></i></a>
+                                                        {% endif %}
+                                                        {% if order.service_type == 'hosting' %}
+                                                            <a href="{{ 'api/admin/servicehosting/resend_welcome'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" class="btn btn-sm bg-success-transparent text-success  mr10 api-link" data-api-msg="Welcome email sent."><i class="fe fe-mail" title="Send welcome email"></i></a>
+                                                        {% endif %}
+                                                        <a href="{{ 'api/admin/order/delete'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" data-api-redirect="{{ 'order'|alink }}" class="btn btn-sm  bg-danger-transparent text-danger mr10 api-link"><i class="fe fe-trash" title="Delete"></i></a>
+
+                                                        {% if not order.unpaid_invoice_id %}
+                                                            <a href="{{ 'api/admin/invoice/renewal_invoice'|link({'id' : order.id}) }}" title="" data-api-confirm="Are you sure?" class="btn btn-sm  bg-success-transparent text-success  mr10 api-link" data-api-reload="1"><i class="fe fe-book" data-bs-toggle="tooltip" title="Issue invoice" data-bs-original-title="fe fe-book" aria-label="fe fe-book"></i><!--<img src="images/icons/middlenav/create.png" alt=""><span>Issue invoice</span>--></a>
+                                                        {% endif %}
+                                                    {% endset %}
+                                                    {{ order_actions }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                        <div class="tab-pane" id="tab-manage">
+                            <div class="help">
+                                <h2>Order management</h2>
+                            </div>
+                            <form method="post" action="{{ 'api/admin/order/update'|link }}" class="api-form" data-api-reload="1">
+                                <fieldset>
+
+                                    <div class="rowElem noborder">
+                                        <label>{% trans 'Title' %}</label>
+                                        <div class="formRight noborder">
+                                            <input type="text" class="form-control" name="title" value="{{order.title}}"/>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Changes status without performing action' %}</label>
+                                        <div class="formRight noborder">
+                                            {{ mf.selectbox('status', admin.order_get_status_pairs, order.status, 0, 'Select status') }}
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Invoice option' %}</label>
+                                        <div class="formRight noborder">
+                                            {{ mf.selectbox('invoice_option', admin.order_get_invoice_options, order.invoice_option) }}
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Price' %}</label>
+                                        <div class="formRight">
+                                            <input type="text" class="form-control" name="price" value="{{order.price}}" required="required"/>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Reason' %}</label>
+                                        <div class="formRight">
+                                            <input type="text" class="form-control" name="reason" value="{{order.reason}}"/>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Period' %}</label>
+                                        <div class="formRight">
+                                            {{ mf.selectbox('period', guest.system_periods, order.period, 0, 'Not recurrent') }}
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Expires at' %}</label>
+                                        <div class="formRight">
+                                            <input type="date" class="form-control" name="expires_at" value="{% if order.expires_at %}{{order.expires_at|date('Y-m-d')}}{% endif %}" class="datepicker"/>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Created at' %}</label>
+                                        <div class="formRight">
+                                            <input type="date" class="form-control" name="created_at" value="{{order.created_at|date('Y-m-d')}}" required="required" class="datepicker"/>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Activated at' %}</label>
+                                        <div class="formRight">
+                                            <input type="date" class="form-control" name="activated_at" value="{{order.activated_at|date('Y-m-d')}}" required="required" class="datepicker"/>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Notes' %}</label>
+                                        <div class="formRight">
+                                            <textarea name="notes"  class="form-control" rows="5">{{ order.notes }}</textarea>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+                                    <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                                </fieldset>
+                                <input type="hidden" name="id" value="{{ order.id }}">
+                            </form>
+
+                            {#
+                            <form method="post" action="{{ 'api/admin/order/update'|link }}" class="api-form" data-api-reload="1">
+                                <fieldset>
+                                    <legend>Order promotion code</legend>
+
+                                    <div class="rowElem noborder">
+                                        <label>{% trans 'Promo code' %}</label>
+                                        <div class="formRight">
+                                            <input type="text" class="form-control" name="promo_id" value="{{order.promo_id}}" required="required" />
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+
+                                    <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update promo' %} </button>
+                                </fieldset>
+                                <input type="hidden" name="id" value="{{ order.id }}">
+                            </form>
+                            #}
+                            {# order_actions #}
+
+                            {# if order.status == 'pending_setup' or order.status == 'failed_setup' %}
+                            <div class="help">
+                                <h2>Order parameters</h2>
+                            </div>
+
+                            <form method="post" action="{{ 'api/admin/order/update_config'|link }}" class="save api-form" data-api-msg="Order config updated">
+                                <fieldset>
+
+                                    {% for name, value in order.config %}
+                                    <div class="rowElem">
+                                        <label class="topLabel">{{ name }}:</label>
+                                        <div class="formBottom">
+                                            <textarea rows="2" cols="" name="config[{{ name }}]">{{ value }}</textarea>
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+                                    {% endfor %}
+
+                                    <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                                    <input type="hidden" name="id" value="{{ order.id }}"/>
+                                </fieldset>
+                            </form>
+                            {% endif #}
+                        </div>
+                        <div class="tab-pane" id="tab-config">
+                            <div class="help">
+                                <h2>{% trans 'Order config management' %}</h2>
+                                <h6>{% trans 'Please be cautious and make sure you know what you are doing when editing order config! WebHosting Billing relies on these parameters and you might get unexpected results if you change some of them' %}</h6>
+                            </div>
+                            <form method="post" action="{{ 'api/admin/order/update_config'|link }}" class="api-form" data-api-reload="1">
+                                <fieldset>
+                                    {% for key, config in order.config %}
+                                    <div class="rowElem noborder">
+                                        <label>{{ key }}</label>
+                                        <div class="formRight noborder">
+                                            {% if config is iterable %}
+                                            {% for key2, config2 in config %}
+                                            <input type="text" class="form-control" name="config[{{key}}][{{key2}}]" value="{{ config2 }}" {% if config2 is null %} placeholder="null" {% endif %}/>
+                                            {% endfor %}
+                                            {% else %}
+                                            <input type="text" class="form-control" name="config[{{key}}]" value="{{ config }}" {% if config is null %} placeholder="null" {% endif %}/>
+                                            {% endif %}
+                                        </div>
+                                        <div class="fix"></div>
+                                    </div>
+                                    {% endfor %}
+
+                                    <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                                </fieldset>
+                                <input type="hidden" name="id" value="{{ order.id }}">
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="tab-addons">
+                            <div class="help">
+                                <h2>{% trans 'Addons you have ordered with this service' %}</h2>
+                            </div>
+                            <table class="tableStatic wide">
+                                <thead>
+                                <tr>
+                                    <td>{% trans 'Product/Service' %}</td>
+                                    <td>{% trans 'Price' %}</td>
+                                    <td>{% trans 'Billing Cycle' %}</td>
+                                    <td>{% trans 'Next due date' %}</td>
+                                    <td>{% trans 'Status' %}</td>
+                                    <td>&nbsp</td>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for i, addon in addons %}
+                                <tr>
+                                    <td>{{addon.title}}</td>
+                                    <td>{{ mf.currency_format( addon.total, addon.currency) }}</td>
+                                    <td>{{ mf.period_name(addon.period) }}</td>
+                                    <td>{% if addon.expires_at %}{{addon.expires_at|date('l, d F Y')}}{% else %}-{% endif %}</td>
+                                    <td>{{ mf.status_name(addon.status) }}</td>
+                                    <td class="actions"><a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/order/manage'|alink }}/{{addon.id}}"><i class="fe fe-edit"></i></a></td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="tab-service">
+                            {% if guest.system_template_exists({"file":service_partial}) %}
+                            {% include service_partial with {'order' : order, 'service':service} %}
+                            {% elseif order.form_id and guest.extension_is_on({"mod":"formbuilder"}) %}
+                            {% include 'mod_formbuilder_manage.phtml' with order %}
+                            {% else %}
+                            {# trans 'Order form was not found' #}
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane" id="tab-invoices">
+                            <div class="help">
+                                <h2>{% trans 'Order invoices' %}</h2>
+                            </div>
+
+                            <table class="table table-bordered text-nowrap border-bottom" id="tableInvoicesOrder">
+                                <thead>
+                                <tr>
+                                    <th >ID</th>
+                                    <th >{% trans 'Amount' %}</th>
+                                    <th >{% trans 'Issued at' %}</th>
+                                    <th >{% trans 'Paid at' %}</th>
+                                    <th >{% trans 'Status' %}</th>
+                                    <th >&nbsp;</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% set invoices = admin.invoice_get_list({"per_page":50, "order_id":order.id}) %}
+                                {% for invoice in invoices.list %}
+                                <tr>
+                                    <td>{{invoice.id}}</td>
+                                    <td>{{ mf.currency_format( invoice.total, invoice.currency, 1) }}</td>
+                                    <td>{{ invoice.created_at|date('Y-m-d') }}</td>
+                                    <td>{% if invoice.paid_at %}{{ invoice.paid_at|date('Y-m-d') }}{% else %}-{% endif %}</td>
+                                    <td>{{ mf.status_name(invoice.status) }}</td>
+                                    <td class="actions"><a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/invoice/manage'|alink }}/{{invoice.id}}"><i class="fe fe-edit"></i></a></td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" style="text-align:center">{% trans 'The list is empty' %}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="tab-status">
+                            <div class="help">
+                                <h2>{% trans 'Order status change history' %}</h2>
+                            </div>
+                            <table class="table table-bordered text-nowrap border-bottom" id="tableOrderHistory">
+                                <thead>
+                                <tr>
+                                    <th >{% trans 'Status' %}</th>
+                                    <th >{% trans 'Note' %}</th>
+                                    <th >{% trans 'Date' %}</th>
+                                    <th >{% trans 'Actions' %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% set statuses = admin.order_status_history_get_list({"per_page":50, "id":order.id}) %}
+                                {% for i,sh in statuses.list %}
+                                <tr>
+                                    <td>{{ mf.status_name(sh.status) }}</td>
+                                    <td><div style="overflow: auto; width: 470px; max-height: 50px;">{{ sh.notes }}</div></td>
+                                    <td>{{ sh.created_at|date('Y-m-d H:i') }}</td>
+                                    <td>
+                                        <a class="btn btn-sm  bg-danger-transparent text-danger  bb-rm-tr api-link" data-api-confirm="Are you sure?" data-api-redirect="{{ 'support'|alink }}" href="{{ 'api/admin/order/status_history_delete'|link({'id' : sh.id}) }}"><i class="fe fe-trash"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="tab-support">
+                            <div class="help">
+                                <h2>{% trans 'Support tickets regarding this order' %}</h2>
+                            </div>
+                            <table class="table table-bordered text-nowrap border-bottom" id="tableTickets">
+                                <thead>
+                                    <tr>
+                                        <th >ID</th>
+                                        <th >{% trans 'Subject' %}</th>
+                                        <th >{% trans 'Help desk' %}</th>
+                                        <th >{% trans 'Status' %}</th>
+                                        <th >&nbsp;</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                {% set tickets = admin.support_ticket_get_list({"per_page":"30000", "order_id":order.id}) %}
+                                {% for ticket in tickets.list %}
+                                <tr>
+                                    <td>{{ ticket.id }}</td>
+                                    <td>{{ ticket.subject|truncate(30) }}</td>
+                                    <td>{{ ticket.helpdesk.name }}</td>
+                                    <td>{{ mf.status_name(ticket.status) }}</td>
+                                    <td class="actions"><a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/support/ticket'|alink }}/{{ticket.id}}"><i class="fe fe-edit"></i></a></td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" style="text-align: center">{% trans 'The list is empty' %}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if order.status == 'pending_setup' or order.status == 'failed_setup' %}
+    <div class="modal fade" id="_modal_pick_server_" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Pick the server where to apply the changes</h5>
+                </div>
+                <div class="modal-body tx-center pd-y-20 pd-x-20">
+                    <select class="form-control form-select" name="" id="order_server_picked">
+                        {% for key, server in admin.order_get_available_servers(order.config) %}
+                            <option value="{{key}}">{{server.name}} ({{server.ip}})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-warning" id="_btn_cancel_activate_order_" data-bs-dismiss="modal" type="button"><i class="fa fa-ban"></i> Cancel</button>
+                    <button class="btn ripple btn-primary" id="_btn_confirm_activate_order_" onclick="confirmActivateorder()" type="button"><i class="fa fa-check"></i> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+{% block js %}
+
+<script type="text/javascript">
+    function showPickServerModal(){
+        $('#_modal_pick_server_').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        $('#_modal_pick_server_').modal("show");
+    }
+    function confirmActivateorder(){
+        $('#_btn_cancel_activate_order_').prop('disabled', true);
+        bb.btnLoader($('#_btn_confirm_activate_order_'), $('#_btn_confirm_activate_order_ i'));
+        _btn_confirm_activate_order_
+        bb.get( "{{ 'api/admin/order/activate'|link({'id' : order.id}) }}&server=" + $('#order_server_picked').val(), {}, 
+        function(result) {
+            return bb.reload();
+        }, function(){
+            $('#_btn_cancel_activate_order_').prop('disabled', false);
+            bb.btnLoader($('#_btn_confirm_activate_order_'), $('#_btn_confirm_activate_order_ i'), true);
+        });
+    }
+    $(document).ready(function() {
+        $('#tableTickets').dataTable( {
+            "searching": true
+        } );
+        $('#tableOrderHistory').dataTable( {
+            "searching": true
+        } );
+        $('#tableInvoicesOrder').dataTable( {
+            "searching": true
+        } );
+    } );
+    var susp = {
+        showSuspendPopup: function() {
+                    $('#suspend_popup').show();
+                    return false;
+
+        },
+    suspendOrder: function(url, name) {
+        var p = {};
+        var inps = document.getElementsByName(name);
+        var value = '';
+        $.each(inps, function(index, input){
+
+            if (input.checked) {
+                value = input.value;
+
+            }
+        });
+
+        p[name] = value;
+        bb.get(url, p, function(result) {return bb._afterComplete($('#suspend_button'), result);});
+
+        $('#suspend_popup').hide();
+        return false;
+    },
+    suspenderHide: function() {
+        $('#suspend_popup').hide();
+    }
+    };
+</script>
+{% endblock %}

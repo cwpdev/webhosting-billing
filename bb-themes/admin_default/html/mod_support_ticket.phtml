@@ -1,0 +1,497 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{{ticket.subject}} - {{ ticket.messages|length }} {% trans 'message(s)' %}{% endblock %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'support'|alink }}">{% trans 'Support tickets' %}</a></li>
+    <li class="breadcrumb-item active">#{{ticket.id}}  - {{ticket.subject}}</li>
+
+{% endblock %}
+
+{% set active_menu = 'support' %}
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+    <div class="card-title">
+        <h5 class="">{{ ticket.subject }} - ({{ addons.details }}) {{ addons.first_name }} {{ addons.last_name }}</h5>
+    </div>
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Answer' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-description">{% trans 'Ticket' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-manage">{% trans 'Options' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-notes">{% trans 'Notes' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-support">{% trans 'Client tickets' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-logs">{% trans 'Logs' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="fix"></div>
+                    <div class="tab-pane active" id="tab-index">
+                        <form method="post" action="{{ 'api/admin/support/ticket_reply'|link }}" class="api-form" data-api-redirect="{{ 'support'|alink({'status' : 'open' }) }}" enctype="multipart/form-data">
+                            <div class="row">
+                            <div class="col-md-9">
+                                <div class="row">
+                                <div class="py-2"><h6 class="">{% trans 'Reply as' %} {{ profile.name }}</h6></div>
+                                <div class="">{%  include 'mod_support_canned_selector.phtml' %}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-end">  {% if ticket.messages|length > 2 and ticket.status != 'closed' %}
+                                <a href="{{ 'api/admin/support/ticket_close'|link({'id' : ticket.id }) }}" data-api-confirm="Are you sure?" data-api-redirect="{{ 'support'|alink({'status' : 'open' }) }}" class="btn bg-danger-transparent text-danger btn-block btn-sm mr10 api-link" ><i class="fe fe-check-circle"></i> <span> {% trans 'Close ticket' %}</span></a>
+                                {% endif %}</div>
+                            </div>
+                                    <textarea name="content"  rows="12" required="required"  class="form-control bb-textarea" style="width: 98%" id="rt">{% trans 'Hello' %} {{ ticket.client.first_name }},
+        {{ canned_delay_message }}
+
+
+
+        {{ profile.signature }}
+        {{ ticket.helpdesk.signature }}</textarea>
+                                    <input type="hidden" name="id" value="{{ ticket.id }}">
+                                    <div class="body">
+                                        <!--<a href="#"  class="btnIconLeft mr10" id="toggleMessages" ><span>{% trans 'Show/Hide messages' %}</span></a>-->
+
+
+                                    </div>
+
+                            <div class="row col-md-12" style="margin-top:10px">
+                                <div class="col-md-3">
+                                    <select class="form-control form-select" name="support_helpdesk_id" id="support_helpdesk_id">
+                                        {% for dpto in dptos %}
+                                            {% if ticket.support_helpdesk_id == dpto.id %}
+                                                <option value="{{ dpto.id }}" label="" selected>{{ dpto.name }}</option>
+                                            {% else %}
+                                                <option value="{{ dpto.id }}" label="">{{ dpto.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control form-select" name="assigned" id="assigned">
+                                        <option value="" label="">{% trans 'Set Assignment' %}</option>
+                                        {% for staff in staffs %}
+                                            {% if ticket.assigned == staff.id %}
+                                                <option value="{{ staff.id }}" label="" selected>{{ staff.name }} ({{ staff.role }})</option>
+                                            {% else %}
+                                                <option value="{{ staff.id }}" label="">{{ staff.name }} ({{ staff.role }})</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control form-select" name="priority" id="priority">
+                                        <option value="100" label="{% trans 'High' %}" {% if ticket.priority == 100 %}selected="selected"{% endif %}>{% trans 'High' %}</option>
+                                        <option value="50" label="{% trans 'Medium' %}" {% if ticket.priority == 50 %}selected="selected"{% endif %}>{% trans 'Medium' %}</option>
+                                        <option value="25" label="{% trans 'Low' %}" {% if ticket.priority == 25 %}selected="selected"{% endif %}>{% trans 'Low' %}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control form-select" name="status" id="status">
+                                        <option value="open" label="{% trans 'Open' %}" {% if ticket.status == 'open' %}selected="selected"{% endif %}>{% trans 'Open' %}</option>
+                                        <option value="on_hold" label="{% trans 'On Hold' %}" {% if ticket.status == 'on_hold' %}selected="selected"{% endif %}>{% trans 'On Hold' %}</option>
+                                        <option value="closed" label="{% trans 'Closed' %}" {% if ticket.status == 'closed' %}selected="selected"{% endif %}>{% trans 'Closed' %}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row col-md-12" style="margin-top:15px;">
+                                <div class="col-md-11">
+                                    <button  type="button" class="btn btn-success btn-sm" onclick="return addattach()"><i class="fe fe-paperclip"></i> {% trans 'Attach Files' %}</button>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-success btn-sm" id="btnaddattach" onclick="return fnaddattach()" style="display: none"><i class="fe fe-plus"></i> {% trans 'Add More' %}</button>
+                                </div>
+                            </div>
+                            <div class="row col-md-12" style="margin-top:15px; display:none" id="cont_upload">
+
+                            </div>
+                            <div class="row col-md-12 text-right" style="margin-top:15px;">
+                                <div class="col-md-12">
+                                    <button type="submit" value="" class="btn btn-primary btn-sm submitForm"><i class="fe fe-corner-up-left"></i> {% trans 'Reply' %}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="tab-description">
+                        <div class="col-md-12 text-end">
+                            <div aria-label="Basic example" class="btn-group" role="group">
+                                {% if ticket.status != 'closed' %}
+                                <a title="{% trans 'Close Ticket' %}" href="{{ 'api/admin/support/ticket_close'|link({'id' : ticket.id}) }}" data-api-confirm="Are you sure?" data-api-redirect="{{ 'support'|alink({'status' : 'open' }) }}" class="btn bg-warning-transparent text-warning btn-icon api-link" ><i class="fe fe-stop"></i> </a>
+                                {% endif %}
+                                <a  title="{% trans 'Delete' %}" href="{{ 'api/admin/support/ticket_delete'|link({'id' : ticket.id}) }}" data-api-confirm="Are you sure?" data-api-redirect="{{ 'support'|alink }}" class="btn bg-danger-transparent text-danger btn-icon api-link"><i class="fe fe-trash"></i></a>
+
+                                {% if task.status == 'pending' %}
+                                <a href="{{ 'api/admin/support/task_complete'|link({'id' : ticket.id }) }}" class="btn bg-success-transparent text-success btn-icon api-link api-link" title="{% trans 'Set Task complete' %}" data-api-reload="1"><i class="fe fe-check-circle"></i> </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <table class="table table-striped mt-1">
+                            <tbody>
+                                <tr class="noborder">
+                                    <td style="width: 30%">{% trans 'Ticket ID' %}</td>
+                                    <td><b>#{{ticket.id}}</b></td>
+                                </tr>
+
+                                <tr>
+                                    <td>{% trans 'Client' %}</td>
+                                    <td>#{{ticket.client.id}} <a href="{{ 'client/manage'|alink }}/{{ ticket.client.id }}">{{ticket.client.first_name}} {{ticket.client.last_name}}</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>{% trans 'Help desk' %}</td>
+                                    <td class="shd">
+                                        {{ mf.selectbox('support_helpdesk_id', admin.support_helpdesk_get_pairs, ticket.support_helpdesk_id, 1) }}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>{% trans 'Status' %}</td>
+                                    <td>
+                                        <div class="row">
+                                            {% for tcode,tstatus in admin.support_ticket_get_statuses({"titles":1}) %}
+                                                <div class="col-md-3">
+                                                    <label  class="rdiobox">
+                                                        <input class="tst" type="radio" name="status" value="{{tcode}}" {% if ticket.status == tcode %}checked="checked"{% endif %} />
+                                                        <span> {{ tstatus }}</span>
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>{% trans 'Time opened' %}</td>
+                                    <td>{{ticket.created_at|date('l, d F Y')}}</td>
+                                </tr>
+
+                             </tbody>
+
+                            {% set task = ticket.rel %}
+                            <tbody>
+                            {% if task.task %}
+                            <tr>
+                                <td><label>{% trans 'Task' %}</label></td>
+                                <td><strong>{{ mf.status_name(task.task) }}</strong></td>
+                            </tr>
+                            {% endif %}
+
+                            {% if task.type == 'order' %}
+                            <tr>
+                                <td><label>{% trans 'Related to' %}</label></td>
+                                <td><a href="{{ 'order/manage'|alink }}/{{ task.id }}">Order #{{ task.id }}</a></td>
+                            </tr>
+                            {% endif %}
+
+                            {% if task.task == 'upgrade' %}
+                            <tr>
+                                <td><label>{% trans 'Upgrade to' %}</label></td>
+                                <td><a href="{{ 'product/manage'|alink }}/{{task.new_value}}">{{ admin.product_get_pairs[task.new_value] }}</a></td>
+                            </tr>
+                            {% endif %}
+
+                            </tbody>
+
+                        </table>
+                        <div class="fix"></div>
+                    </div>
+                    <div class="tab-pane" id="tab-manage">
+                        <form method="post" action="{{ 'api/admin/support/ticket_update'|link }}" class="api-form" data-api-reload="1">
+                            <div class="rowElem noborder">
+                                <label>{% trans 'Subject' %}</label>
+                                <div class="formRight noborder">
+                                    <input type="text" class="form-control subject" value="{{ticket.subject}}" required="required"/>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Help desk' %}</label>
+                                <div class="formRight">
+                                    {{ mf.selectbox('support_helpdesk_id', admin.support_helpdesk_get_pairs, ticket.support_helpdesk_id, 1) }}
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Status' %}</label>
+                                <div class="formRight">
+                                    {{ mf.selectbox('status', admin.support_ticket_get_statuses({"titles":1}), ticket.status, 1) }}
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Priority' %}</label>
+                                <div class="formRight">
+                                    <select name="priority" id="priority" class="form-control">
+                                        <option value="25" {% if ticket.priority == '25' %} selected {% endif %}>Low</option>
+                                        <option value="75" {% if ticket.priority == '75' %} selected {% endif %}>Medium</option>
+                                        <option value="100" {% if ticket.priority == '100' %} selected {% endif %}>High</option>
+                                    </select>
+                                    <!--<input type="text" class="form-control" name="priority" value="{{ticket.priority}}"/>-->
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update' %} </button>
+                            <input type="hidden" name="id" value="{{ ticket.id }}">
+                        </form>
+                    </div>
+                    <div class="tab-pane " id="tab-notes">
+                        <form method="post" action="{{ 'api/admin/support/note_create'|link }}" class="api-form" data-api-reload="1">
+                            <textarea name="note" id="noteText" class="form-control" cols="5" rows="5" required="required" placeholder="Add new note" style="width: 98%"></textarea>
+                            <button type="submit" value="" class="btn btn-primary submitForm" style=" margin-top: 22px;"><i class="fe fe-save"></i> {% trans 'Add note' %}</button>
+                            <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                        </form>
+                    </div>
+                    <div class="tab-pane " id="tab-support">
+                        <div class="col-md-12 text-end">
+                            <a href="{{ 'support'|alink({'client_id' : client.id})}}#tab-new" class="btn btn-sm btn-primary" ><i class="fe fe-plus-circle"></i> {% trans 'New support ticket' %}</a>
+                        </div>
+                        <table class="table table-striped table-bordered mt-1">
+                            <thead>
+                                <tr>
+                                    <td>ID</td>
+                                    <td width="60%">{% trans 'Subject' %}</td>
+                                    <td width="15%">{% trans 'Help desk' %}</td>
+                                    <td width="15%">{% trans 'Status' %}</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% set tickets = admin.support_ticket_get_list({"per_page":"20", "client_id":ticket.client.id}) %}
+                                {% for ticket in tickets.list %}
+                                <tr>
+                                    <td>{{ ticket.id }}</td>
+                                    <td>{{ ticket.subject|truncate(30) }}</td>
+                                    <td>{{ ticket.helpdesk.name }}</td>
+                                    <td><span class="badge badge-pill  {% if ticket.status=='open'%}bg-danger-transparent text-danger{% elseif ticket.status == 'on_hold'%}bg-warning-transparent text-warning{%endif%}">{{ mf.status_name(ticket.status) }}</span></td>
+                                    <td class="actions">
+                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/support/ticket'|alink }}/{{ticket.id}}"><i class="fe fe-edit"></i></a></td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5">{% trans 'The list is empty' %}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tab-pane " id="tab-logs">
+                        <table class="mt-1 table table-striped table-bordered">
+                            <thead>
+                             <tr>
+                                 <td>Date</td>
+                                 <td>Transaction</td>
+                             </tr>
+                            </thead>
+                            <tbody>
+                             {% for detLog in logs %}
+                             <tr>
+                                 <td>{{detLog.created}}</td>
+                                 <td>{{detLog.action}}</td>
+                             </tr>
+                             {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-0" id="listMesaje" style="max-height: 600px;overflow-y: auto">
+    <div class="main-content-body main-content-body-mail">
+        <div class="main-mail-list bd-t-0">
+
+            {% for i, message in ticket.finalList %}
+            <div class="card">
+                {% if message.admin_id !='' %}
+                    <div class="{% if message.content %} bg-resp-transparent {% else %} bg-nota-transparent {% endif %}">
+                {% else %}
+                    <div class="bg-cliente-transparent">
+                {% endif %}
+
+                <div class="card-body">
+            <div class="main-mail-item unread ">
+                <div class="main-img-user">
+
+                    <img src="{{ message.author.email|gravatar }}?size=40" alt="{{ message.author.email }}" title="{{ message.author.email }}" class="gravatar"/></div>
+                <div class="main-mail-body">
+                    <div class="main-mail-from">
+                        <strong>{{ message.author.name }}</strong>
+                        {% if message.admin_id !='' %}
+                        {% if message.content %}
+                        <span class="badge font-weight-semibold px-3 ms-auto badge-info-transparent">Support Response</span>
+                        {% else %}
+                        <span class="badge font-weight-semibold px-3 ms-auto badge-danger-transparent">Note</span>
+                        {% endif %}
+
+                        {% else %}
+                        <span class="badge font-weight-semibold px-3 ms-auto badge-warning-transparent">Client Response</span>
+                        {% endif %}
+                    </div>
+                    <div class="main-mail-subject">
+                        {% if message.content %}
+                        {{ message.content| raw }}
+                        {% else %}
+                        {{ message.note| raw }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="main-mail-attachment">
+                </div>
+                <div class="main-mail-date">
+                    {{ message.created_at|bb_datetime }}
+
+                </div>
+            </div>
+                </div>
+            </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<!--<div class="widget" id="reply-box">
+    <div class="head">
+        <h5 class="iSpeech">{% trans 'Reply as' %} {{ profile.name }}</h5>
+        {%  include 'mod_support_canned_selector.phtml' %}
+    </div>
+
+    xxx
+
+    <div class="clear"></div>
+</div>-->
+
+{% endblock %}
+
+{% block js%}
+<style>
+    .main-mail-item{
+        border: 0px;
+        padding:5px
+    }
+#listMesaje .card{
+    margin-bottom: 0.4rem;
+    box-shadow: 0px 0px 0px rgba(255, 89, 89, 0.13);
+}
+    #listMesaje div.bg-nota-transparent{
+        border-radius:5px;
+        background: rgba(251, 203, 203, 0.1);
+
+        color:#000;
+        border: 1px solid #FF595951;
+        box-shadow: 1px 1px 5px rgba(255, 89, 89, 0.13);
+    }
+    #listMesaje div.bg-resp-transparent{
+        border-radius:5px;
+        background: rgba(197, 242, 253, 0.1);
+
+        color:#000;
+        border: 1px solid #70D8FF51;
+        box-shadow: 1px 1px 5px rgba(112, 216, 255, 0.13);
+    }
+    #listMesaje div.bg-cliente-transparent{
+        border-radius:5px;
+        background: rgba(253, 244, 197, 0.1);
+
+        color:#000;
+        border: 1px solid rgba(255, 189, 90);
+        box-shadow: 1px 1px 5px rgba(255, 189, 90, 0.13);
+    }
+    .main-mail-date{
+        color:#5f6167
+    }
+</style>
+<script type="text/javascript">
+function setSelRange(inputEl, selStart, selEnd) {
+   if (inputEl.setSelectionRange) {
+     inputEl.focus();
+     inputEl.setSelectionRange(selStart, selEnd);
+   } else if (inputEl.createTextRange) {
+     var range = inputEl.createTextRange();
+     range.collapse(true);
+     range.moveEnd('character', selEnd);
+     range.moveStart('character', selStart);
+     range.select();
+   }
+}
+function addattach(){
+    fnaddattach();
+    $("#cont_upload").toggle('blind');
+    $("#btnaddattach").toggle('blind');
+    return false;
+}
+function fnaddattach(){
+    var idname = random(100,999999);
+    var AddImput ='<div class="row col-lg-8" style="margin-top:5px" id="'+idname+'"><div class="col-lg-11"><input type="file" name="attachment[]" id="id'+idname+'" class="form-control top-margin-5"></div><div class="col-lg-1 color-red" style="margin-top:9px"><a href="" onclick="return deleteupload('+idname+')"><i class="fe fe-trash" style="color:red"></i></a></div></div>';
+    $("#cont_upload").append(AddImput);
+    return false;
+}
+function deleteupload(id){
+    $("#"+id).remove();
+    return false;
+}
+function random(min, max) {
+    return Math.floor((Math.random() * (max - min + 1)) + min);
+}
+$(function() {
+
+    $('#reply-box textarea').focus();
+    var ta = document.getElementById('rt');
+    var pos = ta.innerHTML.indexOf('\n') + 2;
+    setSelRange(ta, pos, pos);
+
+    $('.shd select').change(function(){
+        bb.get('admin/support/ticket_update', {id:{{ticket.id}}, support_helpdesk_id: $(this).val()});
+    });
+
+    $('input.tst').click(function(){
+        bb.get('admin/support/ticket_update', {id:{{ticket.id}}, status: $(this).val()});
+    });
+
+    $('.conversation').on('click', '.head', function(e){
+        if( e.target !== this )
+            return;
+        $(this).siblings('.body').toggle();
+        return false;
+    });
+
+    if ($('#direct-msg').length > 0){
+        $('#direct-msg > .body').show();
+        $('html, body').animate({
+            scrollTop: $('#direct-msg').offset().top-50
+        }, 500);
+        $('#direct-msg').css("background-color", "rgb(228, 228, 228)");
+    }
+
+    var showAllMessages = false;
+    $('.api-form').on('click', '#toggleMessages', function(e) {
+        e.preventDefault();
+        showAllMessages = !showAllMessages;
+        $('.conversation .body').toggle(showAllMessages);
+
+    });
+
+        $('.bb-textarea').richText();
+        $('#noteText').richText();
+
+
+});
+</script>
+
+{% endblock %}
+
+{% block head %}{{ mf.bb_editor('.bb-textarea') }}{% endblock %}

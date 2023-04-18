@@ -1,0 +1,339 @@
+{% extends "layout_default.phtml" %}
+
+{% block meta_title %}{% trans 'Profile' %}{% endblock %}
+
+{# block top_content %}
+<div class="title"><h5>Manage your profile </h5></div>
+{% endblock #}
+
+{% block content %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+                    <ul class="nav panel-tabs main-nav-line">                        
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-profile">{% trans 'Profile' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-password">{% trans 'Change password' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-2fa-auth">Two Factor Authenticator</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-api">{% trans 'API' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-gravatar">{% trans 'Gravatar' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-profile">
+                        <form method="post" action="{{ 'api/admin/profile/update'|link }}" class="api-form" data-api-msg="{% trans 'Profile updated' %}">
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Name' %}</label>
+                                    <div class="formRight">
+                                        <input type="text" name="name" class="form-control" value="{{profile.name}}" required="required"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Email' %}</label>
+                                    <div class="formRight">
+
+                                        <input type="text" name="email" class="form-control" value="{{profile.email}}" required="required"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Signature' %}</label>
+                                    <div class="formRight">
+                                        <textarea name="signature" class="form-control" cols="5" rows="3">{{profile.signature}}</textarea>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update profile' %}</button>
+
+                        </form>
+                    </div>
+                    <div class="tab-pane " id="tab-password">
+                        <form method="post" action="{{ 'api/admin/profile/change_password'|link }}" class="api-form" data-api-msg="{% trans 'Password changed' %}">
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Password' %}</label>
+                                    <div class="formRight">
+                                        <input type="password" class="form-control" name="password" value="" required="required"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Password confirm' %}</label>
+                                    <div class="formRight">
+                                        <input type="password" class="form-control" name="password_confirm" value="" required="required"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Change password' %}</button>
+                        </form>
+                    </div>
+                    <div id="tab-2fa-auth" class="tab-pane">
+                        <form method="post" action="{{ 'api/admin/staff/update_2fa'|link }}" class="api-form" data-api-msg="{% trans 'Two factor authenticator preferences were saved.' %}">
+                            <div>
+                                <h3>Google Two Factor Authentication</h3>
+                                <p>Two Factor Authentication protects information from possible hacks and scares hackers away. Besides this even though your login credentials are leaked by accident, it protects your account.</p>
+                            </div>
+                            <div class="twofa-status-changer">
+                                <label>Google Two Factor Authentication status:</label>
+                                <select name="twofactor_status" class="form-control form-select" onchange="changeTwoFactorSelect(this)">
+                                    <option value="disabled" {{(info_2fa.enabled == 1 ? '' : 'selected')}}>Disabled</option>
+                                    <option value="enabled" {{(info_2fa.enabled == 1 ? 'selected' : '')}}>Enabled</option>
+                                </select>
+                            </div>
+                            <div class="container-fluid {{(info_2fa.enabled == 1 ? 'enabled-2fa-container' : '')}}" id="_container_2fa_">
+                                <div class="row">
+                                    <div class="col-md-3 col-info-2fa">
+                                        <h5>Step 1</h5>
+                                        Install Google Authenticator on you phone
+                                        <a class="link-2fa-store" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">
+                                            <img src="https://www.a2zwebhelp.com/demo/google-two-factor/assets/img/android.png">
+                                        </a>
+                                        <a class="link-2fa-store" href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">
+                                            <img src="https://www.a2zwebhelp.com/demo/google-two-factor/assets/img/iphone.png">
+                                        </a>
+                                        <h5>Step 2</h5>
+                                        Open Google Authenticator and scan the QR code below, You can white down the code for back up
+
+                                        <h5 style="margin-top: 1rem;">Step 3</h5>
+                                        Close session and enter your validation code once requested
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div id="_container_2fa_qr_code_">
+                                            {% if info_2fa.enabled != 1 %}
+                                                <div class="qr-code2fa-loader">
+                                                    <i class="text-success fa fa-spinner fa-spin"></i>
+                                                    <h5>Loading QR</h5>
+                                                </div>
+                                            {% else %}
+                                                <img src="{{info_2fa.info.image}}" style="display:block !important;" class="img-2fa-qr"><p>{{info_2fa.info.secret}}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="two-factor-apply-btn">
+                                <button class="btn btn-primary btn-form-submit" type="submit"><i class="fe fe-save"></i> Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane " id="tab-api">
+                        <div class="help">
+                            <h3>{% trans 'API Key' %}</h3>
+                            <p>{% trans 'API key allows integration with external applications. You will need this key for authentication.' %}</p>
+                            <p>{% trans 'External application can control every aspect of WebHosting Billing using this API key.' %}</p>
+                            <p>{% trans 'Warning! Resetting the key will break existing applications using it.' %}</p>
+                        </div>
+
+                        <form method="post" action="{{ 'api/admin/profile/generate_api_key'|link }}" class="api-form" data-api-jsonp="onAfterKeyUpdate">
+
+                            <div class="rowElem noborder">
+                                <label>{% trans 'API Key' %}</label>
+                                <div class="formRight">
+                                    <input type="text" class="form-control" value="{{ admin.profile_get.api_token }}" id="apikey"/>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-reload"></i> {% trans 'Generate new key' %}</button>
+
+                        </form>
+                    </div>
+                    <div id="tab-gravatar" class="tab-pane">
+                        <h1>{% trans 'Gravatar' %}</h1>
+                        <p><img src="{{ profile.email|gravatar }}" /> {% trans 'Change your avatar at' %} <a target="_blank" href="http://www.gravatar.com">gravatar.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="widget simpleTabs">
+    <ul class="tabs">
+        <li><a href="#tab-profile">{% trans 'Profile' %}</a></li>
+        <li><a href="#tab-password">{% trans 'Change password' %}</a></li>
+        <li><a href="#tab-api">{% trans 'API' %}</a></li>
+        <li><a href="#tab-gravatar">{% trans 'Gravatar' %}</a></li>
+    </ul>
+
+    <div class="tab_container">
+
+        <div id="tab-profile" class="tab_content nopadding">
+            <form method="post" action="{{ 'api/admin/profile/update'|link }}" class="api-form" data-api-msg="{% trans 'Profile updated' %}">
+
+                    <div class="rowElem noborder">
+                        <label>{% trans 'Name' %}</label>
+                        <div class="formRight">
+                            <input type="text" name="name" value="{{profile.name}}" required="required"/>
+                        </div>
+                        <div class="fix"></div>
+                    </div>
+                    <div class="rowElem">
+                        <label>{% trans 'Email' %}</label>
+                        <div class="formRight">
+
+                            <input type="text" name="email" value="{{profile.email}}" required="required"/>
+                        </div>
+                        <div class="fix"></div>
+                    </div>
+                    <div class="rowElem">
+                        <label>{% trans 'Signature' %}</label>
+                        <div class="formRight">
+                            <textarea name="signature" class="form-control" cols="5" rows="3">{{profile.signature}}</textarea>
+                        </div>
+                        <div class="fix"></div>
+                    </div>
+
+                <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update profile' %}</button>
+
+            </form>
+        </div>
+
+        <div id="tab-password" class="tab_content nopadding">
+            <form method="post" action="{{ 'api/admin/profile/change_password'|link }}" class="api-form" data-api-msg="{% trans 'Password changed' %}">
+
+                    <div class="rowElem noborder">
+                        <label>{% trans 'Password' %}</label>
+                        <div class="formRight">
+                            <input type="password" name="password" value="" required="required"/>
+                        </div>
+                        <div class="fix"></div>
+                    </div>
+
+                    <div class="rowElem">
+                        <label>{% trans 'Password confirm' %}</label>
+                        <div class="formRight">
+                            <input type="password" name="password_confirm" value="" required="required"/>
+                        </div>
+                        <div class="fix"></div>
+                    </div>
+
+                <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Change password' %}</button>
+
+            </form>
+        </div>
+
+        <div id="tab-api" class="tab_content nopadding">
+
+            <div class="help">
+                <h3>{% trans 'API Key' %}</h3>
+                <p>{% trans 'API key allows integration with external applications. You will need this key for authentication.' %}</p>
+                <p>{% trans 'External application can control every aspect of WebHosting Billing using this API key.' %}</p>
+                <p>{% trans 'Warning! Resetting the key will break existing applications using it.' %}</p>
+            </div>
+
+            <form method="post" action="{{ 'api/admin/profile/generate_api_key'|link }}" class="api-form" data-api-jsonp="onAfterKeyUpdate">
+
+                <div class="rowElem noborder">
+                    <label>{% trans 'API Key' %}</label>
+                    <div class="formRight">
+                        <input type="text" value="{{ admin.profile_get.api_token }}" id="apikey"/>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+                <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-reload"></i> {% trans 'Generate new key' %}</button>
+
+            </form>
+        </div>
+
+        <div id="tab-gravatar" class="tab_content">
+            <h1>{% trans 'Gravatar' %}</h1>
+            <p><img src="{{ profile.email|gravatar }}" /> {% trans 'Change your avatar at' %} <a target="_blank" href="http://www.gravatar.com">gravatar.com</a></p>
+        </div>
+    </div>
+    <div class="fix"></div>
+</div>-->
+{% endblock %}
+
+
+{% block js%}
+<style type="text/css">
+    .twofa-status-changer{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .twofa-status-changer label{
+        margin-bottom: 0px;
+        margin-right: 5px;
+        font-weight: 500;
+    }
+    .twofa-status-changer select{
+        width: 20rem;
+    }
+    #_container_2fa_{
+        display: none;
+        padding: 0px;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #bbbbbc;
+    }
+    .enabled-2fa-container{
+        display: block !important;
+    }
+    .qr-code2fa-loader{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30rem;
+        flex-direction: column;
+    }
+    .qr-code2fa-loader i{
+        font-size:4rem;
+        margin-bottom: 1rem;
+    }
+    .img-2fa-qr{
+        display: none;
+        width: 16rem !important;
+        height: auto;
+    }
+    .link-2fa-store img{
+        width: 8rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .col-info-2fa{
+        border-right: 1px solid #bbbbbc;
+    }
+    #_container_2fa_qr_code_ p{
+        padding:0px !important;
+        margin:0px !important;
+    }
+    .two-factor-apply-btn{
+        width: 38rem;
+        /* background-color: #000; */
+        text-align: right;
+        margin-top: 2rem;
+    }
+</style>
+<script type="text/javascript">
+    function changeTwoFactorSelect(elem){
+        if($(elem).val() == 'enabled'){
+            $('#_container_2fa_').slideDown('fast', function(){
+                if($('.qr-code2fa-loader').length > 0){
+                    bb.get('admin/staff/get_2fainfo', {}, function(result){
+                        $('.qr-code2fa-loader').fadeIn('fast', function(){
+                            $('#_container_2fa_qr_code_').html('<img src="' + result.image + '" class="img-2fa-qr"><p>' + result.secret + '</p>');
+                            $('.img-2fa-qr').fadeIn('fast');
+                        })
+                    });
+                }
+            });
+        }else{
+            $('#_container_2fa_').slideUp('fast');
+        }
+    }
+    function onAfterKeyUpdate(result)
+    {
+        bb.post('admin/profile/get', {}, function(result){
+            $('#apikey').val(result.api_token);
+            bb.msg('New API key generated. Applications using old key are now not working.');
+        })
+
+    }
+</script>
+{% endblock %}

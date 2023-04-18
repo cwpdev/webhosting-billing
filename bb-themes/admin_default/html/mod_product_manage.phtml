@@ -1,0 +1,390 @@
+{% extends "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set active_menu = 'products' %}
+{% block meta_title %}{% trans 'Product configuration' %}{% endblock %}
+
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'product'|alink }}">{% trans 'Products' %}</a></li>
+    <li class="breadcrumb-item active">{{product.title}}</li>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-settings">{% trans 'General settings' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-config">{% trans 'Configuration' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-addons">{% trans 'Addons' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-upgrades">{% trans 'Upgrades' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-links">{% trans 'Links' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+               <form method="post" action="admin/product/update" class="api-form save" data-api-msg="Product configuration updated" name="form">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab-settings">
+                            <input type="hidden" name="id" value="{{ product.id }}" />
+                            <div class="help">
+                                <h5  class="main-content-label">{{ product.type|title }} {% trans 'General settings' %}</h5>
+                            </div>
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Category' %}:</label>
+                                    <div class="formRight ">
+                                        {{ mf.selectbox('product_category_id', guest.product_category_get_pairs, product.product_category_id, 0, 'None') }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                {% if guest.extension_is_on({"mod":"formbuilder"}) %}
+                                <div class="rowElem">
+                                    <label>{% trans 'Order Form' %}:</label>
+                                    <div class="formRight">
+                                        {% set tpl = "mod_service"~product.type~"_order_form.phtml" %}
+                                        {% if guest.system_template_exists({"file":tpl}) %}
+                                        <div class="alert alert-info">
+                                            <span class="alert-inner--icon"><i class="fe fe-info"></i></span>
+                                            <span class="alert-inner--text"><strong>Info!</strong> Please edit <strong>{{tpl}}</strong> file in order to change order form for <strong>{{product.type}}</strong> category products.</span>
+                                           </div>
+                                       <a href="{{ 'filemanager/ide' | alink }}" class="button btn btn-primary btn-sm">{% trans 'Open Editor' %}</a>
+                                        {% else %}
+                                       {{ mf.selectbox('form_id', admin.formbuilder_get_pairs, product.form_id, 0, 'None') }}
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="{{'extension/settings/formbuilder' | alink}}{% if product.form_id %}?id={{product.form_id}}{% endif %}" class="btn btn-primary btn-sm" id="formbuilder_btn">{{ (product.form_id) ? 'Edit Form' : 'Add new form'}}</a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                {% endif %}
+                                <div class="rowElem">
+                                    <label>{% trans 'Status' %}:</label>
+                                    <div class="formRight">
+                                    <div class="row pt-3">
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="status" value="enabled"{% if product.status == 'enabled' %} checked="checked"{% endif %} id="status-enabled"/>
+                                                <span for="status-enabled">{% trans 'Enabled' %}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="status" value="disabled"{% if product.status == 'disabled' %} checked="checked"{% endif %} id="status-disabled"/>
+                                                <span for="status-disabled">{% trans 'Disabled' %}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Hidden' %}:</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="hidden" value="1"{% if product.hidden %} checked="checked"{% endif %} id="hidden-yes"/>
+                                                    <span for="hidden-yes">{% trans 'Yes' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="hidden" value="0"{% if not product.hidden %} checked="checked"{% endif %} id="hidden-no"/>
+                                                    <span for="hidden-no">{% trans 'No' %}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Activation' %}:</label>
+                                    <div class="formRight">
+                                    <div class="row pt-3">
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="setup" value="after_order"{% if product.setup == 'after_order' %} checked="checked"{% endif %} id="activation-after-order"/>
+                                                <span for="activation-after-order">{% trans 'After order is placed' %}</span>
+                                            </label>
+                                        </div>
+                                            <div class="col-md-4">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="setup" value="after_payment"{% if product.setup == 'after_payment' %} checked="checked"{% endif %} id="activation-after-payment"/>
+                                                <span for="activation-after-payment">{% trans 'After payment is received' %}</span>
+                                            </label>
+                                            </div>
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="setup" value="manual"{% if product.setup == 'manual' %} checked="checked"{% endif %} id="activation-manual"/>
+                                                <span for="activation-manual">{% trans 'Manual activation' %}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Icon/Image URL' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text"  class="form-control" name="icon_url" id="bb-icon" value="{{product.icon_url}}" placeholder="" style="width: 80%"/>
+                                        <input type="button" value="{% trans 'Browse' %}" class="btn btn-primary bHtml button" />
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Title' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text"  class="form-control" name="title" value="{{product.title}}" required="required" placeholder=""/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Slug' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text"  class="form-control" name="slug" value="{{product.slug}}" required="required" placeholder=""/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                {% include "partial_pricing.phtml" with {'product': product} %}
+
+                               {% trans 'Product / service description' %}
+                                <textarea name="description" cols="5" rows="5" class="form-control">{{product.description}}</textarea>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Priority Support' %}:</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="priority_support" value="25"{% if product.priority_support == '25' %} checked="checked"{% endif %} id="low-priority-support"/>
+                                                    <span for="low-priority-support">{% trans 'Low Priority' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="priority_support" value="50"{% if product.priority_support == '50' %} checked="checked"{% endif %} id="medium-priority-support"/>
+                                                    <span for="medium-priority-support">{% trans 'Medium Priority' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="priority_support" value="100"{% if product.priority_support == '100' %} checked="checked"{% endif %} id="higt-priority-support"/>
+                                                    <span for="higt-priority-supportl">{% trans 'Higt Priority' %}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <button type="submit" value="" class="btn btn-primary submitForm mt-3 btn-form-submit"><i class="fe fe-save"></i> {% trans 'Update' %} </button>
+
+                        </div>
+                        <div class="tab-pane " id="tab-addons">
+                            <div class="row">
+                                <div class="col-md-10 pt-2">
+                                <h5>{% trans 'Choose which addons you would like to offer with' %} {{ product.title }}</h5>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <a href="{{ 'product/addons'|alink }}#tab-new" title="{% trans 'Create new addon' %}" class="btn btn-sm btn-primary mr10 mt5">
+                                        <i class="fe fe-plus-circle"></i>
+                                        <span>{% trans 'Create new addon' %}</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <table class="table">
+                                <tbody>
+                                    {% for addon_id, addon_title in admin.product_addon_get_pairs %}
+                                    <tr {% if loop.first %}class="noborder"{% endif %}>
+                                        <td style="width:5%">
+                                            <input type="hidden" name="addons[{{addon_id}}]" value="0">
+                                            <input type="checkbox" name="addons[{{addon_id}}]" value="1" id="addon_{{ addon_id }}" {% if addon_id in assigned_addons %}checked="checked"{% endif %}/>
+                                        </td>
+                                        <td><label for="addon_{{ addon_id }}">{{addon_title}}</label></td>
+                                        <td style="width:5%"><a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/product/addon'|alink }}/{{addon_id}}"><i class="fe fe-edit"></i></a></td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="3">{% trans 'The list is empty' %}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                            </table>
+                            <button type="submit" value="" class="btn btn-primary submitForm mt-3"><i class="fe fe-save"></i> {% trans 'Update' %} </button>
+
+
+                            <div class="fix"></div>
+                        </div>
+                        <div class="tab-pane " id="tab-upgrades">
+                            <div class="help">
+                                <h5  class="main-content-label">{% trans 'Choose which products can client upgrade to' %}</h5>
+                            </div>
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Product Upgrades' %}</label>
+                                    <div class="formRight">
+                                        {% set products = admin.product_get_pairs %}
+                                        <input type="hidden" name="upgrades" value="">
+                                        <select name="upgrades[]" multiple="multiple" class="multiple" size="{{products|length}}">
+                                            {% for id,ptitle in products %}
+                                            <option value="{{id}}" {% if product.upgrades[id] %}selected="selected"{% endif %}>{{ptitle }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <button type="submit" value="" class="btn btn-primary submitForm mt-3"><i class="fe fe-save"></i> {% trans 'Update' %} </button>
+                                <input type="hidden" name="id" value="{{ product.id }}" />
+
+                        </div>
+                        <div class="tab-pane" id="tab-config">
+                            {% set service_partial = "mod_service" ~ product.type ~ "_config.phtml" %}
+                            {% if admin.system_template_exists({"file":service_partial}) %}
+                                {% include service_partial with {'product': product} %}
+                            {% else %}
+                                <div class="alert alert-info alert">
+                                    {% trans 'No additional configuration for this product is required' %}
+                                </div>
+                            {% endif %}
+                            <div class="fix"></div>
+                        </div>
+                        <div class="tab-pane " id="tab-links">
+
+                                <div class="help">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                    <h5  class="main-content-label">{% trans 'Product links' %}</h5>
+                                        </div>
+                                        <div class="col-md-2">
+                                    <a href="{{ 'order'|link }}/{{product.slug}}" title="" class="pull-right btn-sm btn btn-info mr10" target="_blank"><i class="fe fe-eye"></i><span>{% trans 'View as client<' %}/span></a>
+                                        </div>
+                                </div>
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Product ID' %}</label>
+                                    <div class="formRight">
+                                        <input type="text"  class="form-control" value="{{ product.id }}"/>
+                                        <div class="fix"></div>
+                                    </div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Order page with ID' %}</label>
+                                    <div class="formRight">
+                                        <input type="text"  class="form-control" value="{{ 'order'|link }}/{{product.id}}"/>
+                                        <div class="fix"></div>
+                                    </div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Order page with slug' %}</label>
+                                    <div class="formRight">
+                                        <input type="text"  class="form-control" value="{{ 'order'|link }}/{{product.slug}}"/>
+                                        <div class="fix"></div>
+                                    </div>
+                                </div>
+
+                                <div class="fix"></div>
+                            </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block head %}
+{{ mf.bb_editor('.bb-textarea') }}
+<style>
+    .bootstrap-duallistbox-container .btn-group.buttons{
+        /*background-color: #ededf5;
+        margin-bottom: 6px;
+        height: 2rem;
+        border-radius: 3px;
+        border: 1px solid #a9abbd;*/
+        display: none;
+    }
+    .bootstrap-duallistbox-container select{
+        padding: 5px !important;
+    }
+    .bootstrap-duallistbox-container{
+        font-size: 1rem !important; 
+    }
+    .bootstrap-duallistbox-container label{
+        margin-bottom:0px !important; 
+    }
+    .bootstrap-duallistbox-container .info{
+        font-size: .9rem !important;
+    }
+    .pick-servers-container{
+        display:none;
+        margin-top: 0px !important;
+    }
+    .pick-servers-container.container-visible{
+        display:block;
+    }
+</style>
+{% endblock %}
+
+{% block js %}
+<link rel="stylesheet" type="text/css" href="js/plugins/jquery-duallistbox/bootstrap-duallistbox.min.css">
+<script src="js/plugins/jquery-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$(".bHtml").click( function() {
+        let datos = bb.load('{{"filemanager/icons"|alink }}', {rel:"bb-icon"});
+        $("#scrollmodal").modal('show');
+        $("#scrollmodal .modal-body").html(datos);
+        $("#scrollmodal .modal-title").html( "{% trans 'Select icon and click OK' %}");
+		//jAlert(bb.load('{{"filemanager/icons"|alink }}', {rel:"bb-icon"}), '{% trans "Select icon and click OK" %}');
+	});
+    $("[name='form_id']").change( function(){
+        var form_id = $(this).val();
+        var btn = $("#formbuilder_btn");
+            if (form_id !=""){
+            btn.html("Edit form");
+                var href = "{{'extension/settings/formbuilder' | alink({'id' : ''})}}" + form_id;
+                btn.attr('href', href);
+        }
+        else{
+                btn.html("Add new form");
+                btn.attr("href", "{{'extension/settings/formbuilder' | alink}}");
+            }
+
+    });
+    $('#server_product_pick').bootstrapDualListbox({
+        nonSelectedListLabel: 'Server list',
+        selectedListLabel: 'Server selecteds',
+        selectorMinimalHeight: 200,
+        filterTextClear: 'show all', // the text for the "Show All" button.
+        filterPlaceHolder: 'Filter', // the placeholder for the input element for filtering elements.
+        moveSelectedLabel: 'Move selected', // the label for the "Move Selected" button.
+        moveAllLabel: 'Move all', // the label for the "Move All" button.
+        removeSelectedLabel: 'Remove selected', // the label for the "Remove Selected" button.
+        removeAllLabel: 'Remove all', // the label for the "Remove All" button.
+    });
+    $('#server_product_type').change(function(){
+        if($(this).val() === 'pick'){
+            $('.pick-servers-container').slideDown('fast');
+        }else{
+            $('.pick-servers-container').slideUp('fast', function(){
+                $(this).removeClass('visible')
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

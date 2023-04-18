@@ -1,0 +1,57 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}System activity{% endblock %}
+{% set active_menu = 'activity' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+
+        <table id="tableActivity" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <td style="width: 2%"><input type="checkbox" class="batch-delete-master-checkbox"/></td>
+                <td >{% trans 'Message' %}</td>
+                <td>{% trans 'Ip' %}</td>
+                <td>{% trans 'Country' %}</td>
+                <td>{% trans 'Date' %}</td>
+                <td style="width: 5%">&nbsp;</td>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% set events = admin.activity_log_get_list({"per_page":1000, "page":request.page}|merge(request)) %}
+        {% for i, event in events.list %}
+        <tr>
+            <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ event.id }}"/></td>
+            <td>
+                {% if event.client %}
+                <a href="{{ 'client/manage'|alink }}/{{ event.client.id }}" title="{{ event.client.name }}"><img src="{{ event.client.email|gravatar }}?size=20" alt="{{ event.client.name }}" class="avatar-md rounded-circle me-3 my-auto shadow" /> {{ event.client.name }} </a>
+                {% elseif event.staff %}
+                <a href="{{ 'staff/manage'|alink }}/{{ event.staff.id }}" title="{{ event.staff.name }}"><img src="{{ event.staff.email|gravatar }}?size=20" alt="{{ event.staff.name }}" class="avatar-md rounded-circle me-3 my-auto shadow" /> {{ event.staff.name }}</a>
+                {% else %}
+                Guest
+                {% endif %}
+            <div style="overflow: auto; width: 250px;">{{ event.message }}</div></td>
+            <td>{{ event.ip }}</td>
+            <td>{{ event.ip|ipcountryname|default('Unknown') }}</td>
+            <td>{{ event.created_at|date('Y-m-d H:i') }}</td>
+            <td class="actions">
+                <a class="btn btn-sm  bg-danger-transparent text-danger bb-rm-tr api-link" data-api-confirm="{% trans 'Are you sure?' %}" data-api-redirect="{{ 'activity'|alink }}" href="{{ 'api/admin/activity/log_delete'|link({'id' : event.id}) }}"><i class="fe fe-trash"></i></a>
+            </td>
+        </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+    </div>
+</div>
+{% include "partial_batch_delete.phtml" with {'action' : 'admin/activity/batch_delete'} %}
+
+<script>
+    $(document).ready(function(){
+       $("#tableActivity").DataTable();
+    });
+</script>
+{% endblock %}

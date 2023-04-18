@@ -1,0 +1,35 @@
+.select2-selection__arrow{
+    top:5px !important;
+}
+.select2-selection{
+    height: 40px !important;
+    padding-top: 5px !important;
+}
+.select2-selection__rendered{
+    color: #535d79 !important;
+}
+.support-ticket-attachment-item{
+    display: flex;
+    padding-bottom:5px;
+}
+.support-ticket-attachment-item .btn-warning{
+    margin-left:10px;
+}
+.tooltip{
+    z-index: 999999990 !important;
+}
+#tickets .modal-body {
+    height: 75vh;
+    overflow: auto;
+    max-height: 720px;
+    padding: 1rem 1rem 10px 1rem !important;
+}
+.ticket-message-attachments-container{
+    font-size: 2rem
+}
+.ticket-message-container{
+    align-items: flex-start !important; 
+}
+.support-ticket-files-container-small{
+    width: 650px !important;
+}

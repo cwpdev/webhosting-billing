@@ -1,0 +1,261 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{{ order.title }}{% endblock %}
+
+{% set service_partial = "mod_service" ~ order.service_type ~ "_manage.phtml" %}
+{% set upgradables = client.order_upgradables({'id':order.id}) %}
+
+{% block content_before %}
+		<!-- Page Heading/Breadcrumbs -->
+<div class="left-content">
+    <span class="main-content-title mg-b-0 mg-b-lg-1">{% trans 'Service details' %}</span>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item tx-15">#{{ order.id }} {{ order.title }}</li>
+        <li class="breadcrumb-item tx-15"><a href="{{ 'order/service'|link }}">{% trans 'Ordered Services' %}</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><b>#{{ order.id }} {{ order.title }}</b></li>
+    </ol>
+</div>
+
+        <!-- /.row -->
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <p class="pull-right">
+            <a class="btn btn-light" href="{{ '/order/service'|link }}"><i class="fa fa-arrow-left"></i> {% trans 'Back to services' %}</a>
+            {% if order.period %}<a class="btn btn-success btn-sm text-white" id="renewal-button"><i class="fe fe-refresh-cw"></i> {% trans 'Renew now' %}</a>{% endif %}
+            <a class="btn btn-info text-white btn-sm" data-bs-toggle="modal" data-bs-target="#tickets"><i class="fe fe-tag"></i> {% trans 'Open ticket' %}</a>
+            {% if upgradables %}<a class="btn btn-warning  btn-sm text-white" data-bs-toggle="modal" data-bs-target="#upgrades"><i class="fe fe-plus"></i> {% trans 'Request Upgrade' %}</a>{% endif %}
+            {% if order.status == 'pending_setup' %}<a class="btn btn-danger  btn-sm text-white api" href="{{'api/client/order/delete' | link({'id' : order.id})}}" data-api-redirect="{{ 'order/service'|link }}"><i class="fe fe-x"></i> {% trans 'Cancel' %}</a>{% endif %}
+            {% if order.status == 'active' %}<a class="btn btn-danger btn-sm  text-white" data-bs-toggle="modal" data-bs-target="#cancelation"><i class="fe fe-x"></i> {% trans 'Request Cancellation' %}</a>{% endif %}
+        </p>
+    </div>
+    <div class="col-md-3">
+
+        <div class="card">
+            <div class="card-header tx-medium bd-0 tx-white bg-primary">
+                <h5>{% trans 'Service details' %}</h5>
+            </div>
+            <div class="card-body" style="border:0px;padding: 2px">
+                <ul class="list-group m-0" style="border:0px">
+                    <li class="list-group-item border-0">
+                        <strong>{% trans 'Order' %}:</strong>
+                        #{{ order.id }}  <span class="badge {% if order.status == "active" %}badge-success{% elseif order.status == "pending_setup" %}badge-warning{% elseif order.status == "failed_setup" %}badge-info{% else %}badge-danger{% endif %}">{{ mf.status_name(order.status) }}</span>
+
+                    </li>
+                    <li class="list-group-item border-0">
+                        <strong>{% trans 'Product' %}:</strong>
+                        {{ order.title }}
+                    </li>
+                    <li class="list-group-item border-0"><strong>{% trans 'Payment amount' %}:</strong> {{ order.total | money(order.currency) }}{% if order.period %} {{ order.period | period_title }}{% endif %}</li>
+                    <li class="list-group-item border-0"><strong>{% trans 'Order created' %}:</strong> {{ order.created_at|date('Y-m-d h:i') }}</li>
+                    <li class="list-group-item border-0"><strong>{% trans 'Activated at' %}:</strong> {% if order.activated_at %}{{ order.activated_at|date('Y-m-d h:i') }}{% else %}-{% endif %}</li>
+                    {% if order.period %}<li class="list-group-item border-0"><strong>{% trans 'Renewal date' %}:</strong> {% if order.expires_at %}in {{ order.expires_at|daysleft }} day(s) ({{ order.expires_at|date('Y-m-d h:i') }}){% else %}-{% endif %}</li>{% endif %}
+                    {% if order.notes %}<li class="list-group-item border-0"><strong>{% trans 'Order notes' %}:</strong> {{ order.notes|bbmd }}</li>{% endif %}
+                    {% if order.active_tickets > 0 %}<li class="list-group-item border-0"><strong>{% trans 'Active support tickets' %}:</strong> <a href="{{ 'support'|link }}">{{ order.active_tickets }}</a></li>{% endif %}
+
+                    {% if order.group_master == 1 %}
+                    {% set addons = client.order_addons({"id":order.id}) %}
+                    {% if addons|length > 0 %}
+                    {% for i, addon in addons %}
+                    <li class="list-group-item  border-0 {% if addon.status == "active" %}list-group-item-success{% elseif addon.status == "pending_setup" %}list-group-item-warning{% elseif addon.status == "failed_setup" %}list-group-item-danger{% else %}label-default{% endif %}">
+                    <a href="{{ '/order/service/manage'|link }}/{{addon.id}}"><strong>{% trans 'Addon' %}:</strong> {{addon.title}}</a> <span class="label {% if addon.status == "active" %}label-success{% elseif addon.status == "pending_setup" %}label-warning{% elseif addon.status == "failed_setup" %}label-danger{% else %}label-default{% endif %}">{{ mf.status_name(addon.status) }}</span><br />
+                    <strong>{% trans 'Price' %}:</strong> {{ addon.total | money(addon.currency) }} {{ addon.period | period_title }}<br />
+                    {% if addon.expires_at %}<strong>{% trans 'Next due date' %}:</strong> {{addon.expires_at|date('Y-m-d h:i') }}<br />{% endif %}
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                    {% endif %}
+                </ul>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-9">
+
+        {% if guest.system_template_exists({"file":service_partial})%}
+        {% set service = client.order_service({"id":order.id}) %}
+
+        {% include service_partial with {'order': order, 'service': service} %}
+
+        {% else %}
+        {# trans 'Service does not have configuration page' #}
+
+        {% endif %}
+
+    </div>
+</div>
+
+
+    <div class="modal fade" id="cancelation" tabindex="-1" role="dialog" aria-labelledby="{% trans 'Request Cancellation' %}">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+                    <h6 class="modal-title" id="myModalLabel">{% trans 'Request Cancellation' %}</h6>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<form action="" method="post">
+						<div class="control-group form-group">
+							<div class="controls">
+								<label class="form-label">{% trans 'Help desk' %}:</label>
+								{{ mf.selectbox('support_helpdesk_id', client.support_helpdesk_get_pairs, request.support_helpdesk_id, 1) }}
+							</div>
+						</div>
+						<div class="control-group form-group">
+							<div class="controls">
+								<label class="form-label">{% trans 'Subject' %}:</label>
+								<input type="text" class="form-control" name="subject" value="{% trans 'I would like to cancel' %} {{ order.title }}" required="required">
+							</div>
+						</div>
+						<div class="control-group form-group">
+							<div class="controls">
+								<label class="form-label">{% trans 'Reason' %}:</label>
+								<textarea rows="10" cols="100" class="form-control" name="content" maxlength="999" style="resize:none" required="required">{{ request.content|e }}</textarea>
+							</div>
+						</div>
+
+						<input type="hidden" name="rel_type" value="order">
+						<input type="hidden" name="rel_id" value="{{ order.id }}">
+						<input type="hidden" name="rel_task" value="cancel">
+				</div>
+				<div class="modal-footer">
+						<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+						<input class="btn btn-primary" type="submit" value="{% trans 'Submit' %}">
+					</form>
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <div class="widget open-ticket">
+    <div class="modal fade" id="tickets" tabindex="-1" role="dialog" aria-labelledby="{% trans 'Open new support ticket regarding this order' %}">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+                    <h6 class="modal-title" id="myModalLabel">{% trans 'Open new support ticket regarding this order' %}<br />
+                        <small class="d-block tx-12 mb-0 text-muted">{% trans 'Submit new support ticket. Ticket will be visible in support section after submission' %}</small></h6>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+				</div>
+				<div class="modal-body">
+					<form action="" method="post">
+						<div class="control-group form-group">
+							<div class="controls">
+								<label class="form-label">{% trans 'Help desk' %}:</label>
+								{{ mf.selectbox('support_helpdesk_id', client.support_helpdesk_get_pairs, request.support_helpdesk_id, 1) }}
+							</div>
+						</div>
+						<div class="control-group form-group">
+							<div class="controls">
+								<label class="form-label">{% trans 'Subject' %}:</label>
+								<input type="text" class="form-control" name="subject" value="" required="required">
+							</div>
+						</div>
+						<div class="control-group form-group">
+							<div class="controls">
+								<label class="form-label">{% trans 'Reason' %}:</label>
+								<textarea rows="10" cols="100" class="form-control" name="content" maxlength="999" style="resize:none" required="required">{{ request.content|e }}</textarea>
+							</div>
+						</div>
+
+						<input type="hidden" name="rel_type" value="order">
+						<input type="hidden" name="rel_id" value="{{ order.id }}">
+				</div>
+				<div class="modal-footer">
+						<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+						<input class="btn btn-primary" type="submit" value="{% trans 'Submit' %}">
+					</form>
+				</div>
+			</div>
+		</div>
+    </div>
+    </div>
+
+    <div class="modal fade" id="upgrades" tabindex="-1" role="dialog" aria-labelledby="{% trans 'Request upgrade' %}">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+                    <h6 class="modal-title" id="myModalLabel">{% trans 'Request upgrade' %}</h6>
+					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+				</div>
+				<div class="modal-body">
+				    <form action="" method="post" class="api_form" data-api-url="client/support/ticket_create" data-api-msg="Upgrade request received">
+						<div class="control-group form-group">
+							<div class="controls">
+								<label class="form-label">{% trans 'Help desk' %}:</label>
+								{{ mf.selectbox('support_helpdesk_id', client.support_helpdesk_get_pairs, request.support_helpdesk_id, 1) }}
+							</div>
+						</div>
+						<div class="control-group form-group">
+							<div class="controls">
+								<label class="form-label">{% trans 'Subject' %}:</label>
+								<input type="text" class="form-control" name="subject" value="{% trans 'I would like to upgrade' %} {{ order.title }}" required="required">
+							</div>
+						</div>
+						<div class="control-group form-group">
+							<div class="controls">
+								<label class="form-label">{% trans 'Upgrade to' %}: </label>
+								{{ mf.selectbox('rel_new_value', upgradables, '', 1) }}
+							</div>
+						</div>
+						<div class="control-group form-group">
+							<div class="controls">
+								<label class="form-label">{% trans 'Notes' %}:</label>
+								<textarea rows="10" cols="100" class="form-control" name="content" maxlength="999" style="resize:none" required="required">{% trans 'I would like to upgrade' %} {{ order.title }}</textarea>
+							</div>
+						</div>
+
+						<input type="hidden" name="rel_type" value="order">
+						<input type="hidden" name="rel_id" value="{{ order.id }}">
+						<input type="hidden" name="rel_task" value="upgrade">
+				</div>
+				<div class="modal-footer">
+						<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+						<input class="btn btn-primary" type="submit" value="{% trans 'Request' %}">
+					</form>
+				</div>
+			</div>
+		</div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+{% autoescape 'js' %}
+<script type="text/javascript">
+$(function() {
+    $('#renewal-button').bind('click',function(event){
+		bootbox.confirm("{% trans 'Are you sure?' %}", function(result) {
+			if(result){
+			  bb.post(
+					'client/invoice/renewal_invoice',
+					{order_id: {{order.id}} },
+					function(result) {
+						bb.redirect('{{"invoice"|link}}' + '/' + result);
+					}
+				);
+			}
+		});
+    });
+
+    $('.open-ticket form').submit(function(){
+        bb.post(
+            'client/support/ticket_create',
+            $(this).serialize(),
+            function(result) {
+                bb.msg('Ticket was submitted. If you want to track conversation please go to support section');
+                $('div.open-ticket').fadeOut();
+                $('#open-ticket').fadeOut();
+            }
+        );
+        return false;
+    });
+});
+</script>
+{% endautoescape %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set active_menu = 'support' %}
+{% block meta_title %}Canned category{% endblock %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'support'|alink }}">{% trans 'Support' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'support/canned-responses'|alink }}">{% trans 'Canned responses' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'support/canned-responses'|alink }}#tab-categories">{% trans 'Categories' %}</a></li>
+    <li class="breadcrumb-item active">{{category.title}}</li>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+          <form method="post" action="{{ 'api/admin/support/canned_category_update'|link }}" class="save api-form" data-api-redirect="{{ 'support/canned-responses'|alink }}">
+
+                <div class="rowElem">
+                    <label>{% trans 'Title' %}:</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control"  name="title" value="{{category.title}}" required="required" placeholder=""/>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                <input type="hidden" name="id" value="{{ category.id }}"/>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

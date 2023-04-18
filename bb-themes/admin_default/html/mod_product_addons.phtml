@@ -1,0 +1,141 @@
+{% extends "layout_default.phtml" %}
+{% set active_menu = 'products' %}
+{% block meta_title %}{% trans 'Addons' %}{% endblock %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'product'|alink }}">{% trans 'Products' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'Addons' %}</li>
+
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Addons' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-new">{% trans 'New Addon' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-index">
+
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                                {% for addon_id, addon_title in admin.product_addon_get_pairs %}
+                                <tr >
+                                    <td><label for="addon_{{ addon_id }}">{{addon_title}}</label></td>
+                                    <td class="actions" style="width:13%">
+                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/product/addon'|alink }}/{{addon_id}}"><i class="fe fe-edit"></i></a>
+                                        <a class="btn btn-sm  bg-danger-transparent text-danger" data-api-confirm="Are you sure?" data-api-redirect="{{ 'product/addons'|alink }}" href="{{ 'api/admin/product/delete'|link({'id' : addon_id}) }}"><i class="fe fe-trash"></i></a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="2">{% trans 'The list is empty' %}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="tab-new">
+
+                        <form method="post" action="{{ 'api/admin/product/addon_create'|link }}" class="api-form save" data-api-jsonp="onAfterAddonCreate">
+
+                            <div class="rowElem">
+                                <label>{% trans 'Status' %}:</label>
+                                <div class="formRight">
+                                    <div class="row pt-3">
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="status" value="enabled"/><span>{% trans 'Enabled' %}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="status" value="disabled" checked="checked"/><span>{% trans 'Disabled' %}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Activation' %}:</label>
+                                <div class="formRight">
+                                    <div class="row pt-3">
+                                        <div class="col-md-4">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="setup" value="after_order"/>
+                                                <span>{% trans 'After order is placed' %}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="setup" value="after_payment" checked="checked"/>
+                                                <span>{% trans 'After payment is received' %}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="rdiobox">
+                                                <input type="radio" name="setup" value="manual"/>
+                                                <span>{% trans 'Manual activation' %}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+
+                            <div class="rowElem">
+                                <label>{% trans 'Icon' %}:</label>
+                                <div class="formRight">
+                                    <input type="text" class="form-control" name="icon_url" value="{{product.icon_url}}" placeholder=""/>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Title' %}:</label>
+                                <div class="formRight">
+                                    <input type="text" class="form-control" name="title" value="{{product.title}}" required="required" placeholder=""/>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                                <label>{% trans 'Description' %}:</label>
+                                <div class="formRight">
+                                    <textarea name="description" class="form-control" cols="5" rows="5">{{product.description}}</textarea>
+                                </div>
+                                <div class="fix"></div>
+                            </div>
+                            <div class="rowElem">
+                            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Create' %} </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+
+    function onAfterAddonCreate(result)
+    {
+        bb.redirect("{{ 'product/addon/'|alink }}/" + result);
+    }
+
+</script>
+{% endblock %}

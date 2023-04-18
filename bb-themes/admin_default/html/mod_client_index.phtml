@@ -1,0 +1,517 @@
+{% import "macro_functions.phtml" as mf %}
+{% extends "layout_default.phtml" %}
+{% set active_menu = 'client' %}
+{% block meta_title %}{% trans 'Clients' %}{% endblock %}
+
+{% block top_content %}
+
+{% set count_clients = admin.client_get_statuses %}
+{% set total = count_clients.active + count_clients.canceled + count_clients.suspended %}
+{% set porc_act = (100 * count_clients.active) /  total %}
+{% set porc_susp = (100 * count_clients.suspended) /  total %}
+{% set porc_canc = (100 * count_clients.canceled) /  total %}
+
+
+<div class="card mg-b-20" id="tabs-style2">
+    <div class="card-body">
+        <div class="row index1">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xxl-3">
+                <div class="row border-end bd-xs-e-0 p-3">
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                        <div class="circle-icon bg-primary text-center align-self-center overflow-hidden shadow">
+                            <a href="{{ 'client'|alink({'status' : 'active'}) }}" title="">
+                                <i class="fe fe-user-check tx-15 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-9 py-0">
+                        <div class="pt-4 pb-3">
+                            <div class="d-flex">
+                                <h6 class="mb-2 tx-12">{% trans 'Active' %}</h6>
+                                <span class="badge bg-success-transparent text-success font-weight-semibold ms-auto rounded-pill lh-maincard px-2 my-auto"><i class="fa fa-caret-up me-1"></i>{{porc_act|number_format(2, '.', ',')}}%</span>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <a href="{{ 'client'|alink({'status' : 'active'}) }}" title="">
+                                        <h4 class="tx-18 font-weight-semibold mb-0">{{ count_clients.active }}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xxl-3">
+                <div class="row border-end bd-md-e-0 bd-xs-e-0 bd-lg-e-0 bd-xl-e-0  p-3">
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                        <div class="circle-icon bg-warning text-center align-self-center overflow-hidden shadow">
+                            <a href="{{ 'client'|alink({'status' : 'suspended'}) }}" title="">
+                                <i class="fe fe-user-minus tx-15 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="pt-4 pb-3">
+                            <div class="d-flex">
+                                <h6 class="mb-2 tx-12">{% trans 'Suspended' %}</h6>
+                                <span class="badge bg-success-transparent text-success font-weight-semibold ms-auto rounded-pill lh-maincard px-2 my-auto"><i class="fa fa-caret-up me-1"></i>{{porc_susp|number_format(2, '.', ',')}}%</span>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <a href="{{ 'client'|alink({'status' : 'suspended'}) }}" title="">
+                                        <h4 class="tx-18 font-weight-semibold mb-0">{{ count_clients.suspended }}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xxl-3">
+                <div class="row border-end bd-xs-e-0  p-3">
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                        <div class="circle-icon bg-secondary text-center align-self-center overflow-hidden shadow">
+                            <a href="{{ 'client'|alink({'status' : 'canceled'}) }}"  title="">
+                                <i class="fe fe-user-x tx-15 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="pt-4 pb-3">
+                            <div class="d-flex">
+                                <h6 class="mb-2 tx-12">{% trans 'Canceled' %}</h6>
+                                <span class="badge bg-success-transparent text-success font-weight-semibold ms-auto rounded-pill lh-maincard px-2 my-auto"><i class="fa fa-caret-up me-1"></i>{{porc_canc|number_format(2, '.', ',')}}%</span>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <a href="{{ 'client'|alink({'status' : 'canceled'}) }}"  title="">
+                                        <h4 class="tx-18 font-weight-semibold mb-0">{{ count_clients.canceled }}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xxl-3">
+                <div class="row  p-3">
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                        <div class="circle-icon bg-info text-center align-self-center overflow-hidden shadow">
+                            <a href="{{ 'client'|alink }}" title="">
+                                <i class="fe fe-users tx-15 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="pt-4 pb-3">
+                            <div class="d-flex	">
+                                <h6 class="mb-2 tx-12">{% trans 'Total' %}</h6>
+
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <a href="{{ 'client'|alink }}" title="">
+                                        <h4 class="tx-18 font-weight-semibold mb-0">{{total}}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card card-collapsed">
+    <div class="card-header  d-flex custom-card-header border-bottom-0 ">
+        <h5 >{% trans 'Filter clients' %}</h5>
+        <div class="card-options">
+            <a href="javascript:void(0);" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="body nopadding">
+
+            <form method="get" action="" class="mainForm">
+                <input type="hidden" name="_url" value="{{ request._url }}" />
+
+                <div class="rowElem noborder">
+                    <label>{% trans 'ID' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control"  name="id" value="{{ request.id }}">
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Name' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control"  name="name" value="{{ request.name }}">
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Company name' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control"  name="company" value="{{ request.company }}">
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Email' %}</label>
+                    <div class="formRight">
+                        <input type="text" class="form-control"  name="email" value="{{ request.email }}" />
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Group' %}:</label>
+                    <div class="formRight">
+                        {{ mf.selectbox('group_id', admin.client_group_get_pairs, request.group_id, 0, 'All groups') }}
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Status' %}:</label>
+                    <div class="formRight">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label class="rdiobox">
+                                    <input type="radio" name="status" value=""{% if not request.status %} checked="checked"{% endif %}/><span>{% trans 'All' %}</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-3">
+                                <label class="rdiobox">
+                                    <input type="radio" name="status" value="active"{% if request.status == 'active' %} checked="checked"{% endif %}/><span>{% trans 'Active' %}</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-3">
+                                <label class="rdiobox">
+                                    <input type="radio" name="status" value="suspended"{% if request.status == 'suspended' %} checked="checked"{% endif %} /><span>{% trans 'Suspended' %}</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-3">
+                                <label class="rdiobox">
+                                    <input type="radio" name="status" value="canceled"{% if request.status == 'canceled' %} checked="checked"{% endif %} /><span>{% trans 'Canceled' %}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Registration date' %}</label>
+                    <div class="formRight moreFields">
+                        <ul>
+                            <li style="width: 100px"><input type="text" class="form-control"  name="date_from" value="{% if request.date_from %}{{ request.date_from|date('Y-m-d') }}{%endif%}" placeholder="{{ now|date('Y-m-d') }}" class="datepicker"/></li>
+                            <li class="sep">-</li>
+                            <li style="width: 100px"><input type="text" class="form-control"  name="date_to" value="{% if request.date_to %}{{ request.date_to|date('Y-m-d') }}{%endif%}" placeholder="{{ now|date('Y-m-d') }}" class="datepicker"/></li>
+                        </ul>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <input type="hidden" name="show_filter" value="1" />
+                <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-search"></i> {% trans 'Filter' %}</button>
+
+            </form>
+            <div class="fix"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="card mg-b-20" id="tabs-style2">
+    <!--<div class="card-body">-->
+        <div class="text-wrap">
+            <div class="example">
+                <div class="panel panel-primary tabs-style-2">
+                    <div class=" tab-menu-heading">
+                        <div class="tabs-menu1">
+                            <!-- Tabs -->
+                            <ul class="nav panel-tabs main-nav-line">
+                                <li><a href="#tab-index" class="nav-link active" data-bs-toggle="tab">{% trans 'Clients' %}</a></li>
+                                <li><a href="#tab-new" class="nav-link" data-bs-toggle="tab">{% trans 'New client' %}</a></li>
+                                <li><a href="#tab-groups" class="nav-link" data-bs-toggle="tab">{% trans 'Groups' %}</a></li>
+                                <li><a href="#tab-new-group" class="nav-link" data-bs-toggle="tab">{% trans 'New group' %}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body tabs-menu-body main-content-body-right border">
+                        <div class="tab-content">
+                            <div class="tab-pane  active" id="tab-index">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered text-nowrap border-bottom" id="table_clients">
+                                        <thead>
+                                            <tr>
+                                                <th>{% trans 'Sel' %}</th>
+                                                <th>{% trans 'Name' %}</th>
+                                                <th>{% trans 'Company' %}</th>
+                                                <th>{% trans 'Email' %}</th>
+                                                <th>{% trans 'Phone' %}</th>
+                                                <th>{% trans 'Country' %}</th>
+                                                <th>{% trans 'Currency' %}</th>
+                                                <th>{% trans 'Status' %}</th>
+                                                <th>{% trans 'Date' %}</th>
+                                                <th>{% trans 'Actions' %}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% set clients = admin.client_get_list({"per_page":30000000, "page":request.page}|merge(request)) %}
+                                            {% for client in clients.list %}
+                                                <tr>
+                                                    <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ client.id }}"/></td>
+                                                    <td><div class="col-lg-12">
+                                                            <div class="row">
+                                                                <div><a href="{{ 'client/manage'|alink }}/{{ client.id }}"><img src="{{ client.email|gravatar }}" style="width:20px!important;height: 20px!important;" alt="{{ client.id }}" class="avatar-md rounded-circle me-3 my-auto shadow" /></a></div>
+                                                                <div><a href="{{ 'client/manage'|alink }}/{{ client.id }}" title="{{ client.first_name }} {{ client.last_name }}">{{ client.first_name|truncate('1', null, '.') }} {{ client.last_name|truncate(15) }}</a></div>
+                                                                <div><span class="flag flag-{{ client.country|lower }}" style="margin: 1px auto !important;width: 15px;margin: 0 auto; display: block;  box-shadow: none;" title="{{ guest.system_countries[client.country] }}"></span></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><a href="{{ 'client/manage'|alink }}/{{ client.id }}" title="{{ client.company }}">{{ client.company|default('-')|truncate(30) }}</a></td>
+                                                    <td><a href="{{ 'client/manage'|alink }}/{{ client.id }}" title="{{ client.email }}">{{ client.email|truncate(30) }}</a></td>
+                                                    <td>{{ client.phone}}</td>
+                                                    <td>{{ client.country}} <!--span class="flag flag-{{ client.country|lower }}" style="width:15px!important" title="{{ guest.system_countries[client.country|lower] }}"></span--></td>
+                                                    <td>{{ client.currency}}</td>
+                                                    <td>
+                                                        <span class="badge {% if client.status == 'active'  %} bg-success-transparent text-success {% elseif order.status == 'canceled' %} bg-warning-transparent text-warning  {% else %} bg-danger-transparent text-danger {% endif %}">{{ mf.status_name(client.status) }}</span>
+                                                    </td>
+
+                                                    <td>{{ client.created_at|date('Y-m-d') }}</td>
+                                                    <td>
+                                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ 'client/manage'|alink }}/{{ client.id }}"><i class="fe fe-edit"></i></a>
+                                                        <a class="btn btn-sm  bg-danger-transparent text-danger bb-rm-tr api-link" href="{{ 'api/admin/client/delete'|link({'id' : client.id}) }}" data-api-confirm="Are you sure?" data-api-reload="1"><i class="fe fe-trash"></i></a>
+                                                    </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane" id="tab-new">
+                                <form method="post" action="{{ 'api/admin/client/create'|link }}" class="api-form save" data-api-redirect="{{ 'client'|alink }}">
+
+                                        <div class="rowElem noborder">
+
+                                             <label class="">{% trans 'Status' %}:</label>
+                                            <div class="formRight">
+                                                <div class="row">
+                                                    <div class="col-lg-2">
+                                                        <label class="rdiobox">
+                                                            <input type="radio" name="status" value="active" checked="checked"> <span>{% trans 'Active' %}</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-2 mg-t-20 mg-lg-t-0">
+                                                        <label class="rdiobox"><input type="radio" name="status" value="canceled"> <span>{% trans 'Canceled' %}</span></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Group' %}:</label>
+
+                                            <div class="formRight">
+                                                {{ mf.selectbox('group_id', admin.client_group_get_pairs, request.group_id, 0, 'Select group') }}
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Email' %}:</label>
+
+                                            <div class="formRight">
+                                                <input type="text" name="email" class="form-control" value="{{request.email}}" required="required"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Name' %}:</label>
+
+                                            <div class="formRight">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input class="form-control" type="text" name="first_name" value="{{request.first_name}}" required="required"/>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input class="form-control" type="text" name="last_name" value="{{request.last_name}}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Company' %}:</label>
+
+                                            <div class="formRight">
+                                                <input class="form-control" type="text" name="company" value="{{request.company}}"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Address Line 1' %}:</label>
+
+                                            <div class="formRight">
+                                                <input class="form-control" type="text" name="address_1" value="{{request.address_1}}"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Address Line 2' %}:</label>
+
+                                            <div class="formRight">
+                                                <input class="form-control" type="text" name="address_2" value="{{request.address_2}}"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'City' %}:</label>
+
+                                            <div class="formRight">
+                                                <input class="form-control" type="text" name="city" value="{{request.city}}"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'State' %}:</label>
+
+                                            <div class="formRight">
+                                                {# mf.selectbox('state', guest.system_states, request.state, 0, 'Select state') #}
+                                                <input class="form-control" type="text" name="state" value="{{ request.state }}" />
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Country' %}:</label>
+
+                                            <div class="formRight">
+                                                {{ mf.selectbox('country', guest.system_countries, request.country, 0, 'Select country') }}
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Postcode' %}:</label>
+
+                                            <div class="formRight">
+                                                <input class="form-control" type="text" name="postcode" value="{{request.postcode}}"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Phone' %}:</label>
+
+                                            <div class="formRight">
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                        <input class="form-control" type="text" name="phone_cc" value="{{request.phone_cc}}"/>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input class="form-control" type="text" name="phone" value="{{request.phone}}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Currency' %}:</label>
+
+                                            <div class="formRight">
+                                                {{ mf.selectbox('currency', guest.currency_get_pairs, request.currency, 0, 'Select currency') }}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="rowElem">
+
+                                                <label class="">{% trans 'Password' %}:</label>
+
+                                            <div class="formRight">
+                                                <input class="form-control" type="password" name="password" value="" required="required"/>
+                                            </div>
+                                            <div class="fix"></div>
+                                        </div>
+                                        <button type="submit" value="" class="btn btn-primary btn-sm mb-1 submitForm"><i class="fe fe-save"></i> {% trans 'Create' %} </button>
+
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="tab-groups">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td>{% trans 'Title' %}</td>
+                                        <td width="13%">{% trans 'Actions' %}</td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for id,group in admin.client_group_get_pairs %}
+                                    <tr>
+                                        <td>{{ group }}</td>
+                                        <td>
+                                            <a class="btn btn-sm  bg-info-transparent text-info" href="{{ 'client/group'|alink }}/{{ id }}"><i class="fe fe-edit"></i></a>
+                                            <a class="btn btn-sm  bg-danger-transparent text-danger bb-rm-tr api-link" data-api-reload="1" data-api-confirm="Are you sure?" href="{{ 'api/admin/client/group_delete'|link({'id' : id}) }}"><i class="fe fe-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="2">{% trans 'The list is empty' %}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane" id="tab-new-group">
+                                <form method="post" action="{{ 'api/admin/client/group_create'|link }}" class="api-form save" data-api-redirect="{{ 'client'|alink }}">
+
+                                        <div class="rowElem noborder">
+                                           <label class="">{% trans 'Title' %}:</label>
+                                            <div class="formRight">
+                                                <input class="form-control col-md-4" type="text" name="title" value="{{request.title}}" required="required"/>
+                                            </div>
+                                            <div class="fix"></div>
+                                        </div>
+                                        <button type="submit" value="" class="btn btn-primary btn-sm mb-1 submitForm " ><i class="fe fe-save"></i> {% trans 'Create' %}</button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--</div>-->
+</div>
+<script>
+    $(document).ready(function() {
+        $('#table_clients').dataTable( {
+            "searching": true
+        } );
+    } );
+
+</script>
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}

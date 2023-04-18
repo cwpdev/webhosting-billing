@@ -1,0 +1,343 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% block meta_title %}{% trans 'Profile details' %}{% endblock %}
+
+{% import "macro_functions.phtml" as mf %}
+{% set profile = client.client_get %}
+
+{% block content_before %}
+<!-- Page Heading/Breadcrumbs -->
+
+<div class="left-content">
+    <span class="main-content-title mg-b-0 mg-b-lg-1">{% trans 'Profile details' %}</span>
+    <small class="d-block tx-12 mb-0 text-muted">{% trans 'Keep your profile up to date' %}</small>
+</div>
+
+<!-- /.row -->
+{% endblock %}
+{% block content %}
+
+
+    <div class="card">
+        <div class="card-body">
+
+        <div class="tabs-style-3">
+        <div class="tab-menu-heading">
+            <div class="col-lg-12 tabs-menu ">
+                <ul id="myTab" class="nav panel-tabs">
+                    <li class="active"><a href="#tab-details" class="active" data-bs-toggle="tab"><i class="fa fa-user"></i> {% trans 'Details' %}</a></li>
+                    <li><a href="#tab-password" data-bs-toggle="tab"><i class="fa fa-key"></i> {% trans 'Password' %}</a></li>
+                    <li><a href="#tab-twofactor" data-bs-toggle="tab"><i class="fa fa-lock"></i> Two-Factor Authentication</a></li>
+                    <li><a href="#tab-gravatar" data-bs-toggle="tab"><i class="fa fa-camera"></i> {% trans 'Gravatar' %}</a></li>
+                    <li><a href="#tab-currency" data-bs-toggle="tab"><i class="fa fa-money"></i> {% trans 'Currency' %}</a></li>
+                    <li><a href="#tab-api" data-bs-toggle="tab"><i class="fa fa-plug"></i> {% trans 'API' %}</a></li>
+                </ul>
+
+                <div id="myTabContent" class="tabs-menu-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active"  id="tab-details">
+                            <h5>{% trans 'Update profile' %}</h5>
+                            <form method="post" action="" class="api_form" data-api-url="client/client/update" data-api-msg="{% trans 'Profile updated' %}">
+                                <div class=" row">
+                                    <div class="col-md-6">
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'Email Address' %}:</label>
+                                                <input type="email" class="form-control" name="email" value="{{ profile.email }}" required="required">
+                                            </div>
+                                        </div>
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'First Name' %}:</label>
+                                                <input type="text" class="form-control" name="first_name" value="{{ profile.first_name }}" required="required">
+                                            </div>
+                                        </div>
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'Last Name' %}:</label>
+                                                <input type="text" class="form-control" name="last_name" value="{{ profile.last_name }}" required="required">
+                                            </div>
+                                        </div>
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'Company Name' %}:</label>
+                                                <input type="text" class="form-control" name="company" value="{{ profile.company }}">
+                                            </div>
+                                        </div>
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'Phone Country Code' %}:</label>
+                                                <input type="text" class="form-control" name="phone_cc" value="{{ profile.phone_cc }}" required="required">
+                                            </div>
+                                        </div>
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'Phone Number' %}:</label>
+                                                <input type="text" class="form-control" name="phone" value="{{ profile.phone }}" required="required">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'Address' %}:</label>
+                                                <input type="text" class="form-control" name="address_1" value="{{ profile.address_1 }}" required="required">
+                                            </div>
+                                        </div>
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'Address 2' %}:</label>
+                                                <input type="text" class="form-control" name="address_2" value="{{ profile.address_2 }}">
+                                            </div>
+                                        </div>
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'City' %}:</label>
+                                                <input type="text" class="form-control" name="city" value="{{ profile.city }}" required="required">
+                                            </div>
+                                        </div>
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'Country' %}:</label>
+                                                {{ mf.selectbox('country', guest.system_countries, profile.country, 1, 'Select country') }}
+                                            </div>
+                                        </div>
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'State' %}:</label>
+                                                {# mf.selectbox('state', guest.system_states, profile.state, 0, 'Select state') #}
+                                                <input type="text" class="form-control" name="state" value="{{ profile.state }}">
+                                            </div>
+                                        </div>
+                                        <div class="control-group form-group">
+                                            <div class="controls">
+                                                <label class="form-label">{% trans 'Zip/Postal Code' %}:</label>
+                                                <input type="text" class="form-control" name="postcode" value="{{ profile.postcode }}" required="required">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-center">
+                                        <input class="btn btn-primary" type="submit" value="{% trans 'Update profile' %}">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="tab-password">
+                            <h5>{% trans 'Change password' %}</h5>
+                            <form method="post" action="" class="api_form" data-api-url="client/client/change_password" data-api-msg="{% trans 'Password changed' %}">
+                                <div class="">
+                                    <div class="control-group form-group">
+                                        <div class="controls">
+                                            <label class="form-label">{% trans 'Password' %}: </label>
+                                            <input type="password" class="form-control" name="password" value="" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="control-group form-group">
+                                        <div class="controls">
+                                            <label class="form-label">{% trans 'Password confirm' %}: </label>
+                                            <input type="password" class="form-control" name="password_confirm" value="" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <input class="btn btn-primary" type="submit" value="{% trans 'Change password' %}">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="tab-twofactor">
+                            <form method="post" action="" class="api_form" data-api-url="client/client/update_2fa" class="api-form" data-api-msg="{% trans 'Two-Factor authenticator preferences were saved.' %}">
+                                <div class="">
+                                    <div>
+                                        <h5>Google Two Factor Authentication</h5>
+                                        <p class="p-2fa-info">Two Factor Authentication protects information from possible hacks and scares hackers away. Besides this even though your login credentials are leaked by accident, it protects your account.</p>
+                                    </div>
+                                    <div class="twofa-status-changer">
+                                        <label>Google Two Factor Authentication status:</label>
+                                        <select name="twofactor_status" class="form-control form-select" onchange="changeTwoFactorSelect(this)">
+                                            <option value="disabled" {{(info_2fa.enabled == 1 ? '' : 'selected')}}>Disabled</option>
+                                            <option value="enabled" {{(info_2fa.enabled == 1 ? 'selected' : '')}}>Enabled</option>
+                                        </select>
+                                    </div>
+                                    <div class="container-fluid {{(info_2fa.enabled == 1 ? 'enabled-2fa-container' : '')}}" id="_container_2fa_">
+                                        <div class="row">
+                                            <div class="col-md-3 col-info-2fa">
+                                                <h5>Step 1</h5>
+                                                <p class="p-2fa-info">Install Google Authenticator on you phone</p>
+                                                <a class="link-2fa-store" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">
+                                                    <img src="https://www.a2zwebhelp.com/demo/google-two-factor/assets/img/android.png">
+                                                </a>
+                                                <a class="link-2fa-store" href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">
+                                                    <img src="https://www.a2zwebhelp.com/demo/google-two-factor/assets/img/iphone.png">
+                                                </a>
+                                                <h5>Step 2</h5>
+                                                <p class="p-2fa-info">Open Google Authenticator and scan the QR code below, You can white down the code for back up</p>
+
+                                                <h5 style="margin-top: 1rem;">Step 3</h5>
+                                                <p class="p-2fa-info">Close session and enter your validation code once requested</p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div id="_container_2fa_qr_code_">
+                                                    {% if info_2fa.enabled != 1 %}
+                                                        <div class="qr-code2fa-loader">
+                                                            <i class="text-success fa fa-spinner fa-spin"></i>
+                                                            <h5>Loading QR</h5>
+                                                        </div>
+                                                    {% else %}
+                                                        <img src="{{info_2fa.info.image}}" style="display:block !important;" class="img-2fa-qr"><p>{{info_2fa.info.secret}}</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="two-factor-apply-btn">
+                                        <button class="btn btn-primary btn-form-submit" type="submit"><i class="fe fe-save"></i> Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="tab-gravatar">
+                            <h5>{% trans 'Gravatar' %}</h5>
+                            <div class="">
+                                <p><img src="{{ profile.email|gravatar }}" alt="Gravatar" /></p>
+                                <p>{% trans 'Please register with'%} <b>{{ profile.email }}</b> {% trans 'at ' %} <a target="_blank" href="http://gravatar.com">Gravatar.com</a> {% trans 'to change your profile image. Gravatar image updates may not appear immediately.' %}</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab-currency">
+                            <h5>{% trans 'Currency' %}</h5>
+                            <div class="">
+                                {% if profile.currency %}
+                                <p>{% trans 'Your profile currency is' %} <em>{{ profile.currency }}</em></p>
+                                <p>{% trans 'Create new client profile if you want to manage your money in other currency' %}</p>
+                                {% else %}
+                                <p>{% trans 'Your profile currency will be defined after your first order. Once your currency is set, all your profile accounting will be managed in that currency and can not be changed.' %}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab-api">
+                            <h5>{% trans 'API key' %}</h5>
+                            <div class="">
+                                <p>{% trans 'API key allows integration with external applications. You will need this key for authentication.' %}</p>
+                                <p>{% trans 'Warning! Resetting the key will break existing applications using it.' %}</p>
+                                {% if client.client_api_key_get is not empty %}
+                                <p class="alert alert-info text-center">
+                                    <strong>{% trans 'Your API key' %}:</strong><br />{{ client.client_api_key_get }}
+                                </p>
+                                <form method="post" action="" class="api_form" data-api-url="client/client/api_key_reset" data-api-msg="{% trans 'API key was changed. Please refresh the page.' %}">
+                                    <div class="text-center">
+                                        <input class="btn btn-danger" type="submit" value="{% trans 'Reset key' %}">
+                                    </div>
+                                </form>
+                                {% else %}
+                                <p class="alert alert-info text-center">
+                                    <strong>{% trans 'No API key yet' %}</strong>
+                                </p>
+                                <form method="post" action="" class="api_form" data-api-url="client/client/api_key_reset" data-api-msg="{% trans 'API key was changed. Please refresh the page.' %}">
+                                    <div class="text-center">
+                                        <input class="btn btn-success" type="submit" value="{% trans 'Create API key' %}">
+                                    </div>
+                                </form>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block js%}
+<style>
+    .twofa-status-changer{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .twofa-status-changer label{
+        margin-bottom: 0px;
+        margin-right: 5px;
+        font-weight: 500;
+    }
+    .twofa-status-changer select{
+        width: 20rem;
+    }
+    #_container_2fa_{
+        display: none;
+        padding: 0px;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #bbbbbc;
+    }
+    .enabled-2fa-container{
+        display: block !important;
+    }
+    .qr-code2fa-loader{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30rem;
+        flex-direction: column;
+    }
+    .qr-code2fa-loader i{
+        font-size:4rem;
+        margin-bottom: 1rem;
+    }
+    .img-2fa-qr{
+        display: none;
+        width: 18rem !important;
+        height: auto;
+    }
+    .link-2fa-store img{
+        width: 8rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .col-info-2fa{
+        border-right: 1px solid #bbbbbc;
+    }
+    #_container_2fa_qr_code_ p{
+        padding:0px !important;
+        margin:0px !important;
+    }
+    .two-factor-apply-btn{
+        width: 41rem;
+        /* background-color: #000; */
+        text-align: right;
+        margin-top: 2rem;
+    }
+    .p-2fa-info{
+        font-size: 0.9rem;
+    }
+</style>
+<script type="text/javascript">
+    function changeTwoFactorSelect(elem){
+        if($(elem).val() == 'enabled'){
+            $('#_container_2fa_').slideDown('fast', function(){
+                if($('.qr-code2fa-loader').length > 0){
+                    bb.get('client/client/get_2fainfo', {}, function(result){
+                        console.log('AGARO');
+                        $('.qr-code2fa-loader').fadeIn('fast', function(){
+                            $('#_container_2fa_qr_code_').html('<img src="' + result.image + '" class="img-2fa-qr"><p>' + result.secret + '</p>');
+                            $('.img-2fa-qr').fadeIn('fast');
+                        })
+                    });
+                }
+            });
+        }else{
+            $('#_container_2fa_').slideUp('fast');
+        }
+    }
+    function onAfterKeyUpdate(result)
+    {
+        bb.post('admin/profile/get', {}, function(result){
+            $('#apikey').val(result.api_token);
+            bb.msg('New API key generated. Applications using old key are now not working.');
+        })
+
+    }
+</script>
+{% endblock %}

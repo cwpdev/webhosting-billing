@@ -1,0 +1,374 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% import "macro_functions.phtml" as mf %}
+
+{% block meta_title %}{%trans 'Order confirm' %}{% endblock %}
+
+{% set cart = guest.cart_get %}
+
+{% block content_before %}
+<div class="left-content">
+    <span class="main-content-title mg-b-0 mg-b-lg-1">{% if cart.items|length > 0 %}{% trans 'Select Product' %}{% else %}{% trans 'You have not selected any product' %}{% endif %}</span>
+    <small class="d-block tx-12 mb-0 text-muted">{% trans 'Choose products we offer for selling' %}</small>
+    {% include "partial_steps.phtml" with {'selected': 3} %}
+</div>
+
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 col-xl-8 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                {% if cart.items|length > 0 %}
+
+                <div class="col-md-12">
+                    <div>
+                        <h6><i class="fa fa-shopping-cart"></i> {% trans 'Shopping cart' %}</h6>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Price</th>
+                            </tr>
+                            </thead>
+                                {% set total_discount = 0 %}
+                                <tbody>
+                                {% for i, item in cart.items %}
+                                <tr>
+                                    <td>{{ item.title }}</td>
+                                    <td>
+                                        {% if item.quantity > 1 %}<span class="label label-default">x{{ item.quantity }}</span>{% endif %}
+                                        <span class="pull-right">
+                                    <strong>
+                                    {% if item.discount_price %}
+                                        {% if item.quantity > 1 %}
+                                            {{ item.quantity }}x {{ item.price | money_convert }} =
+                                            <del>{{ (item.quantity*item.price) | money_convert }}</del>
+                                            {{ (item.quantity*(item.price - item.discount_price)) | money_convert }}
+                                        {% else %}
+                                            <del>{{ item.price | money_convert }}</del>
+                                            {{ (item.price - item.discount_price) | money_convert }}
+                                        {% endif %}
+                                    {% else %}
+                                        {% if item.quantity > 1 %}
+                                            {{ item.quantity }}x {{ item.price | money_convert }} = {{ (item.quantity*item.price) | money_convert }}
+                                        {% else %}
+                                            {{ item.price | money_convert }}
+                                        {% endif %}
+                                    {% endif %}
+                                    </strong>
+                                    {% if item.period | period_title != '-' %}{{ item.period | period_title }}{% endif %}
+                                </span>
+                                    </td>
+                                </tr>
+                                {% if item.setup_price != 0 %}
+                                <tr>
+                                <tr>
+                                    <td>{{ item.title }} {% trans 'setup' %}</td>
+
+                                    <td>     <span class="pull-right">
+                                    <strong>{% if item.discount_setup %}
+                                        <del>{{ item.setup_price | money_convert }}</del>
+                                        {{ (item.setup_price - item.discount_setup) | money_convert }}
+                                    {% else %}
+                                        {{ item.setup_price | money_convert }}
+                                    {% endif %}</strong>
+                                </span></td>
+                                </tr>
+                                {% endif %}
+                                {% if item.discount_price or item.discount_setup %}{% set total_discount = total_discount + item.discount_price + item.discount_setup %}{% endif %}
+                                {% endfor %}
+                                </tbody>
+                        </table>
+                        {% if client %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                {% include 'partial_currency.phtml' %}
+                            </div>
+                            <div class="col-md-6 pull-right">
+
+                            </div>
+                        </div>
+
+                    {% if not client %}
+                    <p class="text-center">
+                        <a class="btn btn-primary" data-bs-toggle="tab" href="#signindos">{% trans 'Sign in' %}</a>
+                        <a class="btn btn-success" data-bs-toggle="tab" href="#registerdos">{% trans 'Register' %}</a>
+                    </p>
+                    <div class="tabs-menu-body main-content-body-right p-5">
+                        <div class="tab-content">
+                            <div class="tab-pane" id="signindos">
+                                <form method="post" action="" class="api_form form-horizontal" data-api-url="guest/client/login" data-api-reload="1">
+                                    <div class="form-group">
+                                        <label for="email" class="col-sm-4 control-label">{% trans 'Email Address' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="email" name="email" value="{{ request.email }}" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Password' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="password" class="form-control" name="password" value="{{ request.password }}" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <input type="hidden" name="remember" value="1" />
+                                        <a class="btn btn-warning" href="{{ 'reset-password'|link }}">{% trans 'Reset password' %}</a>
+                                        <input class="btn btn-primary" type="submit" value="{% trans 'Login' %}">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="registerdos">
+                                <form method="post" action="" class="api_form form-horizontal" data-api-url="guest/client/create" data-api-reload="1">
+                                    {% set r = guest.client_required %}
+                                    <div class="form-group">
+                                        <label for="email" class="col-sm-4 control-label">{% trans 'Email Address' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="email" name="email" value="{{ request.email }}" required="required" id="reg-email" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'First Name' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="first_name" value="{{ request.first_name }}" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    {% if 'last_name' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Last Name' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="last_name" value="{{ request.last_name }}" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if 'company' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Company' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="company" value="{{ request.company }}" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if 'birthday' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Birthday' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="birthday" value="" class="form-control">
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if 'gender' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'You are' %}: </label>
+                                        <div class="col-sm-8">
+                                            <select name="gender" class="form-control">
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% set custom_fields = guest.client_custom_fields %}
+                                    {% for field_name, field in custom_fields %}
+                                    {% if field.active %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label" for="{{ field_name }}">{% if field.title is not empty %}{{ field.title }}{% else %} {{ field_name | capitalize }} {% endif %}</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="{{ field_name }}" id="{{ field_name }}" value="{{ attribute(request, field_name) }}" {% if field.required %}required="required"{% endif %}>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Password' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="password" class="form-control" name="password" value="" required="required" id="reg-password" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Password confirm' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="password" class="form-control" name="password_confirm" value="" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    {{ mf.recaptcha }}
+
+                                    {% if 'address_1' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Address' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="address_1" value="{{ request.address_1 }}">
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if 'address_2' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Address 2' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="address_2" value="{{ request.address_2 }}">
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if 'city' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'City' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="city" value="{{ request.city }}">
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if 'country' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Country' %}: </label>
+                                        <div class="col-sm-8">
+                                            {{ mf.selectbox('country', guest.system_countries, request.country, 0, 'Select country') }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if 'state' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'State' %}: </label>
+                                        {# mf.selectbox('state', guest.system_states, request.state, 0, 'Select state') #}
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="state" value="{{ request.state }}" />
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if 'postcode' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Zip/Postal Code' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="postcode" value="{{ request.postcode }}">
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if 'phone' in r %}
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{% trans 'Phone Number' %}: </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="phone_cc" value="{{ request.phone_cc }}" style="width: 40px"> <input type="text" name="phone" value="{{ request.phone }}" style="width: 233px">
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="text-right">
+                                        <input class="btn btn-success" type="submit" value="{% trans 'Register' %}">
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endif %}
+
+
+
+                {% else %}
+
+                <div class="text-center">
+                    <a class="btn btn-success btn-lg" href="{{ 'order'|link }}">{% trans 'Order new service' %}</a>
+                </div>
+
+                {% endif %}
+                </div>
+                </div>
+            </div>
+    </div>
+    </div>
+    <div class="col-lg-4 col-xl-4 col-md-12">
+        <div class="card custom-card">
+            <div class="card-body">
+                <p><form action="{{ 'api/guest/cart/apply_promo'|link }}" method="post" class="api-form form-inline" data-api-reload="1">
+                    <h6>{% trans 'Have a promo code?' %}</h6>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="promocode" id="promocode" value="{{ request.promocode|default(cart.promocode) }}" required="required">
+                        {% if cart.promocode %}
+                        <a href="{{ 'api/guest/cart/remove_promo'|link }}" class="btn btn-danger btn-sm api-link" data-api-reload="1">{% trans 'Reset' %}</a>
+                        {% else %}
+                        <button class="btn btn-primary" type="submit"><i class="fe fe-check"></i> {% trans 'Apply' %}</button>
+                        {% endif %}
+                    </div>
+
+                </form></p><br />
+            </div>
+        </div>
+        <div class="card custom-card cart-details">
+            <div class="card-body">
+                <h3 class="text-success text-center">{% trans 'Total' %}&nbsp;&nbsp;
+
+                    {% if total_discount > 0 %}{% trans 'Discount' %}: -{{ total_discount | money_convert }}<br />{% endif %}
+                    {% set tax_amount = 0 %}
+                    {% if client.client_is_taxable %}
+                    {% set tax_rate = client.invoice_get_tax_rate %}
+                    {% set tax_amount = cart.total * tax_rate / 100 %}
+                    {% trans 'VAT'%} ({{ tax_rate }}%): {{ tax_amount | money_convert }}<br />
+                    {% endif %}
+                    {{ (cart.total + tax_amount) | money_convert }}
+                </h3>
+
+                <form method="post" action="{{ 'api/client/cart/checkout'|link }}" class="api-form mb-3" data-api-jsonp="onAfterCartCheckout" >
+                    <div class="list-group text-left">
+                        {% set enough_in_balance = client.client_balance_get_total >= cart.total %}
+                        {% if cart.total and not enough_in_balance  %}
+                        {% for gtw in guest.invoice_gateways %}
+                        {% if cart.currency.code in gtw.accepted_currencies %}
+                        <label class="list-group-item">
+                            <input type="radio" name="gateway_id" value="{{gtw.id}}" {{loop.first ? 'checked' : ''}} />
+                            {% trans 'Pay by' %} {{gtw.title}}
+                            {% if gtw.title == "Custom" %}
+                            <i class="fa fa-university fa-2x pull-right"></i>
+                            {% elseif gtw.title == "PayPal" %}
+                            <i class="fa fa-paypal fa-2x pull-right"></i>
+                            {% elseif gtw.title == "Stripe" %}
+                            <i class="fa fa-cc-stripe fa-2x pull-right"></i>
+                            {% endif %}
+                        </label>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% if enough_in_balance %}
+                        <p>{% trans 'Total amount will be deducted from account balance' %}</p>
+                        {% endif %}
+                    </div><br>
+                    <input type="checkbox" id="tos" name="tos" required>
+                    <label for="tos">I agree to the <a href="{{ '/tos'|link }}" target="_blank" class="text-primary">{% trans 'Terms and Conditions' %}</a></label>
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-success btn-lg mt-2" type="submit"><i class="fa fa-shopping-cart"></i> {% trans 'Checkout' %} </button>
+
+                    </div>
+                </form>
+                {% else %}
+                <h3 class="pull-right text-primary"><strong>{% trans 'Total:' %}</strong> {{ (cart.total + tax_amount) | money_convert }} ({% trans 'No VAT'%})</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    function onAfterCartCheckout(result)
+    {
+        if(result.invoice_hash) {
+            bb.redirect('{{"invoice"|link}}' + '/' + result.invoice_hash + '&auto_redirect=1');
+        } else {
+            bb.redirect('{{"order/service/manage"|link}}' + '/' + result.order_id );
+        }
+    }
+</script>
+{% endblock %}

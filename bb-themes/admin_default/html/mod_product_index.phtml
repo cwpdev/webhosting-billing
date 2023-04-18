@@ -1,0 +1,207 @@
+{% extends "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% set active_menu = 'products' %}
+{% block meta_title %}{% trans 'Products' %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu2">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Products' %}</a></li>
+                        <li><a class="nav-link"  data-bs-toggle="tab" href="#tab-new">{% trans 'New product' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-new-category">{% trans 'New category' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-categories">{% trans 'Manage categories' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-index">
+
+                        <form method="post" action="{{ 'api/admin/product/update_priority'|link }}" class="api-form" data-api-reload="1">
+                            <div class="table-responsive">
+
+                                <table class="table table-striped table-bordered" id="tableProductos">
+                            <thead>
+                                <tr>
+                                    <th width="50%">Title</th>
+                                    <th>Category</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>{% trans 'P. Support' %}</th>
+                                    <th>{% trans 'Priority' %}</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set products = admin.product_get_list({"per_page":10000, "page":request.page}|merge(request)) %}
+                                {% for product in products.list %}
+                                <tr>
+                                    <td><a href="{{ '/product/manage'|alink }}/{{product.id}}">{{ product.title }}</a></td>
+                                    <td><a href="{{ '/product/category'|alink }}/{{product.category.id}}">{{product.category.title}}</a></td>
+                                    <td>{{ mf.status_name(product.type) }}</td>
+                                    <td><span class="badge {% if product.status=='enabled' %} bg-success-transparent text-success {% else %} badge-danger bg-danger-transparent text-danger {% endif %}">{{ mf.status_name(product.status) }}</span></td>
+                                    {% if product.priority_support == 25 %}
+                                    <td><span class="badge badge-warning bg-warning-transparent text-warning "data-bs-toggle="tooltip" title="Normal Priority Support Tickets" data-bs-original-title="Normal Priority Support Tickets" aria-label="Normal Priority Support Tickets"> Low</span></td>
+                                    {% elseif product.priority_support == 50 %}
+                                    <td><span class="badge badge-primary bg-primary-transparent text-primary " data-bs-toggle="tooltip" title="Medium priority in Support Tickets" data-bs-original-title="Medium priority in Support Tickets" aria-label="Medium priority in Support Tickets">Medium</span></td>
+                                    {% elseif product.priority_support == 100 %}
+                                    <td><span class="badge badge-info bg-info-transparent text-info " data-bs-toggle="tooltip" title="High priority on Support Tickets" data-bs-original-title="High priority on Support Tickets" aria-label="High priority on Support Tickets"> High</span></td>
+                                    {% endif %}
+                                    <td><input type="text" class="form-control" name="priority[{{product.id}}]" value="{{ product.priority }}" style="width:50px;"></td>
+
+
+                                    <td class="text-right">
+                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/product/manage'|alink }}/{{product.id}}"><i class="fe fe-edit"></i></a>
+                                        <a class="btn btn-sm bg-danger-transparent  text-danger api-link" data-api-confirm="Are you sure?" href="{{ 'api/admin/product/delete'|link({'id' : product.id}) }}" data-api-redirect="{{ 'product'|alink }}"><i class="fe fe-trash"></i></a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="6">{% trans 'The list is empty' %}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                            </div>
+
+                            <div class="col-md-12 text-center"><button type="submit" value="" class="btn btn-primary"> {% trans 'Update priority' %}</button></div>
+
+
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="tab-new">
+                        <form method="post" action="{{ 'api/admin/product/prepare'|link }}" class="mainForm" id="prepare-product">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Type' %}:</label>
+                                    <div class="formRight">
+                                        {{ mf.selectbox('type', admin.product_get_types, request.type, 1) }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Category' %}:</label>
+                                    <div class="formRight">
+                                        {{ mf.selectbox('product_category_id', admin.product_category_get_pairs, request.product_category_id, 1) }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Title' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="title" value="{{request.title}}" required="required" placeholder=""/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+
+                                <button type="submit" value="" class="btn btn-primary submitForm mt-2"><i class="fe fe-save"></i> {% trans 'Create' %} </button>
+
+                        </form>
+
+                        <div class="fix"></div>
+                    </div>
+
+                    <div class="tab-pane" id="tab-new-category">
+
+                        <form method="post" action="{{ 'api/admin/product/category_create'|link }}" class="save api-form" data-api-redirect="{{ 'product'|alink }}">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Title' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="title" value="{{request.cat_title}}" required="required"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Icon URL' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="icon_url" value=""/>
+                                        <input type="button" value="{% trans 'Browse' %}" class="bHtml btn btn-info button" />
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Description' %}:</label>
+                                    <div class="formRight">
+                                        <textarea name="description" class="form-control" cols="5" rows="4">{{request.cat_description}}</textarea>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <button type="submit" value="" class="btn btn-primary submitForm mt-2"><i class="fe fe-save"></i> {% trans 'Create' %} </button>
+
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="tab-categories">
+                        <table class="table table-striped table-bordered">
+                            <tbody>
+                                {% for cat_id, cat_title in admin.product_category_get_pairs %}
+                                <tr {% if loop.first %}class="noborder"{% endif %}>
+                                    <td>{{cat_title}}</td>
+                                    <td class="actions" style="width:13%">
+
+                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/product/category'|alink }}/{{cat_id}}"><i class="fe fe-edit"></i></a>
+                                        <a class="btn btn-sm bg-danger-transparent  text-danger api-link" data-api-confirm="Are you sure?" href="{{ 'api/admin/product/category_delete'|link({'id' : cat_id}) }}" data-api-redirect="{{ 'product'|alink }}"><i class="fe fe-trash"></i></a>
+
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="3">{% trans 'The list is empty' %}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(function() {
+$("#tableProductos").DataTable({
+    responsive: true,
+    language: {
+        searchPlaceholder: 'Search...',
+        sSearch: '',
+    }
+});
+    $('#prepare-product').bind('submit', function(){
+        bb.post(
+            $(this).attr('action'),
+            $(this).serialize(),
+            function(result) {
+                bb.redirect('{{"product/manage/"|alink}}/' + result);
+            }
+        );
+        return false;
+    });
+});
+
+    $(function() {
+        $(".bHtml").click( function() {
+            let datos = bb.load('{{"filemanager/icons"|alink }}', {rel:"bb-icon"});
+            $("#scrollmodal").modal('show');
+            $("#scrollmodal .modal-body").html(datos);
+            $("#scrollmodal .modal-title").html( "{% trans 'Select icon and click OK' %}");
+            //jAlert(bb.load('{{"filemanager/icons"|alink }}', {rel:"bb-icon"}), '{% trans 'Select icon and click OK' %}');
+        });
+    });
+</script>
+{% endblock %}

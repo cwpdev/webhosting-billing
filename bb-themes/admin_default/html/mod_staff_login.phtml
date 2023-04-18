@@ -1,0 +1,206 @@
+{% extends "layout_login.phtml" %}
+
+{% block meta_title %}{% trans 'Login' %}{% endblock %}
+
+{% block content %}
+<div id="global-loader">
+    <img src="img/loader.svg" class="loader-img" alt="Loader">
+</div>
+<div class="square-box">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+
+<!-- Login form area -->
+<!--<div class="loginWrapper">
+    <div class="loginLogo"><img src="{{ guest.system_company.logo_url }}" alt="" style="max-height: 75px"/></div>
+    <div class="loginLogo"><img src="https://control-webpanel.com/wp-content/uploads/2020/04/3d_logo_200x55.png" alt="" style="max-height: 75px"/></div>
+    <div class="loginPanel">-->
+{% if create_admin %}
+<div class="head"><h5 class="iUser">{% trans 'Create main administrator account' %}</h5></div>
+<form class="mainForm api-form" action="{{ 'api/guest/staff/create'|link }}" method="post" data-api-redirect="{{ 'index'|alink }}">
+<fieldset>
+        <div class="loginRow noborder">
+            <label for="req1">{% trans 'Email' %}:</label>
+            <div class="loginInput"><input id="req1" type="email" name="email" value="{{ request.email }}" placeholder="{% trans 'Enter your email address' %}"/></div>
+            <div class="fix"></div>
+        </div>
+
+        <div class="loginRow">
+            <label for="req2">{% trans 'Password' %}:</label>
+            <div class="loginInput"><input id="req2" type="password" name="password" value="{{ request.password }}" placeholder="{% trans 'Enter your password' %}"/></div>
+            <div class="fix"></div>
+        </div>
+
+        <div class="loginRow">
+            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-plus"></i> {% trans 'Create administrator account' %}</button>
+            <div class="fix"></div>
+        </div>
+    </fieldset>
+</form>
+{% else %}
+<div class="page" >
+    <div class="page-single">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-6 col-md-8 col-sm-8 col-xs-10 card-sigin-main mx-auto my-auto py-4 justify-content-center">
+                    <div class="card-sigin">
+                        <!-- Demo content-->
+                        <div class="main-card-signin d-md-flex">
+                            <div class="wd-100p"><div class="d-flex mb-4"><a href="index.html"><img src="https://control-webpanel.com/wp-content/uploads/2020/04/3d_logo_200x55.png" class="sign-favicon" alt="logo"></a></div>
+                                <div class="">
+                                    <div class="main-signup-header">
+                                        <!--<h2>Welcome back!</h2>-->
+                                        <!--<h6 class="font-weight-semibold mb-4">Please sign in to continue.</h6>-->
+                                        {% if pass_recover_email %}
+                                            <div class="alert alert-primary alert-recover-pass"><h5>An email with instructions on how to recover your password was sent to : {{pass_recover_email}}</h5></div>
+                                        {% endif %}
+                                        {% if pass_staff_reset %}
+                                            <div class="alert alert-primary alert-recover-pass"><h5>An email with your new password was sent to : {{pass_staff_reset}}</h5></div>
+                                        {% endif %}
+                                        <div class="panel panel-primary">
+                                            <!--<div class=" tab-menu-heading mb-2 border-bottom-0">
+                                                <div class="tabs-menu1">
+                                                    <ul class="nav panel-tabs">
+                                                        <li class="me-2"><a href="#tab5" class="active" data-bs-toggle="tab">Email</a></li>
+                                                        <li><a href="#tab6" data-bs-toggle="tab" class="">Mobile no</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>-->
+                                            <div class="panel-body tabs-menu-body border-0 p-3">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="_login_container_">
+                                                        <!--<form class="mainForm api-form" action="{{ 'api/guest/staff/login'|link }}" method="post" data-api-redirect="{{ 'index'|alink }}">-->
+                                                        <form class="mainForm api-form" action="{{ 'api/guest/staff/login'|link }}" method="post" data-api-jsonp="staffLoginSuccessCheck">
+                                                            <div class="form-group">
+                                                                <label>Email</label> <input class="form-control" id="req1" type="email" name="email" value="{{ request.email }}" placeholder="{% trans 'Enter your email address' %}" autofocus>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Password</label> <input class="form-control" id="req2" type="password" name="password" value="{{ request.password }}" placeholder="{% trans 'Enter your password' %}">
+                                                            </div><button type="submit" class="btn btn-primary btn-block btn-form-submit"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+
+                                                        </form>
+                                                    </div>
+                                                    <div class="tab-pane" id="_2fa_login_container_">
+                                                        <!--<form class="mainForm api-form" action="{{ 'api/guest/staff/login'|link }}" method="post" data-api-redirect="{{ 'index'|alink }}">-->
+                                                        <form class="mainForm api-form" action="{{ 'api/guest/staff/check_2fa'|link }}" method="post" data-api-jsonp="staffLoginSuccessCheck">
+                                                            <p>To secure your account, please complete the following verification</p>
+                                                            <div class="form-group">
+                                                                <label>Security verifications</label> 
+                                                                <input class="form-control" id="_sfa_auth_field_" maxlength="6" type="text" name="code_2fa" value="" placeholder="******">
+                                                            </div>
+                                                            <p>Enter the 6 digit code from Google Authenticator.</p>
+                                                           <button type="submit" class="btn btn-primary btn-block btn-form-submit"><i class="fas fa-arrow-alt-circle-right"></i> Enter</button>
+                                                            
+                                                        </form>
+                                                    </div>
+                                                    <div class="tab-pane" id="tab6">
+                                                        <div id="mobile-num" class="wrap-input100 validate-input input-group mb-2">
+                                                            <a href="javascript:void(0);" class="input-group-text bg-white text-muted">
+                                                                <span>+91</span>
+                                                            </a>
+                                                            <input class="input100 form-control" type="mobile" placeholder="Mobile">
+                                                        </div>
+                                                        <div id="login-otp" class="justify-content-around mb-4">
+                                                            <input class="form-control  text-center me-2" id="txt1" maxlength="1" onkeyup="move(event, '', 'txt1', 'txt2')">
+                                                            <input class="form-control  text-center me-2" id="txt2" maxlength="1" onkeyup="move(event, 'txt1', 'txt2', 'txt3')">
+                                                            <input class="form-control  text-center me-2" id="txt3" maxlength="1" onkeyup="move(event, 'txt2', 'txt3', 'txt4')">
+                                                            <input class="form-control  text-center" id="txt4" maxlength="1" onkeyup="move(event, 'txt3', 'txt4', '')">
+                                                        </div>
+                                                        <span>Note : Login with registered mobile number to generate OTP.</span>
+                                                        <div class="container-login100-form-btn mt-3">
+                                                            <a href="javascript:void(0);" class="btn login100-form-btn btn-primary" id="generate-otp">
+                                                                Proceed
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="main-signin-footer text-center mt-3"> 
+                                            <p><a href="/bb-admin/staff/recover_password" class="mb-3">Forgot password?</a></p>
+                                            <!--<p>Don't have an account? <a href="signup.html">Create an Account</a></p>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<!--    </div>
+</div>-->
+<style>
+    #_sfa_auth_field_{
+        text-align: center;
+        font-size: 25px;
+        letter-spacing: 1rem;
+        padding-top: 10px;
+    }
+    .alert-recover-pass{
+        margin-bottom: 0px;
+    }
+    .alert-recover-pass h5{
+        font-size: 1rem;
+    }
+</style>
+<script>
+    function staffLoginSuccessCheck(response){
+        const URL_INDEX = "{{ 'index'|alink }}";
+        if(response.hasOwnProperty('twofactor_enabled') && response.twofactor_enabled === true){
+            $('#_login_container_').slideUp('fast', function(){
+                $('#_2fa_login_container_').slideDown('fast');
+            });
+        }else if(response.hasOwnProperty('twofactor_succeed') && response.twofactor_succeed === true){
+            bb.redirect(URL_INDEX);
+        }else{
+            bb.redirect(URL_INDEX);
+        }
+    }
+</script>
+<script src="js/plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap js -->
+<script src="js/plugins/bootstrap/js/popper.min.js"></script>
+<script src="js/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Ionicons js -->
+<script src="js/plugins/ionicons/ionicons.js"></script>
+
+<!-- Moment js -->
+<script src="js/plugins/moment/moment.js"></script>
+
+<!-- eva-icons js -->
+<script src="js/eva-icons.min.js"></script>
+
+<!-- generate-otp js -->
+<script src="js/generate-otp.js"></script>
+
+<!--Internal  Perfect-scrollbar js -->
+<script src="js/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+
+<!-- Theme Color js -->
+<script src="js/themecolor.js"></script>
+
+<!-- custom js -->
+<script src="js/custom.js"></script>
+
+{% endblock %}

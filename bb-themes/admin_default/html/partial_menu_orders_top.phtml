@@ -1,0 +1,17 @@
+<ul class="menu_body">
+    {% if admin.system_is_allowed({"mod":"order"}) %}
+    <li><a href="{{ 'order#tab-new'|alink }}" title="">{% trans 'New Order' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"order"}) %}
+    <li><a href="{{ 'order'|alink }}" title="">{% trans 'Overview' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"order"}) %}
+    <li><a href="{{ 'order'|alink }}" title="">{% trans 'Pending setup' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"order"}) %}
+    <li><a href="{{ 'order'|alink }}" title="">{% trans 'Active Orders' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"order"}) %}
+    <li><a href="{{ 'order'|alink }}" title="">{% trans 'Suspended Orders' %}</a></li>
+    {% endif %}
+</ul>

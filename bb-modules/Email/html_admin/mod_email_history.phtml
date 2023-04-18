@@ -1,0 +1,60 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Email history' %}{% endblock %}
+{% set active_menu = 'activity' %}
+
+{% block content %}
+
+{% set config = admin.extension_config_get({"ext":"mod_email"}) %}
+{% if config.log_enabled is not defined or config.log_enabled != 1 %}
+
+    <div class="alert alert-info"><strong>{% trans 'INFORMATION' %}: </strong>{% trans 'Email logging is not enabled. If you want to log sent mails to database, enable it in' %}
+        <a href="{{'extension/settings/email'|alink}}"> {% trans 'email settings.' %}</a>
+    </div>
+
+{% endif %}
+
+<div class="card">
+<div class="card-body">
+
+<table id="tableEmails" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <td style="width: 2%"><input type="checkbox" class="batch-delete-master-checkbox"/></td>
+            <td>{% trans 'To' %}</td>
+            <td>{% trans 'From' %}</td>
+            <td>{% trans 'Subject' %}</td>
+            <td>{% trans 'Date' %}</td>
+            <td style="width: 13%">&nbsp;</td>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% set emails = admin.email_email_get_list({"per_page":1000000, "page":request.page}|merge(request)) %}
+    {% for i, email in emails.list %}
+    <tr>
+        <td><input type="checkbox" class="batch-delete-checkbox" data-item-id="{{ email.id }}"/></td>
+        <td>{{ email.recipients }}</td>
+        <td>{{ email.sender }}</td>
+        <td>{{ email.subject|truncate(40) }}</td>
+        <td>{{ email.created_at|date('Y-m-d') }}</td>
+        <td class="actions">
+            <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/email'|alink }}/{{email.id}}"><i class="fe fe-edit"></i></a>
+            <a class="btn btn-sm  bg-danger-transparent text-danger  bb-rm-tr api-link" data-api-redirect="{{'email/history'|alink}}" data-api-confirm="Are you sure?"  href="{{'api/admin/email/email_delete'|link({'id' : email.id}) }}"><i class="fe fe-trash"></i></a>
+        </td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+    {% include "partial_batch_delete.phtml" with {'action' : 'admin/email/batch_delete'} %}
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $("#tableEmails").DataTable();
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{% block meta_title %}{% endblock %}</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+    {% include "partial_bb_meta.phtml" %}
+
+    <!--<link rel="stylesheet" href="css/min.css" type="text/css" media="screen" />-->
+    <link href="https://fonts.googleapis.com/css?family=Cuprum" rel="stylesheet" type="text/css" />
+    <script src="js/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bb-admin.js?v={{guest.system_version}}"></script>
+
+    <link rel="icon" href="img/brand/favicon.png" type="image/x-icon"/>
+
+    <!-- Icons css -->
+    <link href="css/icons.css" rel="stylesheet">
+
+    <!--  bootstrap css-->
+    <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!--  Right-sidemenu css -->
+    <link href="css/sidebar/sidebar.css" rel="stylesheet">
+
+    <!-- P-scroll bar css-->
+    <link href="css/perfect-scrollbar/p-scrollbar.css" rel="stylesheet" />
+
+    <!--- Style css --->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-dark.css" rel="stylesheet">
+    <link href="css/style-transparent.css" rel="stylesheet">
+
+    <!---Skinmodes css-->
+    <link href="css/skin-modes.css" rel="stylesheet" />
+
+    <!--- Animations css-->
+    <link href="css/animate.css" rel="stylesheet">
+</head>
+
+<body class=" ltr error-page1 bg-primary" style="background-color: #0a6ebd!important;">
+{% block content %}{% endblock %}
+{% block js %}{% endblock %}
+<div class="modal fade" id="modalerror">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content tx-size-sm">
+                <div class="modal-header">
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body tx-center pd-y-20 pd-x-20">
+                    <i class="fe fe-alert-octagon tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                    <h4 class="tx-danger mg-b-20"></h4>
+                    <p class="mg-b-20 mg-x-20"></p><button aria-label="Close" class="btn ripple btn-danger pd-x-25" data-bs-dismiss="modal" type="button">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

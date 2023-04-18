@@ -1,0 +1,136 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'support'|alink }}">{% trans 'Support' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'Canned responses' %}</li>
+
+{% endblock %}
+
+{% set active_menu = 'support' %}
+{% block meta_title %}Canned responses{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu2">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">{% trans 'Canned responses' %}</a></li>
+            <li><a  class="nav-link" data-bs-toggle="tab" href="#tab-new">{% trans 'New response' %}</a></li>
+            <li><a  class="nav-link" data-bs-toggle="tab" href="#tab-new-category">{% trans 'New category' %}</a></li>
+            <li><a  class="nav-link" data-bs-toggle="tab" href="#tab-categories">{% trans 'Categories' %}</a></li>
+        </ul>
+
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="tab-pane active"  id="tab-index">
+
+
+                    <table class="table table-bordered table-striped" id="tableCanned">
+                        <thead>
+                            <tr>
+                                <td>{% trans 'Title' %}</td>
+                                <td>{% trans 'Category' %}</td>
+                                <td style="width: 13%">&nbsp;</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% set responses = admin.support_canned_get_list({"per_page":100000, "page":request.page}|merge(request)) %}
+                        {% for i, response in responses.list %}
+                        <tr>
+                            <td>{{ response.title }}</td>
+                            <td><a href="{{ '/support/canned-category'|alink }}/{{response.category.id}}">{{response.category.title}}</a></td>
+                            <td class="actions">
+                                <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/support/canned'|alink }}/{{response.id}}"><i class="fe fe-edit"></i></a>
+                                <a class="btn btn-sm  bg-danger-transparent text-danger bb-rm-tr api-link" data-api-confirm="Are you sure?" href="{{ 'api/admin/support/canned_delete'|link({'id' : response.id}) }}" data-api-redirect="{{ 'support/canned-responses'|alink }}"><i class="fe fe-trash"></i></a>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    </div>
+
+                    <div class="tab-pane" id="tab-new">
+
+                        <form method="post" action="{{ 'api/admin/support/canned_create'|link }}" class="save api-form" data-api-redirect="{{ 'support/canned-responses'|alink }}">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Category' %}:</label>
+                                    <div class="formRight">
+                                        {{ mf.selectbox('category_id', admin.support_canned_category_pairs, '', 1) }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Title' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class='form-control' name="title" value="{{request.title}}" required="required" placeholder=""/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Content' %}</label>
+                                    <div class="formRight">
+                                        <textarea name="content" class='form-control'  cols="5" rows="10">{{ request.content }}</textarea>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Create' %}</button>
+
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="tab-new-category">
+
+                        <form method="post" action="{{ 'api/admin/support/canned_category_create'|link }}" class="save api-form" data-api-redirect="{{ 'support/canned-responses'|alink }}">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Title' %}:</label>
+                                    <div class="formRight">
+                                        <input type="text" class='form-control' name="title" value="{{request.title}}" required="required" placeholder=""/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Create' %}</button>
+
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="tab-categories">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                                {% for cat_id, cat_title in admin.support_canned_category_pairs %}
+                                <tr {% if loop.first %}class="noborder"{% endif %}>
+                                    <td>{{cat_title}}</td>
+                                    <td style="width:13%">
+                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/support/canned-category'|alink }}/{{cat_id}}"><i class="fe fe-edit"></i></a>
+                                        <a class="btn btn-sm  bg-danger-transparent text-danger api-link" data-api-confirm="Are you sure?" href="{{ 'api/admin/support/canned_category_delete'|link({'id' : cat_id}) }}" data-api-redirect="{{ 'support/canned-responses'|alink }}"><i class="fe fe-trash"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+       $("#tableCanned").DataTable();
+    });
+</script>
+{% endblock %}

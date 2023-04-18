@@ -1,0 +1,404 @@
+{# Sets blank layout if another page if ajax request or if another page is request as home for non-clients #}
+{% extends request.ajax or (not client and settings.home_page != "menuicons") ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% block meta_title %}{% trans 'Client Area' %}{% endblock %}
+{% import "macro_functions.phtml" as mf %}
+
+{% if not settings.home_sidemenu %}
+	{% if not client %}{% set side_menu = 'hidden' %}{% endif %}
+{% endif %}
+
+{# Content-before #}
+{% block content_before %}
+	{% if client %}
+	<!--	<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">{% trans 'Dashboard' %}</h1>
+			</div>
+		</div>-->
+	{% else %}
+		{% if settings.home_page == "menuicons" %}
+		<!--	<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">{% trans 'Home' %}</h1>
+				</div>
+			</div> -->
+		{% endif %}
+	{% endif %}
+{% endblock %}
+
+{# Content #}
+{% block content %}
+	{% if client %}
+			{% if settings.showcase_enabled %}
+			<div class="jumbotron text-center">
+				<h1>{{ settings.showcase_heading }}</h1>
+				<p>{{ settings.showcase_text }}</p>
+				<a href="{{ settings.showcase_button_url }}" class="btn btn-primary btn-lg">{{ settings.showcase_button_title }}</a>
+			</div>
+			{% endif %}
+
+			<div class="row">
+
+				{% if settings.dash_services %}
+				<div class="col-md-4">
+                    <div class="card card-primary">
+                        <div class="card-header d-flex border-bottom-0 ">
+                            <h5 class="card-title">
+                                    <i class="fa fa-cog"></i> {% trans 'Services' %}
+
+                            </h5>
+                            <div class="card-options">
+                                {% if client.order_get_list({"expiring":1}).total > 0 %}
+                                <a class="btn text-white bg-warning btn-sm mb-1 pull-right">{{ client.order_get_list({"expiring":1}).total }} {% trans 'Soon expires' %}</a>
+                                {% endif %}
+                                    <a class="btn btn-info btn-sm mb-1 pull-right" href="{{ 'order/service'|link }}">{% trans 'All services' %}</a>
+                                </div>
+
+                        </div>
+                        <div class="main-content-left main-content-left-mail card-body" style="border-top:1px solid #ddd">
+                            <div class="main-settings-menu">
+
+                            <div class="list-group text-left">
+                                {% set services = client.order_get_list({"per_page":10, "page":request.page, "hide_addons":1, "status":"active"}) %}
+                                {% for i, service in services.list %}
+                                <a href="{{ '/order/service/manage'|link }}/{{service.id}}" class="list-group-item"> <span class="badge badge-light text-dark">#{{ service.id }} </span><b> {{service.title}}</b> - {{service.config.domain.owndomain_sld}}.{{service.config.domain.owndomain_tld}}</a>
+                                {% endfor %}
+                                <a class="btn btn-outline-primary btn-block my-3 mx-2 button-icon" href="{{ 'order'|link }}"><i class="fe fe-plus me-2"></i> {% trans 'New order' %}</a>
+                            </div>
+					    </div>
+				    </div>
+				  </div>
+				</div>
+				{% endif %}
+
+				{% if settings.dash_support %}
+				<div class="col-md-4">
+                    <div class="card card-primary">
+                        <div class="card-header d-flex border-bottom-0 ">
+                            <h5 class="card-title">
+
+								<i class="fa fa-life-ring"></i> {% trans 'Support' %}
+                                {% if client.support_ticket_get_list({"status":'on_hold'}).total > 0 %}
+                                <span class="mx-2 badge bg-warning pull-right">{{ client.support_ticket_get_list({"status":'on_hold'}).total }} {{ mf.status_name("on_hold") }}</span>
+                                {% endif %}
+
+							</h5>
+
+                            <div class="card-options">
+
+                                <a class="btn btn-info btn-sm mb-1 pull-right" href="{{ 'support'|link }}">{% trans 'All tickets' %}</a>
+                            </div>
+
+                        </div>
+                        <div class="card-body" style="border-top:1px solid #ddd" style="border-top:1px solid #ddd">
+                            <div class="main-settings-menu">
+
+                                <table class="table table-bordered table-hover mb-0 text-md-nowrap">
+                                    {% set tickets_on_hold = client.support_ticket_get_list({"status":'on_hold'}) %}
+                                    {% for i, ticket in tickets_on_hold.list %}
+                                    <tr>
+                                        <td><a href="{{ 'support/ticket'|link }}/{{ticket.id}}">{{ticket.subject}}</a></td>
+                                        <td><a href="{{ 'support/ticket'|link }}/{{ticket.id}}"><span >{{ticket.helpdesk.name}}</span></a></td>
+                                        <td><a href="{{ 'support/ticket'|link }}/{{ticket.id}}"><span class="badge bg-warning">{{ mf.status_name(ticket.status) }}</span></a></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% set tickets_open = client.support_ticket_get_list({"status":'open'}) %}
+                                    {% for i, ticket in tickets_open.list %}
+                                    <tr>
+                                        <td><a href="{{ 'support/ticket'|link }}/{{ticket.id}}">{{ticket.subject}}</a></td>
+                                        <td><a href="{{ 'support/ticket'|link }}/{{ticket.id}}"><span >{{ticket.helpdesk.name}}</span></a></td>
+                                        <td><a href="{{ 'support/ticket'|link }}/{{ticket.id}}"><span class="badge bg-warning">{{ mf.status_name(ticket.status) }}</span></a></td>
+                                    </tr>
+
+                                    {% endfor %}
+                                </table>
+                            <a class="btn btn-outline-primary btn-block mt-2 mx-2 button-icon" href="{{ 'support'|link({'ticket' : 1}) }}"><i class="fe fe-plus me-2"></i> {% trans 'New ticket' %}</a>
+                            </div>
+                        </div>
+				</div>
+				</div>
+				{% endif %}
+
+				{% if settings.dash_invoices %}
+				<div class="col-md-4">
+                    <div class="card card-primary">
+                        <div class="card-header d-flex border-bottom-0 ">
+                            <h5 class="card-title">
+								<i class="fa fa-credit-card"></i> {% trans 'Invoices' %}
+								{% if client.invoice_get_list({"status":"unpaid"}).total > 0 %}
+									<span class="badge badge-danger">{{ client.invoice_get_list({"status":"unpaid"}).total }} {% trans 'Unpaid' %}</span>
+								{% endif %}
+							</h5>
+                            <div class="card-options">
+                                <a class="btn btn-info btn-sm mb-1 pull-right" href="{{ 'invoice'|link }}">{% trans 'All Invoices' %}</a>
+                            </div>
+
+                        </div>
+                        <div class="main-content-left main-content-left-mail card-body" style="border-top:1px solid #ddd">
+                            <div class="main-settings-menu">
+							{% set unpaid_invoices = client.invoice_get_list({"status":"unpaid", "per_page":10}).list %}
+							{% for i, invoice in unpaid_invoices %}
+							<a href="{{ 'invoice'|link }}/{{ invoice.hash }}" class="list-group-item">
+								<strong class="list-group-item-heading">{{ "Invoice #%05s"|format(invoice.id) }}</strong>
+								<span class="list-group-item-text">{% trans 'Due Date' %}: {{ invoice.due_at|date("d/m/Y") }} - <strong>{{ invoice.total | money(invoice.currency) }}</strong></span>
+							</a>
+							{% endfor %}
+                                {% if client.invoice_get_list({"status":"unpaid"}).total > 0 %}<a class="list-group-item list-group-item-danger text-center" href="{{ 'invoice'|link }}"><span class="badge tx-14 badge-danger">{{ client.invoice_get_list({"status":"unpaid"}).total }} {% trans 'Unpaid' %}</span></a>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				{% endif %}
+
+				{% if settings.dash_orders %}
+				<div class="col-md-4">
+                    <div class="card card-primary">
+                        <div class="card-header d-flex border-bottom-0 ">
+                            <h5 class="card-title">
+								<i class="fa fa-fw fa-shopping-cart"></i> {% trans 'Recent orders' %}
+							</h5>
+                            <div class="card-options">
+                                <a class="btn btn-info btn-sm mb-1 pull-right"  href="{{ 'order'|link }}"><i class="fe fe-plus-circle"></i> {% trans 'New order' %}</a>
+                            </div>
+
+                        </div>
+                        <div class="main-content-left main-content-left-mail card-body" style="border-top:1px solid #ddd">
+                            <div class="main-settings-menu">
+							{% for i, order in client.order_get_list({"per_page":5, "page":request.page, "hide_addons":1}).list %}
+								<a href="{{ 'order/service/manage'|link }}/{{order.id}}" class="list-group-item">
+                                    <b>{{ order.title|truncate(30) }} </b> - {{order.config.domain.owndomain_sld}}.{{order.config.domain.owndomain_tld}}
+									<span class="pull-right badge {% if order.status == "active" %}badge-success{% elseif order.status == "pending_setup" %}badge-warning{% elseif order.status == "failed_setup" %}badge-danger{% else %}badge-default{% endif %}">{{ mf.status_name(order.status) }}</span>
+								</a>
+							{% endfor %}
+						</div>
+					</div>
+				    </div>
+				</div>
+				{% endif %}
+
+				{% if settings.dash_messages %}
+				<div class="col-md-4">
+                        <div class="card card-primary">
+                            <div class="card-header d-flex border-bottom-0 ">
+                                <h5 class="card-title">
+								<i class="fa fa-fw fa-envelope"></i> {% trans 'Recent emails' %}
+							    </h5>
+                                <div class="card-options">
+                                    <a class="btn btn-info btn-sm mb-1 pull-right" href="{{ 'email'|link }}">{% trans 'Emails' %}</a>
+                                </div>
+						    </div>
+                            <div class="main-content-left main-content-left-mail card-body" style="border-top:1px solid #ddd">
+                                <div class="main-settings-menu">
+							{% for i, email in client.email_get_list({"per_page":5}).list %}
+							<a href="{{ 'email'|link }}/{{email.id}}" class="list-group-item">
+								{{email.subject|truncate(30)}} <small class="d-block tx-12 mb-0 text-muted">- {{ email.created_at|timeago }} {% trans 'ago' %}</small>
+							</a>
+							{% endfor %}
+                                </div>
+                            </div>
+				        </div>
+				</div>
+				{% endif %}
+
+				{% if settings.dash_kb and guest.extension_is_on({"mod":'kb'}) %}
+				<div class="col-md-4">
+                    <div class="card card-primary">
+                        <div class="card-header d-flex border-bottom-0 ">
+                            <h5 class="card-title">
+								<i class="fa fa-fw fa-graduation-cap"></i> {% trans 'Knowledge Base' %}
+							</h5>
+                            <div class="card-options">
+                                <a class="btn btn-info btn-sm mb-1 pull-right" href="{{ 'kb'|link }}">{% trans 'Knowledge Base' %}</a>
+                            </div>
+						</div>
+                        <div class="main-content-left main-content-left-mail card-body" style="border-top:1px solid #ddd">
+                            <div class="main-settings-menu" id="kb">
+
+							<span class="list-group-item">
+								<form method="get" action="{{ 'kb'|link }}">
+									<div class="input-group">
+										<input name="q" type="text" class="form-control" value="{{ request.q }}" placeholder="{% trans 'What are you looking for?' %}">
+										<span class="input-group-btn">
+											<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+										</span>
+									</div>
+								</form>
+							</span>
+							{% for i, category in guest.kb_category_get_list.list %}
+								<a href="#category-{{category.id}}" class="list-group-item text-center" data-bs-toggle="collapse" data-parent="#kb"><strong>{{category.title}}</strong></a>
+								<div class="collapse" id="category-{{category.id}}">
+								{% for i, article in category.articles %}
+									<a href="{{ '/kb'|link }}/{{article.category.slug}}/{{article.slug}}" class="list-group-item">{{article.title}}</a>
+								{% endfor %}
+								</div>
+							{% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				{% endif %}
+
+				{% if settings.dash_new and guest.extension_is_on({"mod":'news'}) %}
+				<div class="col-md-4">
+                    <div class="card card-primary">
+                        <div class="card-header d-flex border-bottom-0 ">
+                            <h5 class="card-title">
+								<i class="fa fa-fw fa-bullhorn"></i> {% trans 'News & Announcements' %}
+							</h5>
+                            <div class="card-options">
+                                <a class="btn btn-info btn-sm mb-1 pull-right" href="{{ 'news'|link }}">{% trans 'Blog' %}</a>
+                            </div>
+						</div>
+                        <div class="main-content-left main-content-left-mail card-body" style="border-top:1px solid #ddd">
+                            <div class="main-settings-menu">
+							{% set posts = guest.news_get_list({"per_page": 4, "page" : 1}) %}
+							{% for i, post in posts.list %}
+								<a href="{{ '/news'|link }}/{{post.slug}}" class="list-group-item">{{post.title}}</a>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+                </div>
+				{% endif %}
+
+				{% if settings.dash_forum and guest.extension_is_on({"mod":'forum'}) %}
+					{% if client.forum_favorites %}
+					<div class="col-md-4">
+                        <div class="card card-primary">
+                            <div class="card-header d-flex border-bottom-0 ">
+                                <h5 class="card-title">
+								<i class="fa fa-fw fa-comments"></i> {% trans 'Favorite topics' %}
+							    </h5>
+                                <div class="card-options">
+                                    <a class="btn btn-info btn-sm mb-1 pull-right" href="{{ 'forum'|link }}">{% trans 'Forum' %}</a>
+                                </div>
+						    </div>
+                            <div class="main-content-left main-content-left-mail card-body" style="border-top:1px solid #ddd">
+							{% for i, topic in client.forum_favorites %}
+							<a href="{{ '/forum'|link }}/{{topic.forum.slug}}/{{topic.slug}}#m-{{ topic.last.id }}" class="list-group-item">
+								<h4 class="list-group-item-heading">{{topic.title}}</h4>
+								<p class="list-group-item-text">
+									<i>{% trans 'Last post' %}:</i> <img src="{{ topic.last.author.email|gravatar }}?size=15" alt="{{ topic.last.author.name }}" class="avatar-lg rounded-circle me-3 my-auto shadow"> {{ topic.last.author.name }} <strong>{{ topic.last.created_at|date('Y-m-d h:i') }}</strong>
+								</p>
+							</a>
+							{% endfor %}
+						    </div>
+					    </div>
+					</div>
+					{% endif %}
+				{% endif %}
+			</div>
+	{% else %}
+		{% if settings.home_page == "menuicons" %}
+			{% if settings.showcase_enabled %}
+			<div class="jumbotron text-center">
+				<h1>{{ settings.showcase_heading }}</h1>
+				<p>{{ settings.showcase_text }}</p>
+				<a href="{{ settings.showcase_button_url }}" class="btn btn-primary btn-lg">{{ settings.showcase_button_title }}</a>
+			</div>
+			{% endif %}
+
+			<div class="row">
+				<div class="col-md-4 col-sm-6">
+
+
+                    <div class="card">
+                        <div class="card-body" style="border-top:1px solid #ddd" style="border-top:1px solid #ddd">
+
+                            <div class="plan-card text-center">
+                               <span class="fa-stack fa-3x">
+								  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+								  <i class="fa fa-shopping-cart fa-stack-1x text-white"></i>
+
+							</span>
+                                <h4><b><a href="{{ '/order'|link }}">{% trans 'Order' %}</a></b></h4>
+                                <p>{% trans 'Choose products we offer for selling' %}</p>
+                            </div>
+                        </div>
+                    </div>
+
+				</div>
+
+				<div class="col-md-4 col-sm-6">
+
+                    <div class="card">
+                        <div class="card-body" style="border-top:1px solid #ddd" style="border-top:1px solid #ddd">
+                            <div class="plan-card text-center">
+							<span class="fa-stack fa-3x">
+								  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+								  <i class="fa fa-users fa-stack-1x text-white"></i>
+							</span>
+
+							<h4><b><a href="{{ '/login'|link({'register' : 1}) }}">{% trans 'Register' %}</a></b></h4>
+							<p>{% trans 'Become a member and manage services' %}</p>
+						</div>
+					</div>
+				</div>
+                </div>
+				<div class="col-md-4 col-sm-6">
+                    <div class="card">
+                        <div class="card-body" style="border-top:1px solid #ddd" style="border-top:1px solid #ddd">
+                            <div class="plan-card text-center">
+                            <span class="fa-stack fa-3x">
+                                  <i class="fa fa-circle fa-stack-2x text-primary "></i>
+                                  <i class="fa fa-envelope fa-stack-1x text-white"></i>
+                            </span>
+
+                            <h4><b><a href="{{ '/support/contact-us'|link }}">{% trans 'Contact Us' %}</a></b></h4>
+                            <p>{{ company.signature }}</p>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+
+				{% if guest.extension_is_on({"mod":"news"}) %}
+				<div class="col-md-4 col-sm-6">
+					<div class="card">
+                        <div class="card-body" style="border-top:1px solid #ddd" style="border-top:1px solid #ddd">
+                            <div class="plan-card text-center">
+							<span class="fa-stack fa-3x">
+                                <a href="{{ '/news'|link }}">
+								  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+								  <i class="fa fa-bullhorn fa-stack-1x text-white"></i>
+                                </a>
+							</span>
+
+                                <h4><b><a href="{{ '/news'|link }}">{% trans 'Announcements' %}</a></b></h4>
+                                <p>{% trans 'Track our latest posts' %}</p>
+                            </div>
+                        </div>
+				    </div>
+				</div>
+				{% endif %}
+
+				{% if guest.extension_is_on({"mod":"kb"}) %}
+				<div class="col-md-4 col-sm-6">
+                    <div class="card">
+                        <div class="card-body" style="border-top:1px solid #ddd" style="border-top:1px solid #ddd">
+                            <div class="plan-card text-center">
+							<span class="fa-stack fa-3x">
+								  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+								  <i class="fa fa-graduation-cap fa-stack-1x text-white"></i>
+							</span>
+
+							<h4><b><a href="{{ '/kb'|link }}">{% trans 'Knowledge Base' %}</a></b></h4>
+							<p>{% trans 'Browse our KB for answers and FAQs' %}</p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+				{% endif %}
+			</div>
+		{% elseif settings.home_page == "order" %}
+			{% include "mod_order_index.phtml" %}
+		{% elseif settings.home_page == "blog" %}
+			{% include "mod_news_index.phtml" %}
+		{% elseif settings.home_page == "login" %}
+			{% include "mod_page_login.phtml" %}
+		{% elseif settings.home_page == "contact" %}
+			{% include "mod_support_contact_us.phtml" %}
+		{% elseif settings.home_page == "kb" %}
+			{% include "mod_kb_index.phtml" %}
+		{% endif %}
+	{% endif %}
+{% endblock %}

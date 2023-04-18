@@ -1,0 +1,110 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% block meta_title %}{% trans 'Reposts' %}{% endblock %}
+
+{% set active_menu = 'reports' %}
+
+
+{% block breadcrumbs %}
+
+<li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+<li class="breadcrumb-item tx-15"><a  href="{{  'reports'|alink }}">{% trans 'Reports' %}</a></li>
+<li class="breadcrumb-item active">{% trans 'Accounts Reconciliation' %}</li>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-xl-12">
+    <!-- div -->
+    <div class="card mg-b-20" id="tabs-style2">
+        <div class="card-body">
+            <div class="main-content-label mg-b-5">
+                Accounts Reconciliation
+            </div>
+            <p class="mg-b-20">You can reconcile WHB registered accounts against your real server.</p>
+            <div class="text-wrap row">
+                <div class="col-lg-4">
+                    <label for="server">Server</label>
+                    <select id="server" name="server" class="form-control">
+                        {% for server in servers %}
+                            {% if server.active == 0 %}
+                                <option value="{{server.id}}" disabled>{{server.name}} - {{server.ip}} [DISABLE]</option>
+                            {% else %}
+                                <option value="{{server.id}}" >{{server.name}} - {{server.ip}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-4">
+                    <button class="btn btn-primary" id="btnserver" style="margin-top:25px">Connect and Reconcile</button>
+                </div>
+            </div>
+            <div class="text-wrap row " style="margin-top:30px;" id="conten">
+                <div class="col-lg-12 text-center">
+                    <table id="listacconts" class="table table-striped" style="display: none; width:100%;" >
+                        <thead>
+                            <tr>
+                                <th>Account</th>
+                                <th>Domain</th>
+                                <th>Reseller</th>
+                                <th>Package</th>
+                                <th>Client</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="8" style="text-align:center">Consulting!!!!</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-wrap row " style="margin-top:30px;" id="conten2">
+                <span class="badge me-1 my-2" style="background-color:#f1f1f1;margin-right: 5px;color:#000000">Not found on the server</span>
+                <span class="badge bg-danger me-1 my-2" style="margin-right: 5px">Canceled / Terminated</span>
+                <span class="badge bg-success me-1 my-2" style="margin-right: 5px">Active</span>
+                <span class="badge bg-warning me-1 my-2" style="margin-right: 5px">Suspended</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="widget">
+
+
+
+
+</div>
+
+<script>
+    $(document).ready(function() {
+
+    });
+    $("#btnserver").click(function (){
+        var server = $("#server").val();
+        $("#listacconts").show('blind');
+        $.ajax({
+            type: "POST",
+            url: "{{ 'api/admin/reports/get_accountServer'|link }}",
+            data: 'server='+server,
+            dataType: 'json',
+            error: function(jqXHR, textStatus, e) {
+                alert(e);
+            },
+            success: function(data) {
+                var obj =JSON.parse(data.result)
+                if(obj.status=='Error') {
+                    alert(obj.msj);
+                } else if(obj.status=='OK') {
+                    $("#listacconts tbody").html(obj.html);
+                    $("#listacconts").DataTable();
+                }
+            }
+        });
+        return false;
+    })
+</script>
+{% endblock %}

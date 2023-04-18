@@ -1,0 +1,238 @@
+{% extends "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{% trans 'Staff' %}{% endblock %}
+{% set active_menu = 'system' %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'system'|alink }}">{% trans 'Settings' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'Staff' %}</li>
+
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-staff">{% trans 'Staff' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-settings">{% trans 'Settings' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-new">{% trans 'New staff member' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-groups">{% trans 'Manage groups' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-new-group">{% trans 'New group' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                        <div class="tab-pane active" id="tab-staff">
+                        <table class="table table-striped table-bordered" id="tableStaff">
+                            <thead>
+                                <tr>
+                                    <td>{% trans 'Name' %}</td>
+                                    <td>{% trans 'Email' %}</td>
+                                    <td>{% trans 'Group' %}</td>
+                                    <td>{% trans 'Status' %}</td>
+                                    <td style="width: 5%">&nbsp;</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% set members = admin.staff_get_list({"per_page":10000000, "page":request.page}|merge(request)) %}
+                            {% for i, member in members.list %}
+                            <tr>
+                                <td><a href="{{ 'staff/manage'|alink }}/{{ member.id }}">
+                                        <img src="{{ member.email|gravatar }}?size=40" alt="{{ member.id }}" class="avatar-md rounded-circle me-3 my-auto shadow" /></a>
+                                    {{ member.name }}
+                                </td>
+                                <td>{{ member.email }}</td>
+                                <td><a href="{{ '/staff/group'|alink }}/{{member.group.id}}">{{member.group.name}}</a></td>
+                                <td><span class="badge {% if member.status=='active' %} badge-success {% else %} badge-danger{% endif %}">{{ mf.status_name(member.status) }}</span></td>
+                                <td style="width: 13%" class="actions">
+                                    <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/staff/manage'|alink }}/{{member.id}}"><i class="fe fe-edit"></i></a>
+                                    <a class="btn btn-sm bg-danger-transparent  text-danger  api-link" data-api-confirm="Are you sure?" data-api-redirect="{{ 'staff'|alink }}" href="{{ 'api/admin/staff/delete'|link({'id' : member.id}) }}"><i class='fe fe-trash'></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+
+                    </div>
+
+                        <div class="tab-pane" id="tab-settings">
+                            {% set params = admin.extension_config_get({"ext":"mod_staff"}) %}
+                            <form method="post" action="{{ 'api/admin/extension/config_save'|link }}" class="api-form" data-api-msg="{% trans 'Configuration updated' %}">
+                                <div class="rowElem">
+                                    <label>{% trans 'Check login IP' %}</label>
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-3">
+                                                    <label class="rdiobox">
+                                                        <input type="radio" name="check_ip" value="1" {% if params.check_ip == "1" %}checked="checked"{% endif %}/><span>{% trans 'Yes' %}</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="rdiobox">
+                                                        <input type="radio" name="check_ip" value="0" {% if not params.check_ip %}checked="checked"{% endif %}/><span>{% trans 'No' %}</span>
+                                                    </label>
+                                                </div>
+                                           </div>
+                                    </div>
+                                    <div id="check_ip" {% if not params.check_ip %}style="display:none;"{% endif %}>
+                                        <div class="rowElem">
+                                            <label class="topLabel">{% trans 'Allowed IPs. One per line' %}</label>
+                                            <div class="formBottom">
+                                                <textarea name="allowed_ips" class="form-control" cols="5" rows="5" placeholder="{{ admin.system_env({"ip":1}) }}" />{{ params.allowed_ips }}</textarea>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                <div class="col-md-12 text-end">
+                                    <button type="submit" value="" class="btn btn-primary  submitForm" ><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                                    <input type="hidden" name="ext" value="mod_staff" />
+                                </div>
+
+                            </form>
+
+                        </div>
+
+
+                        <div class="tab-pane" id="tab-new">
+                            <form method="post" action="{{ 'api/admin/staff/create'|link }}" class="api-form" data-api-jsonp="onAfterStaffCreate">
+
+                                    <div class="rowElem noborder">
+                                        <label>{% trans 'Group' %}</label>
+                                        <div class="formRight">
+                                            {{ mf.selectbox('admin_group_id', admin.staff_group_get_pairs, '', 1) }}
+                                        </div>
+
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Name' %}</label>
+                                        <div class="formRight">
+                                            <input type="text" class="form-control" name="name" value="" required="required"/>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <label>{% trans 'Email' %}</label>
+                                        <div class="formRight">
+                                            <input type="email" class="form-control"  name="email" value="{{ request.email }}" required="required"/>
+                                        </div>
+
+                                    </div>
+                                    <div class="rowElem">
+                                        <label>{% trans 'Password' %}</label>
+                                        <div class="formRight">
+                                            <input type="password" class="form-control"  name="password" required="required" />
+                                        </div>
+
+                                    </div>
+                                    <div class="rowElem">
+                                        <label>{% trans 'Signature' %}</label>
+                                        <div class="formRight">
+                                            <textarea name="signature" class="form-control"  cols="5" rows="2"></textarea>
+                                        </div>
+
+                                    </div>
+                                    <div class="rowElem">
+                                        <label>{% trans 'Status' %}:</label>
+                                        <div class="formRight">
+                                            <div class="row pt-3">
+                                                <div class="col-md-3">
+                                                    <label class="rdiobox">
+                                                        <input type="radio" name="status" value="inactive" checked="checked"/><span>{% trans 'Inactive' %}</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="rdiobox">
+                                                        <input type="radio" name="status" value="active"/><span>{% trans 'Active' %}</span>
+                                                    </label>
+                                                </div>
+                                        </div>
+
+                                    </div>
+                                    </div>
+                                <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Create' %}</button>
+
+                            </form>
+                        </div>
+
+
+                        <div class="tab-pane" id="tab-groups">
+
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <td>{% trans 'Name' %}</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% set groups = admin.staff_group_get_list({"per_page":100000, "page":request.page}) %}
+                                {% for i, group in groups.list %}
+
+                                <tr>
+                                    <td>{{ group.name }}</td>
+                                    <td class="actions">
+                                        <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/staff/group'|alink }}/{{group.id}}"><i class="fe fe-edit"></i></a>
+                                        <a class="btn btn-sm bg-danger-transparent  text-danger  api-link" data-api-confirm="Are you sure?" data-api-redirect="{{ 'staff'|alink }}" href="{{ 'api/admin/staff/group_delete'|link({'id' : group.id}) }}"><i class='fe fe-trash'></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                {% endfor %}
+                            </table>
+
+                        </div>
+
+                        <div class="tab-pane" id="tab-new-group">
+                            <form method="post" action="{{ 'api/admin/staff/group_create'|link }}" class="save api-form" data-api-redirect="{{ 'extension/settings/staff'|alink }}">
+
+                                    <div class="rowElem noborder">
+                                        <label>{% trans 'Name' %}</label>
+                                        <div class="formRight">
+                                            <input type="text" class="form-control" name="name" value="" required="required"/>
+                                        </div>
+
+                                    </div>
+                                    <button type="submit" value="{% trans 'Create group' %}" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Create group' %}</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#tableStaff").DataTable();
+    });
+function onAfterStaffCreate(id) {
+    bb.redirect("{{ 'staff/manage'|alink }}/" + id + '#tab-permissions');
+}
+
+$(function() {
+    $('input[name=check_ip]').click(function(){
+        if($(this).val() == 1) {
+            $('#check_ip').slideDown();
+        } else {
+            $('#check_ip').slideUp();
+        }
+    });
+});
+
+</script>
+{% endblock %}

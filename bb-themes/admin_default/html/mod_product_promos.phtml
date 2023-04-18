@@ -1,0 +1,290 @@
+{% import "macro_functions.phtml" as mf %}
+{% extends "layout_default.phtml" %}
+{% block meta_title %}{% trans 'Product promotions' %}{% endblock %}
+{% set active_menu = 'products' %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'product'|alink }}">{% trans 'Products' %}</a></li>
+    <li class="breadcrumb-item active">{% trans 'Product promotions' %}</li>
+
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body mt-0">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab"  href="#tab-promos">{% trans 'Promo' %}</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab"  href="#tab-new">{% trans 'New promo' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="tab-promos">
+
+
+                        <table class="table table-bordered table-striped" id="tablepromos">
+                            <thead>
+                                <tr>
+                                    <td>{% trans 'Code' %}</td>
+                                    <td>{% trans 'Discount' %}</td>
+                                    <td>{% trans 'Applies to' %}</td>
+                                    <td>{% trans 'Client groups' %}</td>
+                                    <td>{% trans 'Valid period' %}</td>
+                                    <td>{% trans 'Enabled' %}</td>
+                                    <td>{% trans 'Usage' %}</td>
+                                    <td style="width: 13%">&nbsp;</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% set promos = admin.product_promo_get_list({"per_page":10000, "page":request.page}|merge(request)) %}
+                            {% for promo in promos.list %}
+                            <tr>
+                                <td><strong>{{ promo.code }}</strong></td>
+                                <td>{% if promo.type == 'percentage' %}{{ promo.value }}%{% endif %}{% if promo.type == 'absolute' %}{{ mf.currency_format(promo.value) }}{% endif %}</td>
+                                <td>{% for pid,product in promo.applies_to %}
+                                    <a href="{{ 'product/manage'|alink }}/{{pid}}">{{ product|truncate(15) }}</a><br/>
+                                    {% else %}
+                                    All products
+                                    {% endfor %}
+                                </td>
+                                <td>{% for cid,client_group in promo.cgroups %}
+                                    <a href="{{ 'client/group'|alink }}/{{cid}}">{{ client_group|truncate(15) }}</a><br/>
+                                    {% else %}
+                                    All client groups
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    From {% if promo.start_at %}{{ promo.start_at|date('Y-m-d') }}{% else %}now{% endif %}
+                                    untill {% if promo.end_at %}{{ promo.end_at|date('Y-m-d') }}{% else %}disabled{% endif %}
+                                </td>
+                                <td>{{ mf.q(promo.active) }}</td>
+                                <td>{{ promo.used }} / {% if promo.maxuses %}{{ promo.maxuses }}{% else %}&#8734;{% endif %}</td>
+                                <td class="actions">
+                                    <a class="btn btn-sm  bg-info-transparent text-info" href="{{ '/product/promo'|alink }}/{{promo.id}}"><i class="fe fe-edit"></i></a>
+                                    <a class="btn btn-sm  bg-danger-transparent text-dangerapi-link" data-api-confirm="Are you sure?" href="{{ 'api/admin/product/promo_delete'|link({'id' : promo.id}) }}" data-api-redirect="{{ 'product/promos'|alink }}"><i class="fe fe-trash"></i></a>
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <div class="tab-pane" id="tab-new">
+                        <div class="help">
+                            <h5>{% trans 'Create new coupon code' %}</h5>
+                            <p>{% trans %}Create special offers for your clients by creating coupon codes.{% endtrans %}</p>
+                        </div>
+
+                        <form method="post" action="{{ 'api/admin/product/promo_create'|link }}" class="save api-form" data-api-redirect="{{ 'product/promos'|alink }}">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Code' %}</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="code" value="" required="required"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Discount type' %}</label>
+                                    <div class="formRight moreFields">
+                                        <ul>
+                                            <li style="width: 270px">
+                                                <div class="row pt-3">
+                                                    <div class="col-md-4">
+                                                        <label class="rdiobox">
+                                                            <input type="radio" name="type" value="absolute" checked="checked"/><span>{% trans 'Absolute' %}</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="rdiobox">
+                                                            <input type="radio" name="type" value="percentage"/><span>{% trans 'Percentage' %}</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li style="width: 100px"><input type="text" class="form-control" name="value" value="" required="required" placeholder="0"/></li>
+                                        </ul>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Recurring' %}</label>
+                                    <div class="formRight moreFields">
+                                        <div class="row pt-3">
+                                            <div class="col-md-4">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="recurring" value="1" checked="checked"/><span>Applies to first order and renewals</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="recurring" value="0"/><span>Applies to first order only</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Active' %}</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="active" value="1" checked="checked"/><span>{% trans 'Yes' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="active" value="0"/><span>{% trans 'No' %}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Free setup' %}</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="freesetup" value="1"/><span>{% trans 'Yes' %}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="freesetup" value="0" checked="checked"/><span>{% trans 'No' %}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+
+
+                                <h5>{% trans 'Promo code limitations' %}</h5>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Once per client' %}</label>
+                                    <div class="formRight">
+                                        <div class="row pt-3">
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="once_per_client" value="1" checked="checked"/><span>Yes</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="rdiobox">
+                                                    <input type="radio" name="once_per_client" value="0"/><span>No</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Max uses (zero for unlimited)' %}</label>
+                                    <div class="formRight">
+                                        <input type="text" class="form-control" name="maxuses" value="" class="dirRight" title="Leave blank for unlimited uses"  placeholder="0"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Valid time (Leave blank for undefined time)' %}</label>
+                                    <div class="formRight moreFields">
+                                        <ul>
+                                            <li style="width: 100px"><input type="text" class="form-control"  name="start_at" value="" placeholder="{{ now|date('Y-m-d') }}" class="datepicker"/></li>
+                                            <li class="sep">-</li>
+                                            <li style="width: 100px"><input type="text" class="form-control"  name="end_at" value="" placeholder="{{ now|date('Y-m-d') }}" class="datepicker"/></li>
+                                        </ul>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Products (Select none to apply to all products)' %}</label>
+                                    <div class="formRight">
+                                        {% set products = admin.product_get_pairs %}
+                                        <select name="products[]" multiple="multiple" class="multiple" size="{{products|length}}">
+                                            {% for id,product in products %}
+                                            <option value="{{id}}">{{ product }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Periods (Select none to apply to all periods)' %}</label>
+                                    <div class="formRight">
+                                        {% set periods = guest.system_periods %}
+                                        <select name="periods[]" multiple="multiple" class="multiple" size="{{periods|length}}">
+                                            {% for id,period in periods %}
+                                            <option value="{{id}}">{{ period }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                <div class="rowElem">
+                                    <label>{% trans 'Client Groups (Select none to apply to all client groups)' %}</label>
+                                    <div class="formRight">
+                                        {% set client_groups = admin.client_group_get_pairs %}
+                                        <select name="client_groups[]" multiple="multiple" class="multiple" size="{{groups|length}}">
+                                            {% for id, client_group in client_groups %}
+                                            <option value="{{id}}">{{ client_group }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                {#
+                                <div class="rowElem">
+                                    <label>{% trans 'Addons (Select none to apply to all addons)' %}</label>
+                                    <div class="formRight">
+                                        {% set products = admin.product_addon_get_pairs %}
+                                        <select name="products[]" multiple="multiple" class="multiple" size="{{products|length}}">
+                                            {% for id,product in products %}
+                                            <option value="{{id}}">{{ product }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+                                #}
+                            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Create' %} </button>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+       $("#tablepromos").DataTable({
+           responsive: true,
+           language: {
+               searchPlaceholder: 'Search...',
+               sSearch: '',
+           }
+       });
+    });
+</script>
+{% endblock %}

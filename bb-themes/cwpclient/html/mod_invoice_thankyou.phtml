@@ -1,0 +1,35 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% block meta_title %}{% trans 'Thank you' %}{% endblock %}
+
+{% block content_before %}
+<div class="left-content">
+    <span class="main-content-title mg-b-0 mg-b-lg-1">{% trans 'Payment for invoice received' %}</span>
+    <small class="d-block tx-12 mb-0 text-muted">{{post.created_at|date('Y-m-d h:i')}} {% trans 'by '%} {{ post.author.name }}</small>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item tx-15"><a href="{{'invoice'|link }}">{% trans 'Invoices' %}</a></li>
+        <li class="breadcrumb-item tx-15"><a href="{{ 'invoice'|link }}/{{ invoice.hash }}">{{ "Invoice #%05s"|format(invoice.id) }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><b>{% trans 'Payment for invoice received' %}</b></li>
+    </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+            <div class="card bd-0 mg-b-20">
+                <div class="card-body text-success bg-success-transparent br-5  bd bd-success">
+                    <div class="main-error-wrapper">
+                        <i class="si si-check mg-b-20 tx-50"></i>
+                        <h4 class="mg-b-20">{% trans 'Payment for invoice received' %}</h4>
+                        <p>{% trans 'Your payment is being processed right now. This takes about 5 minutes to complete' %}</p>
+                        <p>{% trans 'You will be automatically redirected to invoice page after 5 minutes.' %}</p>
+
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    setTimeout(function(){ bb.redirect("{{ ('/invoice/'~invoice.hash)|link }} ");}, 5*60*1000);
+</script>
+{% endblock %}

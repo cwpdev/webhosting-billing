@@ -1,0 +1,211 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% block meta_title %}{% trans 'Reminders' %}{% endblock %}
+
+{% set active_menu = 'reminders' %}
+
+
+{% block breadcrumbs %}
+
+<li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+<li class="breadcrumb-item tx-15"><a  href="{{  'reminders'|alink }}">{% trans 'Reminders' %}</a></li>
+<li class="breadcrumb-item active">{% trans 'Setting' %}</li>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-xl-12">
+    <!-- div -->
+    <div class="card mg-b-20" id="tabs-style2">
+        <div class="card-body">
+            <div class="text-wrap row">
+                <div class="col-md-12">
+                    <div class="help">
+                        <h3>Due Reminders</h3>
+                        <p>Remember to configure and activate the reminders so that your clients are notified of their next service expirations</p>
+                    </div>
+                    <form id="formdata">
+                        <fieldset id="contenedor">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="rowElem noborder">
+                                        <div class="">
+                                            <label class="custom-switch" style="padding-left:0!Important;">
+                                                <span class="custom-switch-description  me-2">Activate Reminders:</span>
+                                                <input type="checkbox" name="modereminders" id="modereminders" class="custom-switch-input">
+                                                <span class="custom-switch-indicator custom-switch-indicator-lg custom-radius"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="rowElem">
+                                        <div class="">
+                                            <span class="custom-switch-description  me-2">Notify days before expiration:</span>
+                                            <input type="text" class="form-control" name="daysbefore" id="daysbefore" value="" placeholder="Ex: 7,15,20,25">
+                                        </div>
+                                    </div>
+                                    <div class="rowElem">
+                                        <div class="">
+                                            <span class="custom-switch-description  me-2">User Template Email:</span>
+                                            <select class="form-control" id="templateemail" name="templateemail">
+                                                <option value="">Choose</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="rowElem">
+                                        <div class="">
+                                            <button type="button" class="btn btn-warning btn-sm mb-1" id="checktmp">Check Template</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="rowElem noborder">
+                                        <div class="">
+                                            <label class="custom-switch" style="padding-left:0!Important;">
+                                                <span class="custom-switch-description  me-2">Notify when a service is suspended/unsuspended:</span>
+                                                <input type="checkbox" name="servicesuspend" id="servicesuspend" class="custom-switch-input">
+                                                <span class="custom-switch-indicator custom-switch-indicator-lg custom-radius"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="" style="text-align: right;">
+                                        <button type="button" id="btnUpdateConfig" class="btn btn-primary btn-sm mb-1">Update</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-5 w-40 mg-l-10 mb-2 bg-gray-100 bd ">
+                                        <h4 class="tx-15 text-uppercase">For this to work you must check the following</h4>
+                                        <p class="m-b-5">
+                                        </p>
+                                        <ul>
+                                            <li style="margin-top:5px">- Check that the scheduled task is active  <a href="../../bb-admin/extension/settings/cron" target="_blank"><span class="badge bg-info me-1">View</span></a></li>
+                                            <li style="margin-top:5px">- Check that the mail sending configuration is valid. <a href="../../bb-admin/extension/settings/email" target="_blank"><span class="badge bg-info me-1">View</span></a></li>
+                                        </ul>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modaldemo5">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-header">
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-danger mg-b-20">Something went wrong, please try again</h4>
+                <p class="mg-b-20 mg-x-20">Apparently this template is not available at the moment.</p><button aria-label="Close" class="btn ripple btn-danger pd-x-25" data-bs-dismiss="modal" type="button">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Extra">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Email template example</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h6>Subject:</h6>
+                <p id="subject"></p>
+                <h6>Content:</h6>
+                <p id="content"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: "{{ 'api/admin/reminders/getIdata'|link }}",
+            dataType: 'json',
+            error: function(jqXHR, textStatus, e) {
+                alert(e);
+            },
+            success: function(data) {
+                var obj =JSON.parse(data.result);
+                console.log(obj.result);
+                if(obj.status=="OK"){
+                    var data = obj.result;
+                    if(data.modereminders==0){
+                        $("#contenedor #modereminders").prop('checked', false);
+                    }else{
+                        $("#contenedor #modereminders").prop('checked', true);
+                    }
+                    if(data.servicesuspend==0){
+                        $("#contenedor #servicesuspend").prop('checked', false);
+                    }else{
+                        $("#contenedor #servicesuspend").prop('checked', true);
+                    }
+                    $("#daysbefore").val(data.daysbefore);
+                    var tpls = obj.tpls;
+
+                    tpls.forEach( function(valor, indice, array) {
+                        $("#templateemail").append( "<option value='"+valor.id+"'>"+valor.action_code+"  ("+valor.category+")</option>" );
+                    });
+                    $('#templateemail option[value="'+data.templateemail+'"]').prop('selected', true);
+                }
+                return false;
+            }
+        });
+    });
+    $("#btnUpdateConfig").click(function (){
+        var adatform = $("#formdata").serialize();
+        $.ajax({
+            type: "POST",
+            data: adatform,
+            url: "{{ 'api/admin/reminders/savedata'|link }}",
+            dataType: 'json',
+            error: function(jqXHR, textStatus, e) {
+                alert(e);
+            },
+            success: function(data) {
+
+                return false;
+            }
+        });
+        return false;
+    });
+    $("#checktmp").click(function (){
+        var tpl = $("#templateemail").val();
+        if(tpl!=''){
+            $.ajax({
+                type: "POST",
+                data: "id="+tpl,
+                url: "{{ 'api/admin/reminders/gettpl'|link }}",
+                dataType: 'json',
+                error: function(jqXHR, textStatus, e) {
+                    alert(e);
+                },
+                success: function(data) {
+                    console.log(data);
+                    var obj =JSON.parse(data.result);
+                    alert(obj.subject);
+                    $("#Extra #subject").html(obj.subject);
+                    $("#Extra #content").html(obj.content);
+                    $("#Extra").modal('toggle');
+                    return false;
+                }
+            });
+        }else{
+            $("#modaldemo5").modal('toggle');
+        }
+        return false;
+    });
+</script>
+{% endblock %}

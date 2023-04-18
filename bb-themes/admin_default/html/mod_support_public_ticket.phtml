@@ -1,0 +1,184 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+{% import "macro_functions.phtml" as mf %}
+{% block meta_title %}{{ticket.subject}}{% endblock %}
+{% set active_menu = 'support' %}
+
+{% block breadcrumbs %}
+
+    <li class="breadcrumb-item tx-15"><a href="{{ '/'|alink }}">{% trans 'Home' %}</a></li>
+    <li class="breadcrumb-item tx-15"><a  href="{{  'support/public-tickets'|alink({'status' : 'open'}) }}">{% trans 'Public tickets' %}</a></li>
+    <li class="breadcrumb-item active">#{{ticket.id}}  - {{ticket.subject}}</li>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#tab-index">Ticket</a></li>
+                        <li><a class="nav-link" data-bs-toggle="tab" href="#tab-manage">Manage</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+                    <div class="fix"></div>
+                    <div class="tab-pane active" id="tab-index">
+                        <div class="col-md-12 text-end">
+                            <div aria-label="Basic example" class="btn-group" role="group">
+                                {% if ticket.status != 'closed' %}
+                                <a title="{% trans 'Close Ticket' %}" href="api/admin/support/public_ticket_close'|link({'id' : ticket.id}) }}" data-api-redirect="{{ 'support/public-tickets'|alink }}" data-api-confirm="Are you sure?"  class="btn bg-warning-transparent text-warning btn-icon api-link" ><i class="fe fe-pause"></i></a>
+                                {% endif %}
+                                <a  title="{% trans 'Delete' %}" href="{{ 'api/admin/support/public_ticket_delete'|link({'id' : ticket.id}) }}" data-api-confirm="Are you sure?" data-api-redirect="{{ 'support/public-tickets'|alink }}" class="btn bg-danger-transparent text-danger btn-icon api-link"><i class="fe fe-trash"></i></a>
+                                <a href="{{ 'support/contact-us/conversation'|link }}/{{ ticket.hash }}" target="_blank" class="btn bg-info-transparent text-info btn-icon"><i class="fe fe-message-circle"></i></a>
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                                <tr class="noborder">
+                                    <td>{% trans 'Ticket ID' %}</td>
+                                    <td><b>#{{ticket.id}}</b></td>
+                                </tr>
+
+                                <tr>
+                                    <td>{% trans 'Author' %}</td>
+                                    <td>{{ ticket.author_name }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{% trans 'Email' %}</td>
+                                    <td>{{ ticket.author_email }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{% trans 'Status' %}</td>
+                                    <td>{{ mf.status_name(ticket.status) }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{% trans 'Time opened' %}</td>
+                                    <td>{{ticket.created_at|date('l, d F Y')}}</td>
+                                </tr>
+
+                                {% if ticket.created_at != ticket.updated_at %}
+                                <tr>
+                                    <td>{% trans 'Last updated' %}</td>
+                                    <td>{{ticket.updated_at|timeago}} ago</td>
+                                </tr>
+                                {% endif %}
+                             </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tab-pane" id="tab-manage">
+                        <form method="post" action="{{ 'api/admin/support/public_ticket_update'|link }}" class=" api-form" data-api-reload="1">
+
+                                <div class="rowElem noborder">
+                                    <label>{% trans 'Subject' %}</label>
+                                    <div class="formRight noborder">
+                                        <input type="text" class="form-control"  name="subject" value="{{ticket.subject}}" required="required"/>
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                <div class="rowElem">
+                                    <label>{% trans 'Status' %}</label>
+                                    <div class="formRight">
+                                        {{ mf.selectbox('status', admin.support_ticket_get_statuses({"titles":1}), ticket.status, 1) }}
+                                    </div>
+                                    <div class="fix"></div>
+                                </div>
+
+                                 <button type="submit" value="" class="btn btn-primary  submitForm"><i class="fe fe-save"></i> {% trans 'Update' %}</button>
+                                 <input type="hidden" name="id" value="{{ ticket.id }}" />
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% set canned_response_selector %}
+<div class="canned_response">
+    <select name="canned_response" class="canned">
+    {% for response in admin.support_canned_get_list({"per_page":90}).list %}
+        <option value="{{ response.id }}">{{ response.title }}</option>
+    {% endfor %}
+    </select>
+</div>
+{% endset %}
+
+<div class="card">
+    <div class="main-content-body main-content-body-mail card-body">
+        <div class="main-mail-list bd-t-0">
+
+            {% for i, message in ticket.messages %}
+                    <div class="main-mail-item unread">
+                        <div class="main-img-user"><img src="{{ message.author.email|gravatar }}?size=20" alt="{{ message.author.email }}" title="{{ message.author.email }}" class="gravatar"/></div>
+                        <div class="main-mail-body">
+                            <div class="main-mail-from">
+                                <b>{{ message.author.name }}</b>
+                            </div>
+                            <div class="main-mail-subject">
+                                {{ message.content|bbmd }}
+                            </div>
+                        </div>
+                        <div class="main-mail-date">
+                            {{ message.created_at|bb_datetime }}
+                        </div>
+                    </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="card" id="reply-box">
+    <div class="card-body" >
+        <div class="card-header">
+            <h5 class="card-title">{% trans 'Reply as' %} {{ profile.name }}</h5>
+        </div>
+        {%  include 'mod_support_canned_selector.phtml' %}
+        <div class="col-md-12 mt-5">
+        <form method="post" action="{{ 'api/admin/support/public_ticket_reply'|link }}" class=" api-form" data-api-redirect="{{ 'support/public-tickets'|alink({'status' : 'open' }) }}">
+
+                <textarea name="content" cols="5" rows="20" required="required" class="form-control" id="rt">Hello {{ ticket.client.first_name }},
+{{ canned_delay_message }}
+
+{{ profile.signature }}
+{{ ticket.helpdesk.signature }}</textarea>
+            <input type="hidden" name="id" value="{{ ticket.id }}">
+            <button type="submit" value="" class="btn btn-primary submitForm"><i class="fe fe-save"></i> {% trans 'Post' %}</button>
+            <a href="#"  class="btnIconLeft mr10" onclick="$('.conversation .body').toggle(); return false;"><span>Show/Hide messages</span></a>
+
+            {% if ticket.messages|length > 2 and ticket.status != 'closed' %}
+            <a href="{{ 'api/admin/support/public_ticket_close'|link({'id' : ticket.id}) }}" data-api-confirm="Are you sure?" data-api-redirect="{{ 'support/public-tickets'|alink({'status' : 'open' }) }}" class="btnIconLeft mr10 api-link" ><span>Close ticket</span></a>
+            {% endif %}
+         </form>
+    </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js%}
+<script type="text/javascript">
+$(function() {
+    $('#reply-box textarea').focus();
+
+    $('.conversation .head').click(function(){
+        $(this).siblings('.body').toggle();
+        return false;
+    });
+});
+</script>
+{% endblock %}
+

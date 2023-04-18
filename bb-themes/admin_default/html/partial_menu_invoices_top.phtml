@@ -1,0 +1,20 @@
+<ul class="menu_body">
+    {% if admin.system_is_allowed({"mod":"invoice"}) %}
+    <li><a href="{{ 'invoice#tab-new'|alink }}" title="">{% trans 'New Invoice' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"invoice"}) %}
+    <li><a href="{{ 'invoice'|alink }}" title="">{% trans 'Overview' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"invoice"}) %}
+    <li><a href="{{ 'invoice?&show_filter=1'|alink }}" title="">{% trans 'Advanced Search' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"invoice"}) %}
+    <li><a href="{{ 'invoice/subscriptions'|alink }}" title="">{% trans 'Subscriptions' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"invoice"}) %}
+    <li><a href="{{ 'invoice/transactions'|alink }}" title="">{% trans 'Transactions Overview' %}</a></li>
+    {% endif %}
+    {% if admin.system_is_allowed({"mod":"invoice"}) %}
+    <li><a href="{{ 'invoice/transactions?&show_filter=1'|alink }}" title="">{% trans 'Transactions Search' %}</a></li>
+    {% endif %}
+</ul>
